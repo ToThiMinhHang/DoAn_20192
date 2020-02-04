@@ -20,7 +20,7 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:hint="Nhập tên truyện, tác giả cần tìm"
+            android:hint="Dien Nhập tên truyện, tác giả cần tìm"
             android:textSize="20sp"
             android:textColorHint="#ffffff"
             />
