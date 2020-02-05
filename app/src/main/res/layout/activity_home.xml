@@ -13,14 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <EditText
+            android:drawableLeft="@drawable/ic_search_black_24dp"
             android:id="@+id/editTimKiem"
+            android:inputType="textNoSuggestions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:hint="Dien Nhập tên truyện, tác giả cần tìm"
+            android:hint="Nhập tên truyện, tác giả cần tìm"
             android:textSize="20sp"
             android:textColorHint="#ffffff"
             />

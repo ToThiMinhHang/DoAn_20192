@@ -1,4 +1,4 @@
-package com.blogapp.aws.movieuitemplate.ui;
+package com.hang.doan.readbooks.ui;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -10,16 +10,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.blogapp.aws.movieuitemplate.R;
-import com.blogapp.aws.movieuitemplate.adapters.MovieAdapter;
-import com.blogapp.aws.movieuitemplate.adapters.MovieItemClickListener;
-import com.blogapp.aws.movieuitemplate.adapters.SliderPagerAdapter;
-import com.blogapp.aws.movieuitemplate.models.Movie;
-import com.blogapp.aws.movieuitemplate.models.Slide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.hang.doan.readbooks.R;
+import com.hang.doan.readbooks.adapters.MovieAdapter;
+import com.hang.doan.readbooks.adapters.MovieItemClickListener;
+import com.hang.doan.readbooks.adapters.SliderPagerAdapter;
+import com.hang.doan.readbooks.models.Movie;
+import com.hang.doan.readbooks.models.Slide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +41,39 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
     private RecyclerView MoviesRV ;
     private EditText editTimKiem;
 
+    private static final String TAG = "HANG_DEBUG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //---->>dien_start
+        editTimKiem = findViewById(R.id.editTimKiem);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+        myRef.setValue("Hello, World!");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
+                editTimKiem.setText(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+                editTimKiem.setText("Failed to read value.");
+            }
+        });
+        //<<----dien end
 
         sliderpager = findViewById(R.id.slider_pager) ;
         indicator = findViewById(R.id.indicator);
@@ -73,10 +109,6 @@ public class HomeActivity extends AppCompatActivity implements MovieItemClickLis
 
         //my code
 
-    }
-
-    private void anhXa() {
-        editTimKiem = findViewById(R.id.editTimKiem);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

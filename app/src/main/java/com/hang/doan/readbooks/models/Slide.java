@@ -1,4 +1,4 @@
-package com.blogapp.aws.movieuitemplate.models;
+package com.hang.doan.readbooks.models;
 
 public class Slide {
 

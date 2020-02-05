@@ -1,4 +1,4 @@
-package com.blogapp.aws.movieuitemplate.ui;
+package com.hang.doan.readbooks.ui;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blogapp.aws.movieuitemplate.R;
+import com.hang.doan.readbooks.R;
 import com.bumptech.glide.Glide;
 
 public class MovieDetailActivity extends AppCompatActivity {

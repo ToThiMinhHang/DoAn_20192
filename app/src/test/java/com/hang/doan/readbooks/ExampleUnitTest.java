@@ -1,4 +1,4 @@
-package com.blogapp.aws.movieuitemplate;
+package com.hang.doan.readbooks;
 
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
-package com.blogapp.aws.movieuitemplate.adapters;
+package com.hang.doan.readbooks.adapters;
 
 import android.widget.ImageView;
 
-import com.blogapp.aws.movieuitemplate.models.Movie;
+import com.hang.doan.readbooks.models.Movie;
 
 public interface MovieItemClickListener {
 
