@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <EditText
+            android:background="@drawable/bg_edt_search"
             android:id="@+id/editTimKiem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,9 +21,10 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:hint="Dien Nhập tên truyện, tác giả cần tìm"
+            android:hint="Nhập tên truyện, tác giả cần tìm"
             android:textSize="20sp"
             android:textColorHint="#ffffff"
+            android:gravity="center"
             />
     </LinearLayout>
 
