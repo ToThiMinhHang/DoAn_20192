@@ -23,9 +23,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         // ini views
         iniViews();
 
-
-
-
     }
 
     void iniViews() {
@@ -40,15 +37,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         Glide.with(this).load(imagecover).into(MovieCoverImg);
         tv_title = findViewById(R.id.detail_movie_title);
         tv_title.setText(movieTitle);
-        getSupportActionBar().setTitle(movieTitle);
+//        getSupportActionBar().setTitle(movieTitle);
         tv_description = findViewById(R.id.detail_movie_desc);
         // setup animation
         MovieCoverImg.setAnimation(AnimationUtils.loadAnimation(this,R.anim.scale_animation));
         play_fab.setAnimation(AnimationUtils.loadAnimation(this,R.anim.scale_animation));
-
-
-
-
 
     }
 
