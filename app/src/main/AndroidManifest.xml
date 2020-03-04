@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.hang.doan.readbooks.ui.HomeActivity"></activity>
         <activity android:name="com.hang.doan.readbooks.ui.MovieDetailActivity"></activity>
+        <activity android:name="com.hang.doan.readbooks.ui.MainActivity"></activity>
         <activity android:name="com.hang.doan.readbooks.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

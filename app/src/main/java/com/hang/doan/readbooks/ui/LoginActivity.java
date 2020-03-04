@@ -19,6 +19,8 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 12345;
 
+    List<AuthUI.IdpConfig> providers;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,37 +28,43 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
+        providers = Arrays.asList(
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build()
                 );
 
-// Create and launch sign-in intent
+        showSignInOptions();
+
+//// Create and launch sign-in intent
+//        startActivityForResult(
+//                AuthUI.getInstance()
+//                        .createSignInIntentBuilder()
+//                        .setAvailableProviders(providers)
+//                        .build(),
+//                RC_SIGN_IN);
+    }
+
+    private void showSignInOptions() {
         startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
+                AuthUI.getInstance().createSignInIntentBuilder()
                         .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
+                        .setTheme(R.style.AppTheme)
+                        .build(), RC_SIGN_IN
+        );
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
-
             if (resultCode == RESULT_OK) {
-                // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Toast.makeText(this, "hello " + user.getEmail(), Toast.LENGTH_LONG).show();
-                // ...
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                Toast.makeText(this, "Welcome! " + user.getDisplayName(), Toast.LENGTH_LONG).show();
             } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
+                Toast.makeText(this, "" + response.getError().getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
