@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "213835896673-osc1tam3em0hcno100nup830tv289kcd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hang.doan.readbooks",
+            "certificate_hash": "8bfc28d53ab950f8ca2a29d7b169f4d86c119952"
+          }
+        },
+        {
           "client_id": "213835896673-r70u9h0ulmgqluat8i64lcv49d5lvd06.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

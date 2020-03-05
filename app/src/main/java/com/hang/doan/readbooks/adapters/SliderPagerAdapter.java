@@ -41,12 +41,7 @@ public class SliderPagerAdapter extends PagerAdapter {
 
         container.addView(slideLayout);
         return slideLayout;
-
-
-
-
-
-
+        
     }
 
     @Override

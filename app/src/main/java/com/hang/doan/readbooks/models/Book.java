@@ -3,10 +3,9 @@ package com.hang.doan.readbooks.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryDetail {
+public class Book {
 
     private String name;
-    private String link;
     private String authorLink;
     private List<String> mucSach;
     private String imageURL;
@@ -19,13 +18,6 @@ public class StoryDetail {
         this.name = name;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
 
     public String getAuthorLink() {
         return authorLink;
@@ -52,15 +44,15 @@ public class StoryDetail {
     }
 
 
-    public StoryDetail () {
+    public Book() {
         mucSach = new ArrayList<>();
     }
 
 
 
-    public StoryDetail(String name, String link, String authorLink, List<String> mucSach) {
+    public Book(String name, String imgLink, String authorLink, List<String> mucSach) {
         this.name = name;
-        this.link = link;
+        this.imageURL = imgLink;
         this.authorLink = authorLink;
         this.mucSach = mucSach;
     }

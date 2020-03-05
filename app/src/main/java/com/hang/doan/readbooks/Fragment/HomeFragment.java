@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,7 +16,6 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -27,79 +24,70 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hang.doan.readbooks.R;
-import com.hang.doan.readbooks.adapters.MovieAdapter;
-import com.hang.doan.readbooks.adapters.MovieItemClickListener;
-import com.hang.doan.readbooks.adapters.SliderPagerAdapter;
-import com.hang.doan.readbooks.models.Movie;
-import com.hang.doan.readbooks.models.Slide;
-import com.hang.doan.readbooks.models.StoryDetail;
-import com.hang.doan.readbooks.ui.HomeActivity;
+import com.hang.doan.readbooks.adapters.BookAdapter;
+import com.hang.doan.readbooks.adapters.BookItemClickListener;
+import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.ui.MovieDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 
-public class HomeFragment extends Fragment implements MovieItemClickListener {
+public class HomeFragment extends Fragment implements BookItemClickListener {
 
-    private List<Slide> lstSlides;
-    private List<Movie> lstBooks;
-    private MovieAdapter movieAdapter;
-    private ViewPager sliderpager;
+    private BookAdapter bookAdapter;
     private TabLayout indicator;
     private RecyclerView MoviesRV;
-    private EditText editTimKiem;
 
     private Context ct;
     private static final String TAG = "HANG_DEBUG";
-    List<StoryDetail> lstStoryDetail;
+    List<Book> lstBook;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("storyDetail");
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_home, container, false);
-        sliderpager = view.findViewById(R.id.slider_pager) ;
+        final View view = inflater.inflate(R.layout.activity_home, container, false);
+
         indicator = view.findViewById(R.id.indicator);
         MoviesRV = view.findViewById(R.id.Rv_movies);
 
         ct = getContext();
 
-        // prepare a list of slides ..
-        lstSlides = new ArrayList<>() ;
-        lstSlides.add(new Slide(R.drawable.slide1,"Slide Title \nmore text here"));
-        lstSlides.add(new Slide(R.drawable.slide2,"Slide Title \nmore text here"));
-        lstSlides.add(new Slide(R.drawable.slide1,"Slide Title \nmore text here"));
-        lstSlides.add(new Slide(R.drawable.slide2,"Slide Title \nmore text here"));
-        SliderPagerAdapter adapter = new SliderPagerAdapter(ct,lstSlides);
-        sliderpager.setAdapter(adapter);
-        // setup timer
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new SliderTimer(),4000,6000);
-        indicator.setupWithViewPager(sliderpager,true);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("storyDetail");
 
-        // Recyclerview Setup
-        // ini data
+        lstBook = new ArrayList<>();
 
-        lstBooks  = new ArrayList<>();
-//        lstBooks .add(new Movie("Moana",R.drawable.moana,R.drawable.spidercover));
-//        lstBooks .add(new Movie("Black P",R.drawable.blackp,R.drawable.spidercover));
-//        lstBooks .add(new Movie("The Martian",R.drawable.themartian));
-//        lstBooks .add(new Movie("The Martian",R.drawable.themartian));
-//        lstBooks .add(new Movie("The Martian",R.drawable.themartian));
-//        lstBooks .add(new Movie("The Martian",R.drawable.themartian));
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List <String> list = new ArrayList<>();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Book newBook = new Book();
+                    newBook.setName(ds.child("data").child("name").getValue(String.class));
+                    newBook.setAuthorLink(ds.child("data").child("authorLink").getValue(String.class));
+                    newBook.setImageURL(ds.child("data").child("imgLink").getValue(String.class));
+                    lstBook.add(newBook);
+                }
 
-        movieAdapter = new MovieAdapter(ct,lstBooks ,this);
-        MoviesRV.setAdapter(movieAdapter);
-        MoviesRV.setLayoutManager(new LinearLayoutManager(ct,LinearLayoutManager.HORIZONTAL,false));
+                bookAdapter = new BookAdapter(ct,lstBook, null);
 
-        //my code
-        downloadDataFireBase();
-        movieAdapter.notifyDataSetChanged();
+                MoviesRV.setAdapter(bookAdapter);
+                MoviesRV.setLayoutManager(new LinearLayoutManager(ct,LinearLayoutManager.HORIZONTAL,false));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        myRef.addListenerForSingleValueEvent(eventListener);
+
 
         return view;
     }
@@ -107,15 +95,14 @@ public class HomeFragment extends Fragment implements MovieItemClickListener {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onMovieClick(Movie movie, ImageView movieImageView) {
+    public void onBookClick(Book book, ImageView movieImageView) {
         // here we send movie information to detail activity
         // also we ll create the transition animation between the two activity
 
         Intent intent = new Intent(ct, MovieDetailActivity.class);
         // send movie information to deatilActivity
-        intent.putExtra("title",movie.getTitle());
-        intent.putExtra("imgURL",movie.getThumbnail());
-        intent.putExtra("imgCover",movie.getCoverPhoto());
+        intent.putExtra("title",book.getName());
+        intent.putExtra("imgURL",book.getImageURL());
         // lets crezte the animation
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),
                 movieImageView,"sharedName");
@@ -124,48 +111,10 @@ public class HomeFragment extends Fragment implements MovieItemClickListener {
 
         // i l make a simple test to see if the click works
 
-        Toast.makeText(ct,"item clicked : " + movie.getTitle(),Toast.LENGTH_LONG).show();
+        Toast.makeText(ct,"item clicked : " + book.getName(),Toast.LENGTH_LONG).show();
         // it works great
 
-
     }
-
-    private void addNewItemsToRecyclerview(StoryDetail storyDetail) {
-        lstBooks .add(new Movie(storyDetail.getName(),R.drawable.moana,R.drawable.spidercover));
-    }
-
-    private void downloadDataFireBase() {
-//        lstStoryDetail = new ArrayList<>();
-
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String storyName = snapshot.child("storyName").getValue(String.class);
-                    String authorLink = snapshot.child("data").child("authorLink").getValue(String.class);
-                    String link = snapshot.child("data").child("link").getValue(String.class);
-                    //TODO
-
-                    StoryDetail storyDetail = new StoryDetail(storyName, link, authorLink, null);
-                    addNewItemsToRecyclerview(storyDetail);
-//                    lstStoryDetail.add(storyDetail);
-
-                    //lstBooks.add(new Movie(storyName, R.drawable.themartian));
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-
-
 
     class SliderTimer extends TimerTask {
 

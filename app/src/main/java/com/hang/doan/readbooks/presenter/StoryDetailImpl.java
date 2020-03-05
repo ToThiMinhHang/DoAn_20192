@@ -7,7 +7,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hang.doan.readbooks.models.StoryDetail;
+import com.hang.doan.readbooks.models.Book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +15,18 @@ import java.util.List;
 public class StoryDetailImpl implements StoryDetailPresenter {
 
     public String TAG = "HANG_DEBUG";
-    List<StoryDetail> lstStoryDetail;
+    List<Book> lstBook;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("storyDetail");
 
     public StoryDetailImpl() {
-        lstStoryDetail = new ArrayList<>();
+        lstBook = new ArrayList<>();
     }
 
 
     @Override
-    public List<StoryDetail> downLoadData() {
+    public List<Book> downLoadData() {
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -38,8 +38,8 @@ public class StoryDetailImpl implements StoryDetailPresenter {
                     String link = snapshot.child("data").child("link").getValue(String.class);
                     //TODO
 
-                    StoryDetail storyDetail = new StoryDetail(storyName, link, authorLink, null);
-                    lstStoryDetail.add(storyDetail);
+                    Book book = new Book(storyName, link, authorLink, null);
+                    lstBook.add(book);
                 }
             }
 
@@ -49,6 +49,6 @@ public class StoryDetailImpl implements StoryDetailPresenter {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-        return lstStoryDetail;
+        return lstBook;
     }
 }

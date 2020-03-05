@@ -21,9 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hang.doan.readbooks.R;
-import com.hang.doan.readbooks.ui.HomeActivity;
 import com.hang.doan.readbooks.ui.LoginActivity;
-import com.hang.doan.readbooks.ui.MainActivity;
 
 public class AccountFragment extends Fragment {
 

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav.setSelectedItemId(R.id.nav_home);
 
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
