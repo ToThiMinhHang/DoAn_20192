@@ -3,24 +3,30 @@ package com.hang.doan.readbooks.adapters;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hang.doan.readbooks.R;
-import com.hang.doan.readbooks.models.Slide;
+import com.hang.doan.readbooks.models.Book;
+import com.hang.doan.readbooks.ui.BookDetailActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class SliderPagerAdapter extends PagerAdapter {
 
     private Context mContext ;
-    private List<Slide> mList ;
+    private List<Book> mList ;
+    private View slideLayout;
 
-
-    public SliderPagerAdapter(Context mContext, List<Slide> mList) {
+    public SliderPagerAdapter(Context mContext, List<Book> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -28,20 +34,50 @@ public class SliderPagerAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
-
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View slideLayout = inflater.inflate(R.layout.slide_item,null);
+        slideLayout = inflater.inflate(R.layout.slide_item,null);
 
-        ImageView slideImg = slideLayout.findViewById(R.id.slide_img);
-        TextView slideText = slideLayout.findViewById(R.id.slide_title);
-        slideImg.setImageResource(mList.get(position).getImage());
-        slideText.setText(mList.get(position).getTitle());
+        ImageView slideImg = slideLayout.findViewById(R.id.slide_item_img);
+        TextView author = slideLayout.findViewById(R.id.slide_item_txt_author);
+        TextView name = slideLayout.findViewById(R.id.slide_item_txt_name);
+
+        author.setText(mList.get(position).getAuthorLink());
+        name.setText(mList.get(position).getName());
+        Picasso.with(mContext)
+                .load(mList.get(position).getImageURL())
+                .placeholder(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(slideImg);
 
         container.addView(slideLayout);
+
+        final int index = position;
+        ImageView slide_btn = slideLayout.findViewById(R.id.slide_item_img);
+        slide_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(slideLayout.getContext(),BookDetailActivity.class);
+                // send movie information to deatilActivity
+                intent.putExtra("name",mList.get(index).getName());
+                intent.putExtra("authorLink",mList.get(index).getAuthorLink());
+                intent.putExtra("link",mList.get(index).getLink());
+                intent.putExtra("imgURL",mList.get(index).getImageURL());
+                slideLayout.getContext().startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
         return slideLayout;
-        
+
     }
 
     @Override

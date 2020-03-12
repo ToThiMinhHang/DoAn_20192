@@ -26,10 +26,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
 
     private final String TAG = "HANG_DEBUG";
 
-    public BookAdapter(Context context, List<Book> mData, BookItemClickListener listener) {
+    public BookAdapter(Context context, List<Book> mData) {
         this.context = context;
         this.mData = mData;
-        bookItemClickListener = listener;
     }
 
 
@@ -37,7 +36,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.item_movie,viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_book,viewGroup,false);
         return new ImageViewHolder(view);
 
         }
@@ -48,7 +47,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
         Book movieCurrent = mData.get(i);
 
         myViewHolder.TvTitle.setText(movieCurrent.getName());
-        Log.d(TAG, "url: " + movieCurrent.getImageURL());
+//        Log.d(TAG, "url: " + movieCurrent.getImageURL());
 
         Picasso.with(context)
                 .load(movieCurrent.getImageURL())
@@ -59,6 +58,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
 
     }
 
+    public void setOnItemClickListener(BookItemClickListener listener) {
+        bookItemClickListener = listener;
+    }
 
 
     @Override
@@ -66,7 +68,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
         return mData.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder {
+    public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
         private TextView TvTitle;
@@ -79,16 +81,21 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
             TvTitle = itemView.findViewById(R.id.item_movie_title);
             ImgMovie = itemView.findViewById(R.id.item_movie_img);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    bookItemClickListener.onBookClick(mData.get(getAdapterPosition()),ImgMovie);
-
-
-                }
-            });
+            itemView.setOnClickListener(this);
 
         }
+
+
+
+        @Override
+        public void onClick(View v) {
+            if (bookItemClickListener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    bookItemClickListener.onBookClick(position);
+                }
+            }
+        }
+
     }
 }

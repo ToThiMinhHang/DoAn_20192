@@ -12,7 +12,7 @@ import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.Fragment.HomeFragment;
 import com.hang.doan.readbooks.R;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 Toast.makeText(this, "Welcome! " + user.getDisplayName(), Toast.LENGTH_LONG).show();
             } else {

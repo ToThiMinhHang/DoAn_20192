@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.hang.doan.readbooks.ui.MovieDetailActivity"></activity>
-        <activity android:name="com.hang.doan.readbooks.ui.MainActivity">
+        <activity android:name="com.hang.doan.readbooks.ui.BookDetailActivity"></activity>
+        <activity android:name="com.hang.doan.readbooks.ui.HomeActivity">
 
         </activity>
         <activity android:name="com.hang.doan.readbooks.ui.LoginActivity">

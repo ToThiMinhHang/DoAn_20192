@@ -35,10 +35,11 @@ public class StoryDetailImpl implements StoryDetailPresenter {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String storyName = snapshot.child("storyName").getValue(String.class);
                     String authorLink = snapshot.child("data").child("authorLink").getValue(String.class);
+                    String imglink = snapshot.child("data").child("imgLink").getValue(String.class);
                     String link = snapshot.child("data").child("link").getValue(String.class);
                     //TODO
 
-                    Book book = new Book(storyName, link, authorLink, null);
+                    Book book = new Book(storyName, imglink, authorLink, null, link);
                     lstBook.add(book);
                 }
             }
