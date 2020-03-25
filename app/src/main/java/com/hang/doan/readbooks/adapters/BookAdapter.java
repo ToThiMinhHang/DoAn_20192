@@ -4,7 +4,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.item_book,viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.rc_book_item,viewGroup,false);
         return new ImageViewHolder(view);
 
         }

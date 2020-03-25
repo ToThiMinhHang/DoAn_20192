@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -42,13 +39,16 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
     private ViewPager slidePager;
     private final int MAX_SLIDE = 5;
 
-    private BookAdapter bookAdapter;
+    private BookAdapter bookFavoriteAdapter;
+    private BookAdapter bookNewAdapter;
     private TabLayout indicator;
-    private RecyclerView MoviesRV;
+    private RecyclerView BooksFavoriteRV;
+    private RecyclerView BooksNewRV;
 
     private Context ct;
     private static final String TAG = "HANG_DEBUG";
-    List<Book> lstBook;
+    List<Book> lstFavoriteBook;
+    List<Book> lstNewBook;
 
 
     @Override
@@ -63,57 +63,71 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         final View view = inflater.inflate(R.layout.activity_home, container, false);
 
         indicator = view.findViewById(R.id.indicator);
-        MoviesRV = view.findViewById(R.id.Rv_movies);
+        BooksFavoriteRV = view.findViewById(R.id.Rv_movies);
+        BooksNewRV = view.findViewById(R.id.Rv_movies2);
 
         ct = getContext();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("storyDetail");
 
-        lstBook = new ArrayList<>();
+        lstFavoriteBook = new ArrayList<>();
+        lstNewBook = new ArrayList<>();
 
         ValueEventListener eventListener = new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List <String> list = new ArrayList<>();
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                List<String> list = new ArrayList<>();
+                int index = 0;
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Book newBook = new Book();
                     newBook.setName(ds.child("data").child("name").getValue(String.class));
                     newBook.setAuthorLink(ds.child("data").child("authorLink").getValue(String.class));
                     newBook.setImageURL(ds.child("data").child("imgLink").getValue(String.class));
                     newBook.setLink(ds.child("data").child("link").getValue(String.class));
-
-                    lstBook.add(newBook);
+                    if (index < 5) {
+                        lstFavoriteBook.add(newBook);
+                    } else if (index < 10) {
+                        lstNewBook.add(newBook);
+                    }
+                    index = index + 1;
                 }
+                //favorite book
+                bookFavoriteAdapter = new BookAdapter(ct, lstFavoriteBook);
 
-                bookAdapter = new BookAdapter(ct,lstBook);
+                BooksFavoriteRV.setAdapter(bookFavoriteAdapter);
+                BooksFavoriteRV.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.HORIZONTAL, false));
 
-                MoviesRV.setAdapter(bookAdapter);
-                MoviesRV.setLayoutManager(new LinearLayoutManager(ct,LinearLayoutManager.HORIZONTAL,false));
+                bookFavoriteAdapter.setOnItemClickListener(HomeFragment.this);
 
-                bookAdapter.setOnItemClickListener(HomeFragment.this);
+                // new book
+                bookNewAdapter = new BookAdapter(ct, lstNewBook);
+
+                BooksNewRV.setAdapter(bookNewAdapter);
+                BooksNewRV.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.HORIZONTAL, false));
+
+                bookNewAdapter.setOnItemClickListener(HomeFragment.this);
 
 
                 lstSlide = new ArrayList<>();
-                for(int i = 0; i < MAX_SLIDE; i++)
-                    lstSlide.add(new Book(lstBook.get(i).getName(), lstBook.get(i).getImageURL(), lstBook.get(i).getAuthorLink(), null, lstBook.get(i).getLink()));
+                for (int i = 0; i < MAX_SLIDE; i++)
+                    lstSlide.add(new Book(lstFavoriteBook.get(i).getName(), lstFavoriteBook.get(i).getImageURL(), lstFavoriteBook.get(i).getAuthorLink(), null, lstFavoriteBook.get(i).getLink()));
                 slidePager = view.findViewById(R.id.slider_pager);
                 SliderPagerAdapter adapter = new SliderPagerAdapter(view.getContext(), lstSlide);
                 slidePager.setAdapter(adapter);
 
-                Timer timer = new Timer();
-                timer.scheduleAtFixedRate(new HomeFragment.SliderTimer(), 4000, 6000);
-
+//                Timer timer = new Timer();
+//                timer.scheduleAtFixedRate(new HomeFragment.SliderTimer(), 4000, 6000);
 
 
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         };
         myRef.addListenerForSingleValueEvent(eventListener);
-
 
 
         return view;
@@ -128,10 +142,10 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
         Intent intent = new Intent(ct, BookDetailActivity.class);
         // send movie information to deatilActivity
-        intent.putExtra("name",lstBook.get(position).getName());
-        intent.putExtra("authorLink",lstBook.get(position).getAuthorLink());
-        intent.putExtra("link",lstBook.get(position).getLink());
-        intent.putExtra("imgURL",lstBook.get(position).getImageURL());
+        intent.putExtra("name", lstFavoriteBook.get(position).getName());
+        intent.putExtra("authorLink", lstFavoriteBook.get(position).getAuthorLink());
+        intent.putExtra("link", lstFavoriteBook.get(position).getLink());
+        intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
         startActivity(intent);
 
         // i l make a simple test to see if the click works
@@ -140,23 +154,23 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
     }
 
-    class SliderTimer extends TimerTask {
-
-        @Override
-        public void run() {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(slidePager.getChildCount() > 0) {
-                        if (slidePager.getCurrentItem() < MAX_SLIDE) {
-                            slidePager.setCurrentItem(slidePager.getCurrentItem() + 1);
-                        } else
-                            slidePager.setCurrentItem(0);
-                    }
-                }
-            });
-        }
-    }
+//    class SliderTimer extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//
+//            getActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (slidePager.getChildCount() > 0) {
+//                        if (slidePager.getCurrentItem() < MAX_SLIDE) {
+//                            slidePager.setCurrentItem(slidePager.getCurrentItem() + 1);
+//                        } else
+//                            slidePager.setCurrentItem(0);
+//                    }
+//                }
+//            });
+//        }
+//    }
 
 }

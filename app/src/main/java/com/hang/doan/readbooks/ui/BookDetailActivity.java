@@ -1,16 +1,13 @@
 package com.hang.doan.readbooks.ui;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hang.doan.readbooks.R;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 public class BookDetailActivity extends AppCompatActivity {
@@ -22,7 +19,7 @@ public class BookDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.book_detail_item);
+        setContentView(R.layout.activity_book_detail);
         // ini views
         iniViews();
 
