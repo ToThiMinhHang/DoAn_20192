@@ -119,12 +119,6 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
 //                Timer timer = new Timer();
 //                timer.scheduleAtFixedRate(new HomeFragment.SliderTimer(), 4000, 6000);
-<<<<<<< HEAD
-=======
-//
->>>>>>> 5efb0aa8d7e1dcbb61eb6a93e4f159d3689709b6
-
-
             }
 
             @Override
@@ -140,21 +134,26 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBookClick(int position) {
+    public void onBookClick(int position, int type) {
         // here we send movie information to detail activity
         // also we ll create the transition animation between the two activity
 
         Intent intent = new Intent(ct, BookDetailActivity.class);
         // send movie information to deatilActivity
-        intent.putExtra("name", lstFavoriteBook.get(position).getName());
-        intent.putExtra("authorLink", lstFavoriteBook.get(position).getAuthorLink());
-        intent.putExtra("link", lstFavoriteBook.get(position).getLink());
-        intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
+        if(type == 0) {
+            intent.putExtra("name", lstFavoriteBook.get(position).getName());
+            intent.putExtra("authorLink", lstFavoriteBook.get(position).getAuthorLink());
+            intent.putExtra("link", lstFavoriteBook.get(position).getLink());
+            intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
+        }
+        else {
+            intent.putExtra("name", lstNewBook.get(position).getName());
+            intent.putExtra("authorLink", lstNewBook.get(position).getAuthorLink());
+            intent.putExtra("link", lstNewBook.get(position).getLink());
+            intent.putExtra("imgURL", lstNewBook.get(position).getImageURL());
+        }
+
         startActivity(intent);
-
-        // i l make a simple test to see if the click works
-
-        // it works great
 
     }
 

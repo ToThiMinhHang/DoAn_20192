@@ -4,11 +4,13 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.models.Book;
@@ -91,7 +93,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
             if (bookItemClickListener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    bookItemClickListener.onBookClick(position);
+                    View view = (View) v.getParent();
+                    int ret = view.getId();
+                    Log.d(TAG, String.valueOf(ret));
+                    if (ret == R.id.Rv_movies)
+                        bookItemClickListener.onBookClick(position, 0);
+                    else
+                        bookItemClickListener.onBookClick(position, 1);
                 }
             }
         }

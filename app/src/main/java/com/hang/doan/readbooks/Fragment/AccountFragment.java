@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,13 +23,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.ui.LoginActivity;
+import com.squareup.picasso.Picasso;
 
 public class AccountFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     TextView txtImgLink;
     TextView userName;
+    TextView email;
     Button bnt_sign_out;
+    ImageView acc_userImg;
 
     Context ct;
 
@@ -44,7 +48,9 @@ public class AccountFragment extends Fragment {
 
        // txtImgLink = (TextView) getView().findViewById(R.id.userImgLink);
 
-        userName = (TextView) getView().findViewById(R.id.userName);
+        userName = (TextView) getView().findViewById(R.id.acc_userName);
+        email = (TextView) getView().findViewById(R.id.acc_email);
+        acc_userImg = getView().findViewById(R.id.acc_userImg);
 
         bnt_sign_out = getView().findViewById(R.id.btn_sign_out);
         bnt_sign_out.setOnClickListener(new View.OnClickListener() {
@@ -68,20 +74,17 @@ public class AccountFragment extends Fragment {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-    }
-
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
-    }
 
-    private void updateUI(FirebaseUser currentUser) {
-        userName.setText(currentUser.getEmail());
+        userName.setText(currentUser.getDisplayName());
+        email.setText(currentUser.getEmail());
+
+        Picasso.with(ct)
+                .load(currentUser.getPhotoUrl())
+                .placeholder(R.mipmap.ic_launcher)
+                .fit()
+                .centerCrop()
+                .into(acc_userImg);
     }
 
 
