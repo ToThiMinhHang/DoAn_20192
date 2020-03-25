@@ -102,9 +102,9 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
                 SliderPagerAdapter adapter = new SliderPagerAdapter(view.getContext(), lstSlide);
                 slidePager.setAdapter(adapter);
 
-                Timer timer = new Timer();
-                timer.scheduleAtFixedRate(new HomeFragment.SliderTimer(), 4000, 6000);
-
+//                Timer timer = new Timer();
+//                timer.scheduleAtFixedRate(new HomeFragment.SliderTimer(), 4000, 6000);
+//
 
 
             }

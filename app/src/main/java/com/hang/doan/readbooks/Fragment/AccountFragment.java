@@ -42,7 +42,7 @@ public class AccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ct = getContext();
 
-        txtImgLink = (TextView) getView().findViewById(R.id.userImgLink);
+       // txtImgLink = (TextView) getView().findViewById(R.id.userImgLink);
 
         userName = (TextView) getView().findViewById(R.id.userName);
 
