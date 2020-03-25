@@ -119,6 +119,10 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
 //                Timer timer = new Timer();
 //                timer.scheduleAtFixedRate(new HomeFragment.SliderTimer(), 4000, 6000);
+<<<<<<< HEAD
+=======
+//
+>>>>>>> 5efb0aa8d7e1dcbb61eb6a93e4f159d3689709b6
 
 
             }
