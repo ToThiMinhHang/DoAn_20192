@@ -1,0 +1,160 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/ic_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:src="@drawable/ic_back"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:text="Thêm thông tin truyện"
+            android:textColor="#000000" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:text="Bỏ qua" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-16dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.06"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_launcher_background" />/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="415dp"
+        android:layout_height="641dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.285"
+        android:paddingTop="25dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="10">
+
+                <EditText
+                    android:id="@+id/item_name"
+                    android:layout_width="426dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Tên truyện"
+                    android:paddingTop="10dp" />
+
+                <ScrollView
+                    android:id="@+id/ScrollView01"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dip"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Lời giới thiệu"
+                        />
+
+                </ScrollView>
+
+                <EditText
+                    android:id="@+id/item_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:layout_weight="2"
+                    android:hint="Ngôn ngữ gốc" />
+
+                <EditText
+                    android:id="@+id/item_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_weight="2"
+                    android:hint="Ngôn ngữ dịch" />
+
+                <Spinner
+                    android:id="@+id/spn_item_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_weight="2"
+                    android:autofillHints="Thể loại truyện" />
+
+                <Spinner
+                    android:id="@+id/spn_item_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_weight="2"
+                    android:autofillHints="Tình trạng truyện" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+    <!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="100dp"-->
+<!--        android:layout_marginTop="48dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/linearLayout2">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/img_item"-->
+<!--            android:layout_width="142dp"-->
+<!--            android:layout_height="209dp"-->
+<!--            android:layout_marginTop="68dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.203"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
+<!--            app:srcCompat="@drawable/ic_launcher_background" />-->
+<!--    </LinearLayout>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
