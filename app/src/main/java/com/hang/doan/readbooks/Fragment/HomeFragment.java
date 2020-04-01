@@ -127,7 +127,6 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         };
         myRef.addListenerForSingleValueEvent(eventListener);
 
-
         return view;
     }
 
