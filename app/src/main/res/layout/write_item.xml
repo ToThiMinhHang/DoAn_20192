@@ -96,7 +96,8 @@
                     android:layout_height="150dip"
                     android:layout_weight="1">
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/item_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Lời giới thiệu"
@@ -105,14 +106,14 @@
                 </ScrollView>
 
                 <EditText
-                    android:id="@+id/item_info"
+                    android:id="@+id/lang_item"
                     android:layout_width="match_parent"
                     android:layout_height="62dp"
                     android:layout_weight="2"
                     android:hint="Ngôn ngữ gốc" />
 
                 <EditText
-                    android:id="@+id/item_tag"
+                    android:id="@+id/lang_trans"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:layout_weight="2"
