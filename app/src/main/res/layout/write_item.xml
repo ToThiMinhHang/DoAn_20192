@@ -83,7 +83,7 @@
                 android:weightSum="10">
 
                 <EditText
-                    android:id="@+id/item_name"
+                    android:id="@+id/book_detail_tentruyen"
                     android:layout_width="426dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

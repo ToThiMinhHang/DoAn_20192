@@ -82,10 +82,10 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
                 int index = 0;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Book newBook = new Book();
-                    newBook.setName(ds.child("data").child("name").getValue(String.class));
-                    newBook.setAuthorLink(ds.child("data").child("authorLink").getValue(String.class));
-                    newBook.setImageURL(ds.child("data").child("imgLink").getValue(String.class));
-                    newBook.setLink(ds.child("data").child("link").getValue(String.class));
+                    newBook.setName(ds.child("generaInformation").child("name").getValue(String.class));
+                    newBook.setAuthorLink(ds.child("generaInformation").child("authorLink").getValue(String.class));
+                    newBook.setImageURL(ds.child("generaInformation").child("imgLink").getValue(String.class));
+                    newBook.setLink(ds.child("generaInformation").child("link").getValue(String.class));
                     if (index < 5) {
                         lstFavoriteBook.add(newBook);
                     } else if (index < 10) {

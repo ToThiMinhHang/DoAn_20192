@@ -10,6 +10,15 @@ public class Book {
     private String link;
     private List<String> mucSach;
     private String name;
+    private List<Chapter> chapter;
+
+    public List<Chapter> getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(List<Chapter> chapter) {
+        this.chapter = chapter;
+    }
 
     public String getName() {
         return name;
@@ -66,4 +75,6 @@ public class Book {
     public void setLink(String link) {
         this.link = link;
     }
+
+
 }
