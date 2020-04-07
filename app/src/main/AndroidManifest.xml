@@ -10,8 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.hang.doan.readbooks.ui.BookDetailActivity"></activity>
-        <activity android:name="com.hang.doan.readbooks.ui.HomeActivity">
+        <activity android:name="com.hang.doan.readbooks.ui.ReadBook"></activity>
 
+        <activity android:name="com.hang.doan.readbooks.ui.HomeActivity">
         </activity>
         <activity android:name="com.hang.doan.readbooks.ui.LoginActivity">
             <intent-filter>

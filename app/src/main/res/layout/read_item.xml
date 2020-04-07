@@ -22,28 +22,47 @@
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/chapter_name"
+            android:id="@+id/read_book_chapter_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="Chương 1"
             android:textColor="#000000" />
 
-       <ImageButton
-           android:layout_weight="3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/next"/>
 
         <ImageButton
-            android:layout_weight="3"
+            android:id="@+id/read_book_btn_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/before"/>
+            android:layout_weight="3"
+            android:src="@drawable/before" />
+
+        <ImageButton
+            android:id="@+id/read_book_btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:src="@drawable/next" />
 
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <TextView
+            android:layout_margin="10dp"
+            android:id="@+id/read_book_data"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp">
+
+        </TextView>
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,14 +40,17 @@ public class BookDetailActivity extends AppCompatActivity {
     final String TAG = "HANG_DEBUG";
     private ImageView BookImg;
     private TextView txt_author,txt_name;
+    private Button book_detail_btn_back;
+
     private Context context;
+
+
     String storyName;
     String authorName;
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("authorDetail");
-
     DatabaseReference dsChuong = database.getReference("storyDetail");
 
 
@@ -52,7 +59,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private List<String> arrayList;
 
-
+    private int index = 0;
 
 
     @Override
@@ -75,6 +82,14 @@ public class BookDetailActivity extends AppCompatActivity {
         txt_name.setText(name);
         storyName = name;
 
+//        book_detail_btn_back = findViewById(R.id.book_detail_btn_back);
+//        book_detail_btn_back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
+
 
 
         // Read from the database
@@ -94,6 +109,7 @@ public class BookDetailActivity extends AppCompatActivity {
                             return;
                         }
                     }
+
                 }
             }
 
@@ -117,19 +133,21 @@ public class BookDetailActivity extends AppCompatActivity {
         dsChuong.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                index = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 //                    Log.d(TAG, snapshot.child("generaInformation").child("name").toString());
                     if(snapshot.child("generaInformation").child("name").getValue(String.class).trim().equals(storyName.trim())) {
                         GenericTypeIndicator<List<Chapter>> t = new GenericTypeIndicator<List<Chapter>>() {};
-                        Log.d(TAG, storyName.trim());
+//                        Log.d(TAG, storyName.trim());
                         List<Chapter> chapters = snapshot.child("chapters").getValue(t);
                         for(int i = 0; i < chapters.size(); i++) {
                             arrayList.add(chapters.get(i).getChapterName());
-                            Log.d(TAG, arrayList.get(i));
+//                            Log.d(TAG, arrayList.get(i));
                         }
                         adapter.notifyDataSetChanged();
                         return;
                     }
+                    index = index + 1;
                 }
             }
 
@@ -137,6 +155,18 @@ public class BookDetailActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
 //                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Intent intent = new Intent(BookDetailActivity.this, ReadBook.class);
+                int pos = parent.getPositionForView(view);
+                intent.putExtra("INDEX", String.valueOf(pos));
+                intent.putExtra("LINK", String.valueOf(index));
+                startActivity(intent);
             }
         });
 
