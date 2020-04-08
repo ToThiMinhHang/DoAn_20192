@@ -8,10 +8,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.models.Book;
@@ -43,7 +41,7 @@ public class SliderPagerAdapter extends PagerAdapter {
         TextView author = slideLayout.findViewById(R.id.slide_item_txt_author);
         TextView name = slideLayout.findViewById(R.id.slide_item_txt_name);
 
-        author.setText(mList.get(position).getAuthorLink());
+//        author.setText(mList.get(position).getId_tac_gia().toString());
         name.setText(mList.get(position).getName());
         Picasso.with(mContext)
                 .load(mList.get(position).getImageURL())
@@ -63,8 +61,6 @@ public class SliderPagerAdapter extends PagerAdapter {
                 Intent intent = new Intent(slideLayout.getContext(),BookDetailActivity.class);
                 // send movie information to deatilActivity
                 intent.putExtra("name",mList.get(index).getName());
-                intent.putExtra("authorLink",mList.get(index).getAuthorLink());
-                intent.putExtra("link",mList.get(index).getLink());
                 intent.putExtra("imgURL",mList.get(index).getImageURL());
                 slideLayout.getContext().startActivity(intent);
             }

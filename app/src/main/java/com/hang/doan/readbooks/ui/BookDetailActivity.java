@@ -34,13 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class BookDetailActivity extends AppCompatActivity {
 
     final String TAG = "HANG_DEBUG";
     private ImageView BookImg;
-    private TextView txt_author,txt_name;
-    private Button book_detail_btn_back;
+    private TextView txt_author, txt_name;
 
     private Context context;
 
@@ -50,10 +48,6 @@ public class BookDetailActivity extends AppCompatActivity {
 
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("authorDetail");
-    DatabaseReference dsChuong = database.getReference("storyDetail");
-
-
 
     private ListView list;
     private ArrayAdapter<String> adapter;
@@ -77,39 +71,42 @@ public class BookDetailActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(BookImg);
 
-        String name = getIntent().getExtras().getString("name");
+        Intent intent = getIntent();
+        final String id_tac_pham = intent.getExtras().getString("id_tac_pham");
+        String id_tac_gia = intent.getExtras().getString("id_tac_gia");
+        DatabaseReference authorRef = database.getReference("authorDetail/" + id_tac_gia);
+        DatabaseReference bookRef = database.getReference("storyDetail/" + id_tac_pham);
+
+        txt_author = findViewById(R.id.book_detail_tacgia);
         txt_name = findViewById(R.id.book_detail_tentruyen);
-        txt_name.setText(name);
-        storyName = name;
-
-//        book_detail_btn_back = findViewById(R.id.book_detail_btn_back);
-//        book_detail_btn_back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-
 
 
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        authorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Author author_temp = snapshot.getValue(Author.class);
-//                    Log.d("HANG_DEBUG",author_temp.getAuthorName());
-                    for (int i = 0; i < author_temp.getLstStory().size(); i++) {        // listHS.size() là lấy ra kích cỡ của listHS
-                        if(author_temp.getLstStory().get(i).trim().equals(storyName.trim())) {
-                            authorName = author_temp.getAuthorName();
 
-                            txt_author = findViewById(R.id.book_detail_tacgia);
-                            txt_author.setText(authorName);
+                authorName = dataSnapshot.child("authorName").getValue(String.class);
+                txt_author.setText(authorName);
+            }
 
-                            return;
-                        }
-                    }
+            @Override
+            public void onCancelled(DatabaseError error) {
 
+            }
+        });
+
+        bookRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                storyName = dataSnapshot.child("generaInformation").child("name").getValue(String.class);
+                txt_name.setText(storyName);
+
+                for (DataSnapshot snapshot : dataSnapshot.child("chapters").getChildren()) {
+                    Chapter chapter = snapshot.getValue(Chapter.class);
+                    index = index + 1;
+                    arrayList.add(chapter.getChapterName());
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -119,8 +116,6 @@ public class BookDetailActivity extends AppCompatActivity {
 //                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-
 
 
         list = (ListView) findViewById(R.id.book_detail_lst_dschuong);
@@ -129,35 +124,6 @@ public class BookDetailActivity extends AppCompatActivity {
         list.setAdapter(adapter);
 
 
-        // Read from the database
-        dsChuong.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                index = 0;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    Log.d(TAG, snapshot.child("generaInformation").child("name").toString());
-                    if(snapshot.child("generaInformation").child("name").getValue(String.class).trim().equals(storyName.trim())) {
-                        GenericTypeIndicator<List<Chapter>> t = new GenericTypeIndicator<List<Chapter>>() {};
-//                        Log.d(TAG, storyName.trim());
-                        List<Chapter> chapters = snapshot.child("chapters").getValue(t);
-                        for(int i = 0; i < chapters.size(); i++) {
-                            arrayList.add(chapters.get(i).getChapterName());
-//                            Log.d(TAG, arrayList.get(i));
-                        }
-                        adapter.notifyDataSetChanged();
-                        return;
-                    }
-                    index = index + 1;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-//                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -165,15 +131,12 @@ public class BookDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(BookDetailActivity.this, ReadBook.class);
                 int pos = parent.getPositionForView(view);
                 intent.putExtra("INDEX", String.valueOf(pos));
-                intent.putExtra("LINK", String.valueOf(index));
+                intent.putExtra("id_tac_pham", id_tac_pham);
                 startActivity(intent);
             }
         });
 
-
-
     }
-
 
 
 }

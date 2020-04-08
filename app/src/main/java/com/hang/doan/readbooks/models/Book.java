@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Book {
 
-    private String authorLink;
+    private Long id_tac_gia;
     private String imageURL;
-    private String link;
+    private Long id_tac_pham;
     private List<String> mucSach;
     private String name;
     private List<Chapter> chapter;
@@ -29,12 +29,12 @@ public class Book {
     }
 
 
-    public String getAuthorLink() {
-        return authorLink;
+    public Long getId_tac_gia() {
+        return id_tac_gia;
     }
 
-    public void setAuthorLink(String authorLink) {
-        this.authorLink = authorLink;
+    public void setId_tac_gia(Long id_tac_gia) {
+        this.id_tac_gia = id_tac_gia;
     }
 
     public List<String> getMucSach() {
@@ -55,25 +55,17 @@ public class Book {
 
 
     public Book() {
+        chapter = new ArrayList<>();
         mucSach = new ArrayList<>();
     }
 
 
-
-    public Book(String name, String imgLink, String authorLink, List<String> mucSach, String link) {
-        this.name = name;
-        this.imageURL = imgLink;
-        this.authorLink = authorLink;
-        this.mucSach = mucSach;
-        this.link = link;
+    public Long getId_tac_pham() {
+        return id_tac_pham;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
+    public void setId_tac_pham(Long id_tac_pham) {
+        this.id_tac_pham = id_tac_pham;
     }
 
 

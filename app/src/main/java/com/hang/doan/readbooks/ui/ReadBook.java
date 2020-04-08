@@ -2,9 +2,7 @@ package com.hang.doan.readbooks.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,17 +14,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hang.doan.readbooks.R;
-import com.hang.doan.readbooks.models.Author;
 
 public class ReadBook extends AppCompatActivity {
     final String TAG = "HANG_DEBUG";
-
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("storyDetail");
 
     String id;
-    String linkID;
+    String id_tac_pham;
 
     String data;
     String chapterName;
@@ -45,10 +41,7 @@ public class ReadBook extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         id = (String) bundle.get("INDEX");
-        linkID = (String) bundle.get("LINK");
-
-//        Log.d(TAG, "id: " + _id);
-//        Log.d(TAG, "linkID: " + _linkID);
+        id_tac_pham = (String) bundle.get("id_tac_pham");
 
         read_book_chapter_name = findViewById(R.id.read_book_chapter_name);
         read_book_data = findViewById(R.id.read_book_data);
@@ -79,13 +72,6 @@ public class ReadBook extends AppCompatActivity {
             }
         });
 
-//        ic_back_3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ReadBook.this, BookDetailActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
     }
 
@@ -101,8 +87,8 @@ public class ReadBook extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                data = dataSnapshot.child(linkID).child("chapters").child(id).child("data").getValue(String.class);
-                chapterName = dataSnapshot.child(linkID).child("chapters").child(id).child("chapterName").getValue(String.class);
+                data = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("data").getValue(String.class);
+                chapterName = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("chapterName").getValue(String.class);
 
                 if (data != null && chapterName != null) {
                     read_book_chapter_name.setText(chapterName);
