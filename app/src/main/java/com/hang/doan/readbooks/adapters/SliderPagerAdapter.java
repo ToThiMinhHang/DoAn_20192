@@ -38,7 +38,7 @@ public class SliderPagerAdapter extends PagerAdapter {
         slideLayout = inflater.inflate(R.layout.slide_item,null);
 
         ImageView slideImg = slideLayout.findViewById(R.id.slide_item_img);
-        TextView author = slideLayout.findViewById(R.id.slide_item_txt_author);
+//        TextView author = slideLayout.findViewById(R.id.slide_item_txt_author);
         TextView name = slideLayout.findViewById(R.id.slide_item_txt_name);
 
 //        author.setText(mList.get(position).getId_tac_gia().toString());
@@ -60,7 +60,7 @@ public class SliderPagerAdapter extends PagerAdapter {
 
                 Intent intent = new Intent(slideLayout.getContext(),BookDetailActivity.class);
                 // send movie information to deatilActivity
-                intent.putExtra("name",mList.get(index).getName());
+                intent.putExtra("id_tac_pham",mList.get(index).getId_tac_pham());
                 intent.putExtra("imgURL",mList.get(index).getImageURL());
                 slideLayout.getContext().startActivity(intent);
             }

@@ -1,7 +1,9 @@
 package com.hang.doan.readbooks.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -92,7 +94,14 @@ public class ReadBook extends AppCompatActivity {
 
                 if (data != null && chapterName != null) {
                     read_book_chapter_name.setText(chapterName);
-                    read_book_data.setText(data);
+//                    read_book_data.setText(data);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        read_book_data.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
+                    } else {
+                        read_book_data.setText(Html.fromHtml(data));
+                    }
+
                 } else {
                     read_book_chapter_name.setText("end chap");
                     read_book_data.setText("Hết rồi");

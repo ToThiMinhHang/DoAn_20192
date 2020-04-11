@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Book {
 
-    private Long id_tac_gia;
+    private String id_tac_gia;
     private String imageURL;
-    private Long id_tac_pham;
+    private String id_tac_pham;
     private List<String> mucSach;
     private String name;
     private List<Chapter> chapter;
@@ -29,11 +29,11 @@ public class Book {
     }
 
 
-    public Long getId_tac_gia() {
+    public String getId_tac_gia() {
         return id_tac_gia;
     }
 
-    public void setId_tac_gia(Long id_tac_gia) {
+    public void setId_tac_gia(String id_tac_gia) {
         this.id_tac_gia = id_tac_gia;
     }
 
@@ -60,11 +60,11 @@ public class Book {
     }
 
 
-    public Long getId_tac_pham() {
+    public String getId_tac_pham() {
         return id_tac_pham;
     }
 
-    public void setId_tac_pham(Long id_tac_pham) {
+    public void setId_tac_pham(String id_tac_pham) {
         this.id_tac_pham = id_tac_pham;
     }
 

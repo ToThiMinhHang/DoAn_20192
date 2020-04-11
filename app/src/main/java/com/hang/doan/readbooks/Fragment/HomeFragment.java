@@ -37,6 +37,7 @@ import java.util.List;
 public class HomeFragment extends Fragment implements BookItemClickListener {
 
     private List<Book> lstSlide;
+
     private ViewPager slidePager;
     private final int MAX_SLIDE = 5;
 
@@ -114,18 +115,20 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Long id_tac_gia = ds.child("id_tac_gia").getValue(Long.class);
-                    Long id_tac_pham = ds.child("id_tac_pham").getValue(Long.class);
-                    slideID.add(new BookID(id_tac_gia, id_tac_pham));
-                    bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
+                    String slide_id_tac_pham = ds.child("id_tac_pham").getValue(String.class);
+                    slideID.add(new BookID(slide_id_tac_pham));
+                    bookDetail.child(slide_id_tac_pham).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Book newBook = new Book();
-                            newBook.setName(dataSnapshot.child("generaInformation").child("name").getValue(String.class));
-                            newBook.setImageURL(dataSnapshot.child("generaInformation").child("imgLink").getValue(String.class));
+                            newBook.setId_tac_pham(dataSnapshot.child("generalInformation").child("storyID").getValue(String.class));
+                            newBook.setName(dataSnapshot.child("generalInformation").child("name").getValue(String.class));
+                            newBook.setImageURL(dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class));
+                            newBook.setId_tac_gia(dataSnapshot.child("generalInformation").child("authorID").getValue(String.class));
                             lstSlide.add(newBook);
 //                            Log.d(TAG, "slide: " + newBook.getName());
                             adapter.notifyDataSetChanged();
+                            newBook.setId_tac_gia(dataSnapshot.child("generalInformation").child("authorID").getValue(String.class));
 
                         }
 
@@ -149,15 +152,15 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Long id_tac_gia = ds.child("id_tac_gia").getValue(Long.class);
-                    Long id_tac_pham = ds.child("id_tac_pham").getValue(Long.class);
-                    newID.add(new BookID(id_tac_gia, id_tac_pham));
+                    String id_tac_pham = ds.child("id_tac_pham").getValue(String.class);
+                    newID.add(new BookID( id_tac_pham));
                     bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Book newBook = new Book();
-                            newBook.setName(dataSnapshot.child("generaInformation").child("name").getValue(String.class));
-                            newBook.setImageURL(dataSnapshot.child("generaInformation").child("imgLink").getValue(String.class));
+                            newBook.setName(dataSnapshot.child("generalInformation").child("name").getValue(String.class));
+                            newBook.setImageURL(dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class));
+                            newBook.setId_tac_gia(dataSnapshot.child("generalInformation").child("authorID").getValue(String.class));
 
                             lstNewBook.add(newBook);
 //                            Log.d(TAG, "new: " + newBook.getName());
@@ -184,16 +187,15 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Long id_tac_gia = ds.child("id_tac_gia").getValue(Long.class);
-                    Long id_tac_pham = ds.child("id_tac_pham").getValue(Long.class);
-                    favoriteID.add(new BookID(id_tac_gia, id_tac_pham));
+                    String id_tac_pham = ds.child("id_tac_pham").getValue(String.class);
+                    favoriteID.add(new BookID(id_tac_pham));
                     bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Book newBook = new Book();
-                            newBook.setName(dataSnapshot.child("generaInformation").child("name").getValue(String.class));
-                            newBook.setImageURL(dataSnapshot.child("generaInformation").child("imgLink").getValue(String.class));
-
+                            newBook.setName(dataSnapshot.child("generalInformation").child("name").getValue(String.class));
+                            newBook.setImageURL(dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class));
+                            newBook.setId_tac_gia(dataSnapshot.child("generalInformation").child("authorID").getValue(String.class));
                             lstFavoriteBook.add(newBook);
 //                            Log.d(TAG, "favorite: " + newBook.getName());
                             bookFavoriteAdapter.notifyDataSetChanged();
@@ -230,12 +232,10 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         // send movie information to deatilActivity
         if (type == 0) {
             intent.putExtra("id_tac_pham", String.valueOf(favoriteID.get(position).getId_tac_pham()));
-            intent.putExtra("id_tac_gia", String.valueOf(favoriteID.get(position).getId_tac_gia()));
             intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ favoriteID.get(position).getId_tac_pham());
         } else {
             intent.putExtra("id_tac_pham", String.valueOf(newID.get(position).getId_tac_pham()));
-            intent.putExtra("id_tac_gia", String.valueOf(newID.get(position).getId_tac_gia()));
             intent.putExtra("imgURL", lstNewBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ newID.get(position).getId_tac_pham());
         }

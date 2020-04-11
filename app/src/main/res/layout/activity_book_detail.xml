@@ -40,16 +40,18 @@
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <EditText
-                android:maxLines ="3"
-                android:scrollHorizontally="false"
                 android:id="@+id/book_detail_tentruyen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="195dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="16dp"
                 android:editable="false"
                 android:hint="Tên truyện"
+                android:layout_row="3"
                 android:paddingTop="10dp"
+                android:scrollHorizontally="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/img_book_detail"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,17 +113,6 @@
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/book_detail_dichgia" />
 
-            <Button
-                android:id="@+id/book_detail_btn_doctruyen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Đọc truyện"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.49"
-                app:layout_constraintStart_toEndOf="@+id/img_book_detail" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -133,9 +124,21 @@
         <ListView
             android:id="@+id/book_detail_lst_dschuong"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="250dp">
 
         </ListView>
+
+        <include
+            android:id="@+id/new_comment"
+            layout="@layout/activity_new_comment" />
+
+        <ListView
+            android:paddingTop="20dp"
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"></ListView>
+
     </LinearLayout>
+
 
 </ScrollView>
