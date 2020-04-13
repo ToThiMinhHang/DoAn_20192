@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.Fragment.HomeFragment;
+import com.hang.doan.readbooks.Fragment.WriteFragment;
 import com.hang.doan.readbooks.R;
 
 public class HomeActivity extends AppCompatActivity {
@@ -46,7 +47,11 @@ public class HomeActivity extends AppCompatActivity {
                         case R.id.nav_account:
                             selectedFragment = new AccountFragment();
                             break;
-
+                        case R.id.nav_writeNew:
+                            selectedFragment = new WriteFragment();
+                            break;
+                        default:
+                            break;
                     }
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

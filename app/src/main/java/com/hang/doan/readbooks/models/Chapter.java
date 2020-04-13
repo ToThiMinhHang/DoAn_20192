@@ -1,10 +1,13 @@
 package com.hang.doan.readbooks.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Chapter {
 
+    Date editTime;
+    String price;
     String chapterName;
     String data;
 
@@ -24,6 +27,20 @@ public class Chapter {
         this.data = data;
     }
 
+    public String getPrice() {
+        return price;
+    }
 
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public Date getTime() {
+        return editTime;
+    }
+
+    public void setTime(Date time) {
+        this.editTime = time;
+    }
 
 }

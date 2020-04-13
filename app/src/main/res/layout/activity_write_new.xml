@@ -26,16 +26,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="center_vertical"
             android:text="Thêm thông tin truyện"
             android:textColor="#000000" />
 
         <Button
+            android:id="@+id/activity_write_new_btn_continute"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:text="Bỏ qua" />
+            android:layout_weight="3"
+            android:text="Đăng truyện" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,14 +50,22 @@
         tools:layout_editor_absoluteX="-16dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:id="@+id/activity_write_new_img_book"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.06"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />/>
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thêm chương mới"
+            tools:layout_editor_absoluteX="249dp"
+            tools:layout_editor_absoluteY="86dp"></Button>/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -83,7 +92,7 @@
                 android:weightSum="10">
 
                 <EditText
-                    android:id="@+id/book_detail_tentruyen"
+                    android:id="@+id/activity_write_new_tentruyen"
                     android:layout_width="426dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,7 +106,7 @@
                     android:layout_weight="1">
 
                     <EditText
-                        android:id="@+id/item_info"
+                        android:id="@+id/activity_write_new_item_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Lời giới thiệu"
@@ -105,19 +114,30 @@
 
                 </ScrollView>
 
-                <EditText
-                    android:id="@+id/lang_item"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh sách chương">
+                </TextView>
+                <ListView
+                    android:id="@+id/activity_write_new_lst_dschuong"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
-                    android:layout_weight="2"
-                    android:hint="Ngôn ngữ gốc" />
+                    android:layout_height="200dp">
+                </ListView>
 
-                <EditText
-                    android:id="@+id/lang_trans"
-                    android:layout_width="match_parent"
-                    android:layout_height="59dp"
-                    android:layout_weight="2"
-                    android:hint="Ngôn ngữ dịch" />
+                <!--                <EditText-->
+<!--                    android:id="@+id/lang_item"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="62dp"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:hint="Ngôn ngữ gốc" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/lang_trans"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="59dp"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:hint="Ngôn ngữ dịch" />-->
 
                 <Spinner
                     android:id="@+id/spn_item_category"

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
+
+
+    String authorID;
+    String link;
     String authorName;
-    List<String> lstStory;
-    List<String> lstStoryLink;
+    List<AuthorListStoryPost> lstStory;
 
     public String getAuthorName() {
         return authorName;
@@ -16,25 +19,32 @@ public class Author {
         this.authorName = authorName;
     }
 
-    public List<String> getLstStory() {
+    public List<AuthorListStoryPost> getLstStory() {
         return lstStory;
     }
 
-    public void setLstStory(List<String> lstStory) {
+    public void setLstStory(List<AuthorListStoryPost> lstStory) {
         this.lstStory = lstStory;
     }
 
-    public List<String> getLstStoryLink() {
-        return lstStoryLink;
+    public String getAuthorID() {
+        return authorID;
     }
 
-    public void setLstStoryLink(List<String> lstStoryLink) {
-        this.lstStoryLink = lstStoryLink;
+    public void setAuthorID(String authorID) {
+        this.authorID = authorID;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
 
     public  Author() {
         lstStory = new ArrayList<>();
-        lstStoryLink = new ArrayList<>();
     }
 }

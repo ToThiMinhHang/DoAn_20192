@@ -26,13 +26,15 @@
             app:layout_constraintVertical_bias="0.097"
             app:srcCompat="@drawable/user_image" />
 
-        <TextView
-            android:id="@+id/acc_userName"
+
+        <EditText
+            android:id="@+id/activity_account_detail_acc_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:text="Minh Hang"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.534"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/acc_userImg" />
 
@@ -40,10 +42,10 @@
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="72dp"
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toStartOf="@+id/acc_email"
-            app:layout_constraintHorizontal_bias="0.921"
+            app:layout_constraintHorizontal_bias="0.907"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/acc_userImg"
             app:srcCompat="@drawable/ic_email_black_24dp" />
@@ -52,12 +54,12 @@
             android:id="@+id/acc_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="76dp"
             android:text="hangttm@gmail.com"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.519"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/acc_userImg" />
-
 
         <TextView
             android:id="@+id/acc_myStory"
@@ -187,10 +189,21 @@
             android:id="@+id/btn_sign_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="436dp"
+            android:layout_marginTop="456dp"
             android:text="Đăng xuất"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.527"
+            app:layout_constraintHorizontal_bias="0.899"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/acc_userImg"></Button>
+
+        <Button
+            android:id="@+id/activity_account_detail_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="456dp"
+            android:text="Cập nhật"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.157"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/acc_userImg"></Button>
 

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.adapters.BookAdapter;
 import com.hang.doan.readbooks.adapters.BookItemClickListener;
@@ -30,6 +36,7 @@ import com.hang.doan.readbooks.adapters.SliderPagerAdapter;
 import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.models.BookID;
 import com.hang.doan.readbooks.ui.BookDetailActivity;
+import com.hang.doan.readbooks.ui.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +67,8 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
 
     @Nullable
     @Override

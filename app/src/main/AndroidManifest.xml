@@ -9,9 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service android:name="com.hang.doan.readbooks.ui.HomeActivity">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity android:name="com.hang.doan.readbooks.ui.BookDetailActivity"></activity>
         <activity android:name="com.hang.doan.readbooks.ui.ReadBook"></activity>
         <activity android:name="com.hang.doan.readbooks.ui.AuthorDetailActivity"></activity>
+        <activity android:name="com.hang.doan.readbooks.ui.MyStoryActivity"></activity>
+        <activity android:name="com.hang.doan.readbooks.ui.WriteNewActivity"></activity>
 
         <activity android:name="com.hang.doan.readbooks.ui.HomeActivity">
         </activity>
