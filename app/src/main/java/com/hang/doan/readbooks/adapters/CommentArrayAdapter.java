@@ -71,7 +71,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         return row;
     }
 
-    public Bitmap decodeToBitmap(byte[] decodedByte) {
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
+//    public Bitmap decodeToBitmap(byte[] decodedByte) {
+//        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+//    }
 }

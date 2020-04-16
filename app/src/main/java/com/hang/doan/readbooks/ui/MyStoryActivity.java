@@ -3,10 +3,8 @@ package com.hang.doan.readbooks.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,20 +15,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hang.doan.readbooks.R;
-import com.hang.doan.readbooks.models.Book;
-import com.hang.doan.readbooks.models.BookID;
-
-import java.util.ArrayList;
+import com.hang.doan.readbooks.adapters.StoryItemArrayAdapter;
+import com.hang.doan.readbooks.models.StoryItem;
 
 public class MyStoryActivity extends AppCompatActivity {
 
     String user_id;
     FirebaseDatabase database;
     DatabaseReference authorRef;
+    DatabaseReference storyRef;
 
     ListView activity_my_story_lst_story;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> arrayList;
+    private StoryItemArrayAdapter adapter;
+//    private List<StoryItem> storyItemList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,10 +47,10 @@ public class MyStoryActivity extends AppCompatActivity {
         });
 
         activity_my_story_lst_story = findViewById(R.id.activity_my_story_lst_story);
-        arrayList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayList);
+        adapter = new StoryItemArrayAdapter(getApplicationContext(), R.layout.my_story_item);
         // Here, you set the data in your ListView
         activity_my_story_lst_story.setAdapter(adapter);
+//        storyItemList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
         authorRef = database.getReference("authorDetail/" + user_id);
@@ -61,9 +58,25 @@ public class MyStoryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.child("lstStory").getChildren()) {
+                    String ten_truyen = ds.child("name").getValue(String.class);
+                    String id_truyen = ds.child("id").getValue(String.class);
+                    final StoryItem storyItem = new StoryItem();
+                    storyItem.setStory_name(ten_truyen);
+                    storyItem.setStory_id(id_truyen);
+                    storyRef = database.getReference("storyDetail/" + id_truyen + "/generalInformation");
+                    storyRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String img_link = dataSnapshot.child("imgLink").getValue(String.class);
+                            storyItem.setImage_link(img_link);
+                        }
 
-                    String ten_tac_pham = ds.child("name").getValue(String.class);
-                    arrayList.add(ten_tac_pham);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    adapter.add(storyItem);
                     adapter.notifyDataSetChanged();
                 }
             }

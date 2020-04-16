@@ -63,9 +63,12 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="84dp"
             android:text="Thêm chương mới"
-            tools:layout_editor_absoluteX="249dp"
-            tools:layout_editor_absoluteY="86dp"></Button>/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.822"
+            app:layout_constraintStart_toEndOf="@+id/activity_write_new_img_book"
+            app:layout_constraintTop_toTopOf="parent"></Button>/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
