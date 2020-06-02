@@ -8,14 +8,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    >
 
     <LinearLayout
-        android:background="#363F44"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <EditText
+            android:paddingLeft="10dp"
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:background="@drawable/bg_edt_search"
             android:id="@+id/editTimKiem"
@@ -28,7 +30,7 @@
             android:layout_marginTop="5dp"
             android:hint="Nhập tên truyện, tác giả cần tìm"
             android:textSize="20sp"
-            android:textColorHint="#ffffff"
+            android:textColorHint="@color/text_light_blue"
             android:gravity="center"
             />
     </LinearLayout>
@@ -103,6 +105,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingBottom="50dp"
         android:id="@+id/Rv_movies2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,10 +25,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.adapters.CommentArrayAdapter;
 import com.hang.doan.readbooks.models.Chapter;
 import com.hang.doan.readbooks.models.Comment;
+import com.hang.doan.readbooks.models.StoryItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private Context context;
 
+    String id_tac_pham;
 
     String storyName;
     String authorID;
@@ -50,9 +55,12 @@ public class BookDetailActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+    List<Chapter> chapters = new ArrayList<>();
+
     private ListView list;
     private ArrayAdapter<String> adapter;
     private List<String> arrayList;
+    TextView book_detail_tinhtrang;
 
     private int index = 0;
 
@@ -63,10 +71,11 @@ public class BookDetailActivity extends AppCompatActivity {
     ImageButton btn_comment;
 
 
-
     CommentArrayAdapter commnetAdapter;
     ListView listView;
     List<Comment> comments;
+
+    List<Integer> chapterIDbuyed = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +83,6 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_detail);
         // ini views
         String imageResourceURL = getIntent().getExtras().getString("imgURL");
-
-
 
 
         BookImg = findViewById(R.id.img_book_detail);
@@ -87,14 +94,13 @@ public class BookDetailActivity extends AppCompatActivity {
                 .into(BookImg);
 
         Intent intent = getIntent();
-        final String id_tac_pham = intent.getExtras().getString("id_tac_pham");
+        id_tac_pham = intent.getExtras().getString("id_tac_pham");
 
         DatabaseReference bookRef = database.getReference("storyDetail/" + id_tac_pham);
 
         txt_author = findViewById(R.id.book_detail_tacgia);
         txt_name = findViewById(R.id.book_detail_tentruyen);
-
-
+        book_detail_tinhtrang = findViewById(R.id.book_detail_tinhtrang);
 
         bookRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,9 +108,13 @@ public class BookDetailActivity extends AppCompatActivity {
                 storyName = dataSnapshot.child("generalInformation").child("name").getValue(String.class);
                 txt_name.setText(storyName);
                 authorID = dataSnapshot.child("generalInformation").child("authorID").getValue(String.class);
-
+                String status =  dataSnapshot.child("generalInformation").child("status").getValue(String.class);
+                if(status != null) {
+                    book_detail_tinhtrang.setText(status);
+                }
                 for (DataSnapshot snapshot : dataSnapshot.child("chapters").getChildren()) {
                     Chapter chapter = snapshot.getValue(Chapter.class);
+                    chapters.add(chapter);
                     index = index + 1;
                     arrayList.add(chapter.getChapterName());
                     adapter.notifyDataSetChanged();
@@ -155,11 +165,30 @@ public class BookDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Intent intent = new Intent(BookDetailActivity.this, ReadBook.class);
-                int pos = parent.getPositionForView(view);
-                intent.putExtra("INDEX", String.valueOf(pos));
-                intent.putExtra("id_tac_pham", id_tac_pham);
-                startActivity(intent);
+                //if (chapterIDbuyed.contains(position)) {
+
+                    Intent intent = new Intent(BookDetailActivity.this, ReadBook.class);
+                    int pos = parent.getPositionForView(view);
+                    intent.putExtra("INDEX", String.valueOf(pos));
+                    intent.putExtra("id_tac_pham", id_tac_pham);
+                    startActivity(intent);
+//                }
+//                else {
+////                    Toast.makeText(getApplicationContext(), "Mua truyen di may", Toast.LENGTH_SHORT).show();
+//                    Bundle data = new Bundle();
+//
+//                    Intent intent = new Intent(BookDetailActivity.this, PaymentActivity.class);
+//                    data.putString("storyID", id_tac_pham);
+//                    data.putString("storyName", storyName);
+//                    data.putString("userID", AccountFragment.userID);
+//                    data.putInt("storyChapter", position);
+//                    data.putString("storyChapterName", chapters.get(position).getChapterName());
+//                    data.putInt("storyChapterPrice", Integer.parseInt(chapters.get(position).getPrice()));
+//                    //Log.d(TAG, "storyChapterPrice: " + chapters.get(position).getPrice());
+//                    intent.putExtras(data);
+//
+//                    startActivity(intent);
+//                }
             }
         });
 
@@ -199,7 +228,6 @@ public class BookDetailActivity extends AppCompatActivity {
         });
 
 
-
         //display comment here
         listView = (ListView) findViewById(R.id.comment);
         commnetAdapter = new CommentArrayAdapter(getApplicationContext(), R.layout.activity_comment);
@@ -227,6 +255,49 @@ public class BookDetailActivity extends AppCompatActivity {
         });
 
 
+//        buy = findViewById(R.id.btn_momo);
+//        buy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle data = new Bundle();
+//                String KEY_ENVIRONMENT = "key_environment";
+//                int environment = 1;//developer default - Production environment = 2
+//
+//                Intent intent = new Intent(BookDetailActivity.this, PaymentActivity.class);
+//                data.putInt(KEY_ENVIRONMENT, 1);
+//                data.putString("storyID", id_tac_pham);
+//                data.putString("authorID", authorID);
+//                data.putInt("storyChapter", 0);
+//                intent.putExtras(data);
+//
+//                startActivity(intent);
+//            }
+//        });
+
+        getChapterBuy();
+
+    }
+
+    void getChapterBuy() {
+        DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("authorDetail/" + AccountFragment.userID + "/lstBuy/" + id_tac_pham);
+        if (authorRef != null) {
+
+            authorRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        int chapterID = ds.child("chapters").getValue(Integer.class);
+                        chapterIDbuyed.add(chapterID);
+                        Log.d(TAG, "chapterid " + chapterID);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
 
     }
 

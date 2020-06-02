@@ -1,10 +1,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:background="@color/text_light_blue"
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,36 +16,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <TextView
+            android:drawableRight="@drawable/ic_arrow_back_black_24dp"
             android:id="@+id/ic_back_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:src="@drawable/ic_back" />
+             />
 
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/read_book_chapter_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textColor="#000000" />
+            android:textColor="#ffffff" />
 
 
-        <ImageButton
+        <TextView
+            android:drawableRight="@drawable/ic_chevron_left_black_24dp"
             android:id="@+id/read_book_btn_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:src="@drawable/before" />
+            />
 
-        <ImageButton
+        <TextView
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
             android:id="@+id/read_book_btn_next"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:src="@drawable/next" />
+            />
 
     </LinearLayout>
 

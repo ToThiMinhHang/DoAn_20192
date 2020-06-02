@@ -1,5 +1,7 @@
 package com.hang.doan.readbooks.ui;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -22,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+        //bottomNav.setBackgroundColor(Color.parseColor("#f1b814"));
 
         //I added this if statement to keep the selected fragment when rotating the device
         if (savedInstanceState == null) {
@@ -49,6 +52,12 @@ public class HomeActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_writeNew:
                             selectedFragment = new WriteFragment();
+                            break;
+                        case R.id.nav_library:
+                            Intent intent = new Intent(getApplicationContext(), MyStoryActivity.class);
+                            // send movie information to deatilActivity
+                            intent.putExtra("user_id",  AccountFragment.userID);
+                            startActivity(intent);
                             break;
                         default:
                             break;

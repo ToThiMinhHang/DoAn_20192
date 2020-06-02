@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,16 +18,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="289dp">
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/book_detail_btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </androidx.appcompat.widget.AppCompatImageButton>
+<!--            <androidx.appcompat.widget.AppCompatImageButton-->
+<!--                android:id="@+id/book_detail_btn_back"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_back"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatImageButton>-->
 
             <ImageView
                 android:id="@+id/img_book_detail"
@@ -40,18 +40,18 @@
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <EditText
+                android:background="@android:color/transparent"
                 android:id="@+id/book_detail_tentruyen"
-                android:layout_width="195dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="16dp"
-                android:editable="false"
-                android:hint="Tên truyện"
+                android:layout_width="207dp"
+                android:layout_height="78dp"
                 android:layout_row="3"
+                android:layout_marginTop="36dp"
+                android:editable="false"
+                android:gravity="bottom"
+                android:hint="Tên truyện"
                 android:paddingTop="10dp"
                 android:scrollHorizontally="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/img_book_detail"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,20 +113,44 @@
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/book_detail_dichgia" />
 
+<!--            <Button-->
+<!--                android:id="@+id/btn_momo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="128dp"-->
+<!--                android:text="Mua truyện"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/img_book_detail"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/book_detail_tentruyen" />-->
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <include
-            android:id="@+id/sample1"
-            layout="@layout/text_expand" />
+<!--        <include-->
+<!--            android:id="@+id/sample1"-->
+<!--            layout="@layout/text_expand" />-->
+        <TextView
+            android:textColor="@color/text_light_blue"
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách chương"></TextView>
 
         <ListView
             android:id="@+id/book_detail_lst_dschuong"
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="300dp">
 
         </ListView>
+
+        <TextView
+            android:textColor="@color/text_light_blue"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bình luận"></TextView>
 
         <include
             android:id="@+id/new_comment"
@@ -136,7 +160,8 @@
             android:paddingTop="20dp"
             android:id="@+id/comment"
             android:layout_width="match_parent"
-            android:layout_height="400dp"></ListView>
+            android:layout_height="250dp"
+            android:minHeight="0dp"></ListView>
 
     </LinearLayout>
 

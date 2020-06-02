@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnPayMoMo"
+        style="@style/Btn_Style_Confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/payment_through_momo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:layout_width="87dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="44dp"
+        android:text="Tên truyện"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/payment_storyname"
+        android:layout_width="241dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="44dp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textSize="15sp"
+
+        android:layout_width="87dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="112dp"
+        android:text="Tên chương"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/payment_storychaptername"
+        android:layout_width="241dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="112dp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textSize="15sp"
+
+        android:layout_width="87dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="184dp"
+        android:text="Giá tiền"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/payment_storychapterprice"
+        android:layout_width="241dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="184dp"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

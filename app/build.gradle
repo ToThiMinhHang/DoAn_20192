@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
+
 }
 
 dependencies {
@@ -44,4 +49,13 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     implementation 'com.ms-square:expandableTextView:0.1.4'
+
+    implementation 'com.github.momodevelopment:androidsdkV2.2:2.3'
+
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+
+    implementation 'com.android.volley:volley:1.1.0'
+
+
 }

@@ -11,6 +11,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.R;
 
 import java.util.Arrays;
@@ -63,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 Toast.makeText(this, "Welcome! " + user.getDisplayName(), Toast.LENGTH_LONG).show();
+                AccountFragment.userID = user.getUid();
             } else {
                 Toast.makeText(this, "" + response.getError().getMessage(), Toast.LENGTH_LONG).show();
             }

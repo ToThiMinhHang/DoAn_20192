@@ -20,8 +20,8 @@
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="32dp"
-        android:hint="new comment here"
-        android:textColor="#ffDE05"
+        android:hint="Viết bình luận"
+        android:textColor="@color/text_light_blue"
         app:layout_constraintEnd_toStartOf="@+id/comment_new_btn_post"
         app:layout_constraintStart_toEndOf="@+id/comment_new_user_img"
         app:layout_constraintTop_toTopOf="parent"></EditText>

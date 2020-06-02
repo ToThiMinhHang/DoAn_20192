@@ -2,4 +2,11 @@
     <string name="app_name">MinhHang</string>
     <string name="simple_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="nh_p_n_i_dung_scrollview_androidx_core_widget_nestedscrollview_androidx_constraintlayout_widget_constraintlayout"><![CDATA[Nhập nội dung/> </ScrollView> </androidx.core.widget.NestedScrollView> </androidx.constraintlayout.widget.ConstraintLayout>]]></string>
+
+    <string name="payment_through_momo">"Thanh toán"</string>
+    <string name="mapping_through_momo">"Bắt đầu liên kết"</string>
+    <string name="link_momo">"Liên kết MoMo"</string>
+    <string name="payment_momo">"Thanh toán qua MoMo"</string>
+    <string name="not_receive_info">"Không nhận được thông tin"</string>
+    <string name="not_receive_info_err">"Không gởi được yêu cầu vui lòng kiểm tra lại"</string>
 </resources>

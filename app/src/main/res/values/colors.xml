@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#151c25</color>
+    <color name="colorPrimary">#F5F0E4</color>
     <color name="colorPrimaryDark">#151c25</color>
     <color name="colorAccent">#f1b814</color>
-    <color name="text_light_blue">#566f9a</color>
+    <color name="text_light_blue">#1065EC</color>
+
+    <color name="momo_color">#E0078C</color>
+    <color name="btn_selected">#7d004c</color>
+
 </resources>

@@ -6,10 +6,20 @@ import java.util.List;
 
 public class Chapter {
 
-    Date editTime;
+//    Date editTime;
     String price;
     String chapterName;
     String data;
+    int chapterID;
+
+    public int getChapterID() {
+        return chapterID;
+    }
+
+    public void setChapterID(int chapterID) {
+        this.chapterID = chapterID;
+    }
+
 
     public String getChapterName() {
         return chapterName;
@@ -35,12 +45,12 @@ public class Chapter {
         this.price = price;
     }
 
-    public Date getTime() {
-        return editTime;
-    }
-
-    public void setTime(Date time) {
-        this.editTime = time;
-    }
+//    public Date getTime() {
+//        return editTime;
+//    }
+//
+//    public void setTime(Date time) {
+//        this.editTime = time;
+//    }
 
 }

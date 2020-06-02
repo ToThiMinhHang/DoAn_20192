@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +42,14 @@ public class AccountFragment extends Fragment {
     FirebaseUser currentUser;
 
 
+    public static String userID;
+
     TextView txtImgLink;
     TextView userName;
     TextView email;
-    Button bnt_sign_out;
+//    TextView acc_id;
+
+    TextView logout;
     ImageView acc_userImg;
 
     Context ct;
@@ -68,10 +73,11 @@ public class AccountFragment extends Fragment {
 
         userName = (TextView) getView().findViewById(R.id.activity_account_detail_acc_userName);
         email = (TextView) getView().findViewById(R.id.acc_email);
+//        acc_id = (TextView) getView().findViewById(R.id.acc_id);
         acc_userImg = getView().findViewById(R.id.acc_userImg);
 
-        bnt_sign_out = getView().findViewById(R.id.btn_sign_out);
-        bnt_sign_out.setOnClickListener(new View.OnClickListener() {
+        logout = getView().findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AuthUI.getInstance()
@@ -95,7 +101,8 @@ public class AccountFragment extends Fragment {
         currentUser = mAuth.getCurrentUser();
 
         //userName.setText(currentUser.getDisplayName());
-        email.setText(currentUser.getUid());
+//        acc_id.setText(currentUser.getUid());
+        email.setText(currentUser.getEmail());
 
         Picasso.with(ct)
                 .load(currentUser.getPhotoUrl())
@@ -138,7 +145,7 @@ public class AccountFragment extends Fragment {
         });
 
 
-        Button activity_account_detail_update;
+        TextView activity_account_detail_update;
         activity_account_detail_update = getView().findViewById(R.id.activity_account_detail_update);
         activity_account_detail_update.setOnClickListener(new View.OnClickListener() {
             @Override
