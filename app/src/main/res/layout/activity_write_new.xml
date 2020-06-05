@@ -9,18 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="10dp"
         android:weightSum="10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/ic_back"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:src="@drawable/ic_back"
-            />
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,21 +65,22 @@
             android:text="Thêm chương mới"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.822"
+            android:onClick="clickNewChapter"
             app:layout_constraintStart_toEndOf="@+id/activity_write_new_img_book"
-            app:layout_constraintTop_toTopOf="parent"></Button>/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="415dp"
         android:layout_height="641dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.285"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        app:layout_constraintVertical_bias="0.285">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="wrap_content"
@@ -110,35 +110,33 @@
                         android:id="@+id/activity_write_new_item_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Lời giới thiệu"
-                        />
+                        android:hint="Lời giới thiệu" />
 
                 </ScrollView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Danh sách chương">
-                </TextView>
-                <ListView
-                    android:id="@+id/activity_write_new_lst_dschuong"
+                    android:text="Danh sách chương"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChapters"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
-                </ListView>
+                    android:layout_height="200dp"/>
 
                 <!--                <EditText-->
-<!--                    android:id="@+id/lang_item"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="62dp"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:hint="Ngôn ngữ gốc" />-->
+                <!--                    android:id="@+id/lang_item"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="62dp"-->
+                <!--                    android:layout_weight="2"-->
+                <!--                    android:hint="Ngôn ngữ gốc" />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/lang_trans"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="59dp"-->
-<!--                    android:layout_weight="2"-->
-<!--                    android:hint="Ngôn ngữ dịch" />-->
+                <!--                <EditText-->
+                <!--                    android:id="@+id/lang_trans"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="59dp"-->
+                <!--                    android:layout_weight="2"-->
+                <!--                    android:hint="Ngôn ngữ dịch" />-->
 
                 <Spinner
                     android:id="@+id/spn_item_category"
@@ -158,25 +156,25 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
     <!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="100dp"-->
-<!--        android:layout_marginTop="48dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/linearLayout2">-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="100dp"-->
+    <!--        android:layout_marginTop="48dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/linearLayout2">-->
 
-<!--        <ImageView-->
-<!--            android:id="@+id/img_item"-->
-<!--            android:layout_width="142dp"-->
-<!--            android:layout_height="209dp"-->
-<!--            android:layout_marginTop="68dp"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.203"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
-<!--            app:srcCompat="@drawable/ic_launcher_background" />-->
-<!--    </LinearLayout>-->
+    <!--        <ImageView-->
+    <!--            android:id="@+id/img_item"-->
+    <!--            android:layout_width="142dp"-->
+    <!--            android:layout_height="209dp"-->
+    <!--            android:layout_marginTop="68dp"-->
+    <!--            android:scaleType="centerCrop"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.203"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
+    <!--            app:srcCompat="@drawable/ic_launcher_background" />-->
+    <!--    </LinearLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

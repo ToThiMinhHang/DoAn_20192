@@ -58,13 +58,15 @@ public class HomeActivity extends AppCompatActivity {
                             // send movie information to deatilActivity
                             intent.putExtra("user_id",  AccountFragment.userID);
                             startActivity(intent);
-                            break;
+//                            break;
+                            return true;
                         default:
                             break;
                     }
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment)
+                            .addToBackStack(null)
+                            .commit();
 
                     return true;
                 }

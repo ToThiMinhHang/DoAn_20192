@@ -9,4 +9,8 @@
     <string name="payment_momo">"Thanh toán qua MoMo"</string>
     <string name="not_receive_info">"Không nhận được thông tin"</string>
     <string name="not_receive_info_err">"Không gởi được yêu cầu vui lòng kiểm tra lại"</string>
+    <string name="chapter_title">Tiêu đề chương</string>
+    <string name="type_content">Nhập nội dung…</string>
+    <string name="select_one">Select one</string>
+    <string name="save">Lưu</string>
 </resources>
