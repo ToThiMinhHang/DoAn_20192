@@ -44,6 +44,7 @@ public class PaymentActivity extends Activity {
     private String description = "Thanh toan truyen";
 
     String URL_BASE = "https://us-central1-doan20192-33247.cloudfunctions.net/addMessage";
+    String MERCHAN_URL = "https://secret-taiga-14580.herokuapp.com/payment?";
 
     String storyID;
     String storyName;
@@ -53,6 +54,9 @@ public class PaymentActivity extends Activity {
     int storyChapterPrice;
 
 
+    String recv_message;
+    String recv_phonenumber;
+    String recv_data;
 
     String TAG = "HANG_DEBUG";
     @Override
@@ -141,13 +145,16 @@ public class PaymentActivity extends Activity {
 
                     if(data.getStringExtra("data") != null && !data.getStringExtra("data").equals("")) {
                         // TODO:
-//                        int status = data.getIntExtra("status",0 );
-//                        Log.d(TAG, "" + status);
-//                        Log.d(TAG, data.getStringExtra("message") );
-//                        Log.d(TAG, data.getStringExtra("phonenumber") );
-//                        Log.d(TAG, data.getStringExtra("data") );
+                        int status = data.getIntExtra("status",0 );
+                        Log.d(TAG, "" + status);
+                        recv_message = data.getStringExtra("message") ;
+                        recv_phonenumber = data.getStringExtra("phonenumber") ;
+                        recv_data =  data.getStringExtra("data") ;
 
-                        postData();
+                        if(status == 0) {
+                            sendToMerchanServer();
+                        }
+
 
                     } else {
 //                        tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
@@ -178,6 +185,40 @@ public class PaymentActivity extends Activity {
 
         }
     }
+
+
+
+    // Post Request For JSONObject
+    public void sendToMerchanServer() {
+
+        JSONObject object = new JSONObject();
+        try {
+            //input your API parameters
+            object.put("orderId", merchantName + "_" + storyID + "_" + storyChapter);
+            object.put("customerNumber", recv_phonenumber);
+            object.put("data", recv_data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Enter the correct url for your api service site
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, MERCHAN_URL, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        Toast.makeText(Login_screen.this,"String Response : "+ response.toString(),Toast.LENGTH_LONG).show();
+                        postData();
+                        onBackPressed();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjectRequest);
+    }
+
 
     // Post Request For JSONObject
     public void postData() {

@@ -68,7 +68,7 @@ public class ReadBook extends AppCompatActivity {
         read_book_btn_next = findViewById(R.id.read_book_btn_next);
 
 
-        //getChapterBuy();
+        getChapterBuy();
         reloadData();
 
     }
@@ -129,13 +129,13 @@ public class ReadBook extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 data = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("data").getValue(String.class);
                 chapterName = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("chapterName").getValue(String.class);
-                chapterPrice = Integer.parseInt( dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("price").getValue(String.class));
+                chapterPrice = Integer.parseInt(dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("price").getValue(String.class));
                 storyName = dataSnapshot.child(id_tac_pham).child("generalInformation").child("name").getValue(String.class);
                 if (data != null && chapterName != null) {
                     read_book_chapter_name.setText(chapterName);
 //                    read_book_data.setText(data);
 
-//                    if (chapterIDbuyed.contains(Integer.parseInt(id)) == true ) {
+                    if (chapterIDbuyed.contains(Integer.parseInt(id)) == true) {
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             read_book_data.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
@@ -144,21 +144,20 @@ public class ReadBook extends AppCompatActivity {
                             read_book_data.setText(Html.fromHtml(data));
                             read_book_data.setTextSize(18);
                         }
-//                    } else {
-////                        Toast.makeText(getApplicationContext(), "Mua truyen di may", Toast.LENGTH_SHORT).show();
-//                        Bundle data = new Bundle();
-//
-//                        Intent intent = new Intent(ReadBook.this, PaymentActivity.class);
-//                        data.putString("storyID", id_tac_pham);
-//                        data.putString("storyName", storyName);
-//                        data.putString("userID", AccountFragment.userID);
-//                        data.putInt("storyChapter", Integer.parseInt(id));
-//                        data.putString("storyChapterName", chapterName);
-//                        data.putInt("storyChapterPrice", chapterPrice);
-//                        intent.putExtras(data);
-//                        startActivity(intent);
-//                    }
+                    } else {
+//                        Toast.makeText(getApplicationContext(), "Mua truyen di may", Toast.LENGTH_SHORT).show();
+                        Bundle data = new Bundle();
 
+                        Intent intent = new Intent(ReadBook.this, PaymentActivity.class);
+                        data.putString("storyID", id_tac_pham);
+                        data.putString("storyName", storyName);
+                        data.putString("userID", AccountFragment.userID);
+                        data.putInt("storyChapter", Integer.parseInt(id));
+                        data.putString("storyChapterName", chapterName);
+                        data.putInt("storyChapterPrice", chapterPrice);
+                        intent.putExtras(data);
+                        startActivity(intent);
+                    }
 
                 } else {
                     read_book_chapter_name.setText("end chap");
