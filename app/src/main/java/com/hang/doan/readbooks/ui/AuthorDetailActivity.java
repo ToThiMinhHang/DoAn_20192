@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.Fragment.HomeFragment;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.adapters.BookAdapter;
@@ -39,7 +42,10 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
     List<BookID> bookID = new ArrayList<>();
 
     DatabaseReference bookDetail;
+    DatabaseReference followers;
     FirebaseDatabase database;
+
+    Button btn_author_follow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +104,15 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        btn_author_follow = findViewById(R.id.btn_author_follow);
+        btn_author_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                followers = database.getReference("followers");
+                followers.child(id_tac_gia).child(AccountFragment.userID).setValue("true");
             }
         });
 

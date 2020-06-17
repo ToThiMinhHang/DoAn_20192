@@ -135,7 +135,7 @@ public class ReadBook extends AppCompatActivity {
                     read_book_chapter_name.setText(chapterName);
 //                    read_book_data.setText(data);
 
-                    if (chapterIDbuyed.contains(Integer.parseInt(id)) == true) {
+                    if (chapterIDbuyed.contains(Integer.parseInt(id)) == true || chapterPrice < 1000) {
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             read_book_data.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
@@ -154,7 +154,7 @@ public class ReadBook extends AppCompatActivity {
                         data.putString("userID", AccountFragment.userID);
                         data.putInt("storyChapter", Integer.parseInt(id));
                         data.putString("storyChapterName", chapterName);
-                        data.putInt("storyChapterPrice", chapterPrice);
+                        data.putInt("storyChapterPrice", (chapterPrice / 1000) * 1000);
                         intent.putExtras(data);
                         startActivity(intent);
                     }

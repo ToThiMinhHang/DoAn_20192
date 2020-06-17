@@ -63,8 +63,8 @@ public class WriteNewActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     Author author = new Author();
 
-    @BindView(R.id.rvChapters)
-    RecyclerView rvChapters;
+//    @BindView(R.id.rvChapters)
+//    RecyclerView rvChapters;
     private ChapterAdapter adapter;
     private List<Chapter> chapters = new ArrayList<>();
 
@@ -75,8 +75,8 @@ public class WriteNewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         adapter = new ChapterAdapter(this, chapters);
-        rvChapters.setLayoutManager(new LinearLayoutManager(this));
-        rvChapters.setAdapter(adapter);
+//        rvChapters.setLayoutManager(new LinearLayoutManager(this));
+//        rvChapters.setAdapter(adapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 

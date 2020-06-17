@@ -30,12 +30,7 @@
             android:text="Thêm thông tin truyện"
             android:textColor="#000000" />
 
-        <Button
-            android:id="@+id/activity_write_new_btn_continute"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:text="Tiếp tục" />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,21 +53,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_launcher_background" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="84dp"
-            android:text="Thêm chương mới"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.822"
-            android:onClick="clickNewChapter"
-            app:layout_constraintStart_toEndOf="@+id/activity_write_new_img_book"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:layout_width="415dp"
-        android:layout_height="641dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,16 +101,6 @@
 
                 </ScrollView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Danh sách chương"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvChapters"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
-
                 <!--                <EditText-->
                 <!--                    android:id="@+id/lang_item"-->
                 <!--                    android:layout_width="match_parent"-->
@@ -152,8 +129,17 @@
                     android:layout_weight="2"
                     android:autofillHints="Tình trạng truyện" />
 
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+
+        <Button
+            android:id="@+id/activity_write_new_btn_continute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:text="Tiếp tục" />
     </LinearLayout>
     <!--    <LinearLayout-->
     <!--        android:layout_width="match_parent"-->

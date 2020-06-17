@@ -1,13 +1,11 @@
 package com.hang.doan.readbooks.ui;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,21 +13,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.hang.doan.readbooks.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import vn.momo.momo_partner.AppMoMoLib;
 import vn.momo.momo_partner.MoMoParameterNamePayment;
 
@@ -39,12 +31,14 @@ public class PaymentActivity extends Activity {
     TextView payment_storychapterprice;
     Button paymomo;
 
-    private String merchantName = "Minh Hang";
+    private String merchantName = "App đọc truyện Minh Hằng";
     private String merchantCode = "MOMOXNTR20200418";
-    private String description = "Thanh toan truyen";
+    private String description = "Thanh toan truyen\n";
 
-    String URL_BASE = "https://us-central1-doan20192-33247.cloudfunctions.net/addMessage";
-    String MERCHAN_URL = "https://secret-taiga-14580.herokuapp.com/payment?";
+    String ADDMSG_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addMessage";
+    String MERCHAN_URL = "https://secret-taiga-14580.herokuapp.com/payment";
+    //String MERCHAN_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/payment/payment";
+    //String MERCHAN_URL = "http://localhost:5000/doan20192-33247/us-central1/payment/payment";
 
     String storyID;
     String storyName;
@@ -106,7 +100,7 @@ public class PaymentActivity extends Activity {
         eventValue.put(MoMoParameterNamePayment.MERCHANT_NAME, merchantName);
         eventValue.put(MoMoParameterNamePayment.MERCHANT_CODE, merchantCode);
         eventValue.put(MoMoParameterNamePayment.AMOUNT, storyChapterPrice);
-        eventValue.put(MoMoParameterNamePayment.DESCRIPTION, description);
+        eventValue.put(MoMoParameterNamePayment.DESCRIPTION, description + "\"" + storyName + "\"\n" + "Chương " + storyChapter);
 
         //client Optional
 //        eventValue.put(MoMoParameterNamePayment.FEE, fee);
@@ -146,7 +140,7 @@ public class PaymentActivity extends Activity {
                     if(data.getStringExtra("data") != null && !data.getStringExtra("data").equals("")) {
                         // TODO:
                         int status = data.getIntExtra("status",0 );
-                        Log.d(TAG, "" + status);
+                        Log.d(TAG, "data:  " + data.getStringExtra("data"));
                         recv_message = data.getStringExtra("message") ;
                         recv_phonenumber = data.getStringExtra("phonenumber") ;
                         recv_data =  data.getStringExtra("data") ;
@@ -154,7 +148,6 @@ public class PaymentActivity extends Activity {
                         if(status == 0) {
                             sendToMerchanServer();
                         }
-
 
                     } else {
 //                        tvMessage.setText("message: " + this.getString(R.string.not_receive_info));
@@ -195,6 +188,7 @@ public class PaymentActivity extends Activity {
         try {
             //input your API parameters
             object.put("orderId", merchantName + "_" + storyID + "_" + storyChapter);
+            //object.put("orderId", merchantName + "_1");
             object.put("customerNumber", recv_phonenumber);
             object.put("data", recv_data);
         } catch (JSONException e) {
@@ -206,8 +200,13 @@ public class PaymentActivity extends Activity {
                     @Override
                     public void onResponse(JSONObject response) {
 //                        Toast.makeText(Login_screen.this,"String Response : "+ response.toString(),Toast.LENGTH_LONG).show();
-                        postData();
-                        onBackPressed();
+                        Log.d(TAG, "sendToMerchanServer onResponse: " + response.toString());
+                        //postData();
+//                        Intent intent = new Intent(PaymentActivity.this, ReadBook.class);
+//                        intent.putExtra("INDEX", String.valueOf(storyChapter));
+//                        intent.putExtra("id_tac_pham", storyID);
+//                        startActivityForResult(intent, 0);
+//                        onBackPressed();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -233,7 +232,7 @@ public class PaymentActivity extends Activity {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL_BASE, object,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, ADDMSG_URL, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

@@ -49,6 +49,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     String storyName;
     String authorID;
+    String imageResourceURL;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -82,19 +83,10 @@ public class BookDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         // ini views
-        String imageResourceURL = getIntent().getExtras().getString("imgURL");
-
-
-        BookImg = findViewById(R.id.img_book_detail);
-        Picasso.with(context)
-                .load(imageResourceURL)
-                .placeholder(R.mipmap.ic_launcher)
-                .fit()
-                .centerCrop()
-                .into(BookImg);
 
         Intent intent = getIntent();
         id_tac_pham = intent.getExtras().getString("id_tac_pham");
+
 
         DatabaseReference bookRef = database.getReference("storyDetail/" + id_tac_pham);
 
@@ -107,6 +99,7 @@ public class BookDetailActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 storyName = dataSnapshot.child("generalInformation").child("name").getValue(String.class);
                 txt_name.setText(storyName);
+                imageResourceURL = dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class);
                 authorID = dataSnapshot.child("generalInformation").child("authorID").getValue(String.class);
                 String status =  dataSnapshot.child("generalInformation").child("status").getValue(String.class);
                 if(status != null) {
@@ -121,6 +114,14 @@ public class BookDetailActivity extends AppCompatActivity {
                 }
 
                 DatabaseReference authorRef = database.getReference("authorDetail/" + authorID);
+
+                BookImg = findViewById(R.id.img_book_detail);
+                Picasso.with(context)
+                        .load(imageResourceURL)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .fit()
+                        .centerCrop()
+                        .into(BookImg);
 
                 // Read from the database
                 authorRef.addValueEventListener(new ValueEventListener() {
