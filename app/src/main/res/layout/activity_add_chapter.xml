@@ -20,13 +20,23 @@
             android:padding="10dp"
             android:src="@drawable/ic_back" />
 
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Chương 1">
+
+        </TextView>
+
         <ImageView
-            android:layout_width="45dp"
+            android:layout_width="73dp"
             android:layout_height="45dp"
             android:layout_gravity="end"
             android:contentDescription="@string/app_name"
             android:onClick="fillContent"
-            android:src="@drawable/ic_acc" />
+            android:src="@drawable/ic_file_upload_black_24dp" />
     </FrameLayout>
 
     <ScrollView
@@ -102,7 +112,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#FF6D00"
+        android:background="#566f9a"
         android:gravity="center"
         android:onClick="save"
         android:text="@string/save"

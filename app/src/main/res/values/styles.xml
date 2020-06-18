@@ -11,6 +11,12 @@
     </style>
 
 
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#789</item>
+        <item name="colorPrimaryDark">#456</item>
+        <item name="colorAccent">#f50</item>
+    </style>
+
     <style name="Btn_Style_Confirm">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
@@ -19,5 +25,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:singleLine">true</item>
     </style>
+    
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

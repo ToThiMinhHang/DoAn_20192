@@ -17,12 +17,8 @@
         <activity android:name=".ui.AddChapterActivity"></activity>
 
         <activity android:name=".ui.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
-        <activity android:name=".ui.AddChapterActivity" /> <!-- <service android:name=".ui.HomeActivity"> -->
         <!-- <intent-filter> -->
         <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
         <!-- </intent-filter> -->
@@ -35,7 +31,10 @@
         <activity android:name=".ui.PaymentActivity" />
         <activity android:name=".ui.HomeActivity" />
         <activity android:name=".ui.LoginActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <service
