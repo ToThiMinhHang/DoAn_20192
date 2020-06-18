@@ -13,4 +13,11 @@
     <string name="type_content">Nhập nội dung…</string>
     <string name="select_one">Select one</string>
     <string name="save">Lưu</string>
+    <string name="FirebaseStringToken">ciwplimWTS6bjAkWD7MeaU:APA91bHUZJMNi9lU__qCOvsI-rX3o8Yf_4TZsMlqQQdQsvTZB2_Yf0T5jqDH_DPguQyPp-Cyk4hNvCJd0sSb8R7C9SUTJEDexwXxLy1QPusO7z0JkwrHkb4q_UpLUtN2Yr2s94LmxhJA</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">Cancel</string>
+    <string name="hint_search">Tìm đầu truyện</string>
 </resources>

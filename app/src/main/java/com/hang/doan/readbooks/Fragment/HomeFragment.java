@@ -240,7 +240,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         if (type == 0) {
             intent.putExtra("id_tac_pham", String.valueOf(favoriteID.get(position).getId_tac_pham()));
             intent.putExtra("user_", String.valueOf(favoriteID.get(position).getId_tac_pham()));
-            intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
+            //intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ favoriteID.get(position).getId_tac_pham());
         } else {
             intent.putExtra("id_tac_pham", String.valueOf(newID.get(position).getId_tac_pham()));
