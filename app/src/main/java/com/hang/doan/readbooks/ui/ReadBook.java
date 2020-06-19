@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,10 @@ public class ReadBook extends AppCompatActivity {
     TextView read_book_btn_back;
     TextView read_book_btn_next;
 
+    Button btnTextSize;
+    Button btnFont;
+    Button btnLight;
+
     List<Integer> chapterIDbuyed = new ArrayList<>();
 
     String storyName;
@@ -67,6 +73,20 @@ public class ReadBook extends AppCompatActivity {
         read_book_btn_back = findViewById(R.id.read_book_btn_back);
         read_book_btn_next = findViewById(R.id.read_book_btn_next);
 
+
+        btnFont = findViewById(R.id.btn_font);
+        btnLight= findViewById(R.id.btn_light);
+        btnTextSize = findViewById(R.id.btn_txt_size);
+
+        btnTextSize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ReadBook.this);
+                bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog);
+                bottomSheetDialog.show();
+            }
+
+        });
 
         getChapterBuy();
         reloadData();
