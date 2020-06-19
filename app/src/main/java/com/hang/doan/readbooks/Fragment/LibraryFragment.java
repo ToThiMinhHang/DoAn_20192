@@ -89,12 +89,13 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String authorName = (String) dataSnapshot.child("authorName").getValue();
-                Iterator<DataSnapshot> iterator = dataSnapshot.child("lstStory").getChildren().iterator();
-                do {
-                    DataSnapshot child = iterator.next();
+                if (!dataSnapshot.hasChildren()) {
+                    return;
+                }
+                for (DataSnapshot child : dataSnapshot.child("lstStory").getChildren()) {
                     String storyID = (String) child.child("id").getValue();
                     addStory(authorName, storyID);
-                } while (iterator.hasNext());
+                }
             }
 
             @Override
