@@ -11,6 +11,7 @@ public class Book {
     private List<String> mucSach;
     private String name;
     private List<Chapter> chapter;
+    private String authorName;
 
     public List<Chapter> getChapter() {
         return chapter;
@@ -53,6 +54,13 @@ public class Book {
         this.imageURL = imageURL;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
 
     public Book() {
         chapter = new ArrayList<>();
@@ -68,5 +76,8 @@ public class Book {
         this.id_tac_pham = id_tac_pham;
     }
 
+    public boolean search(String keyword) {
+        return name.contains(keyword) || authorName.contains(keyword);
+    }
 
 }
