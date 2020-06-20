@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.Fragment.HomeFragment;
 import com.hang.doan.readbooks.Fragment.LibraryFragment;
+import com.hang.doan.readbooks.Fragment.NotificationFragment;
 import com.hang.doan.readbooks.Fragment.WriteFragment;
 import com.hang.doan.readbooks.R;
 
@@ -56,13 +57,10 @@ public class HomeActivity extends AppCompatActivity {
                             selectedFragment = new WriteFragment();
                             break;
                         case R.id.nav_library:
-//                            Intent intent = new Intent(getApplicationContext(), MyStoryActivity.class);
-//                            // send movie information to deatilActivity
-//                            intent.putExtra("user_id",  AccountFragment.userID);
-//                            startActivity(intent);
-//                            break;
-//                            return true;
                             selectedFragment = new LibraryFragment();
+                            break;
+                        case R.id.nav_notify:
+                            selectedFragment = new NotificationFragment();
                             break;
                         default:
                             break;

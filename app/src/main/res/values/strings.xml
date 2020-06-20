@@ -35,4 +35,6 @@
     <string name="story_info">Thông tin</string>
     <string name="story_chapter_list">Danh sách chương</string>
     <string name="add_chapter">Thêm chương</string>
+    <string name="notifications">Thông báo</string>
+    <string name="no_notifications">Oops, có vẻ như bạn chưa có thông báo nào!</string>
 </resources>
