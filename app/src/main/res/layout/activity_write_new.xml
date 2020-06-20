@@ -74,8 +74,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title"
                 android:layout_marginTop="20dp"
+                android:text="@string/title"
                 android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -125,17 +125,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/bg_round_stroke">
+                android:background="@drawable/bg_round_stroke"
+                android:paddingHorizontal="10dp">
 
                 <TextView
                     android:id="@+id/tvOriginalLanguage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/choose_language"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/choose_language"
                     android:textColor="#000"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -159,17 +159,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/bg_round_stroke">
+                android:background="@drawable/bg_round_stroke"
+                android:paddingHorizontal="10dp">
 
                 <TextView
                     android:id="@+id/tvTranslatedLanguage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/choose_language"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/choose_language"
                     android:textColor="#000"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -193,17 +193,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/bg_round_stroke">
+                android:background="@drawable/bg_round_stroke"
+                android:paddingHorizontal="10dp">
 
                 <TextView
                     android:id="@+id/tvCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/choose_category"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/choose_category"
                     android:textColor="#000"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -227,17 +227,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/bg_round_stroke">
+                android:background="@drawable/bg_round_stroke"
+                android:paddingHorizontal="10dp">
 
                 <TextView
                     android:id="@+id/tvStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/choose_status"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/choose_status"
                     android:textColor="#000"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="10dp"
@@ -246,8 +246,33 @@
                     android:src="@drawable/ic_next" />
 
             </FrameLayout>
+
+            <LinearLayout
+                android:weightSum="6"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh sách chương" />
+                <TextView
+                    android:id="@+id/activity_write_new_btn_add_new_chappter"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thêm chương" />
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChapters"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
         </LinearLayout>
     </ScrollView>
+
     <Button
         android:id="@+id/activity_write_new_btn_continute"
         android:layout_width="match_parent"
@@ -257,5 +282,5 @@
         android:text="@string/continue_"
         android:textAllCaps="false"
         android:textColor="#fff"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 </LinearLayout>

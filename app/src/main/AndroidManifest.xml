@@ -24,6 +24,7 @@
         <!-- </intent-filter> -->
         <!-- </service> -->
         <activity android:name=".ui.BookDetailActivity" />
+        <activity android:name=".ui.AddChapterActivity" />
         <activity android:name=".ui.ReadBook" />
         <activity android:name=".ui.AuthorDetailActivity" />
         <activity android:name=".ui.MyStoryActivity" />

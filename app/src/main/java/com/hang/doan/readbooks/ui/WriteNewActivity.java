@@ -65,6 +65,8 @@ public class WriteNewActivity extends AppCompatActivity {
     Button activity_write_new_btn_continute;
     EditText activity_write_new_item_info;
 
+    TextView activity_write_new_btn_add_new_chappter;
+
     String user_id;
     String book_id;
     Story_Post story_Post;
@@ -130,6 +132,13 @@ public class WriteNewActivity extends AppCompatActivity {
             }
         });
 
+        activity_write_new_btn_add_new_chappter = findViewById(R.id.activity_write_new_btn_add_new_chappter);
+        activity_write_new_btn_add_new_chappter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickNewChapter(view);
+            }
+        });
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference authorRef = database.getReference("authorDetail/" + user_id);
