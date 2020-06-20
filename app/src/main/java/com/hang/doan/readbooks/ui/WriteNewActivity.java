@@ -3,17 +3,15 @@ package com.hang.doan.readbooks.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,11 +29,9 @@ import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.adapters.ChapterAdapter;
 import com.hang.doan.readbooks.models.Author;
 import com.hang.doan.readbooks.models.AuthorListStoryPost;
-import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.models.Chapter;
 import com.hang.doan.readbooks.models.GeneralInformation;
 import com.hang.doan.readbooks.models.Story_Post;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,28 +39,51 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class WriteNewActivity extends AppCompatActivity {
     public static final int RC_ADD_CHAPTER = 2;
+    public static final int RC_CHOOSE_ORIGINAL_LANGUAGE = 3;
+    public static final int RC_CHOOSE_TRANSLATED_LANGUAGE = 4;
+    public static final int RC_CHOOSE_CATEGORY = 5;
+    public static final int RC_CHOOSE_STATUS = 6;
     final String TAG = "HANG_DEBUG";
 
     final int SELECT_IMAGE = 1;
 
 
-    ImageView activity_write_new_img_book;
+    @BindView(R.id.imgStory)
+    ImageView imgStory;
+    @BindView(R.id.tvOriginalLanguage)
+    TextView tvOriginalLanguage;
+    @BindView(R.id.tvTranslatedLanguage)
+    TextView tvTranslatedLanguage;
+    @BindView(R.id.tvCategory)
+    TextView tvCategory;
+    @BindView(R.id.tvStatus)
+    TextView tvStatus;
+    @BindView(R.id.layoutInfo)
+    View layoutInfo;
+    @BindView(R.id.layoutChapters)
+    View layoutChapters;
+    @BindView(R.id.rvChapters)
+    RecyclerView rvChapters;
+
     EditText activity_write_new_tentruyen;
     Button activity_write_new_btn_continute;
     EditText activity_write_new_item_info;
+
 
     String user_id;
     String book_id;
     Story_Post story_Post;
 
+    private boolean isInfoExpanded = true;
+    private boolean isChaptersExpanded = false;
+
     private DatabaseReference mDatabase;
     Author author = new Author();
 
-//    @BindView(R.id.rvChapters)
-//    RecyclerView rvChapters;
     private ChapterAdapter adapter;
     private List<Chapter> chapters = new ArrayList<>();
 
@@ -75,8 +94,8 @@ public class WriteNewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         adapter = new ChapterAdapter(this, chapters);
-//        rvChapters.setLayoutManager(new LinearLayoutManager(this));
-//        rvChapters.setAdapter(adapter);
+        rvChapters.setAdapter(adapter);
+        rvChapters.setLayoutManager(new LinearLayoutManager(this));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -90,17 +109,6 @@ public class WriteNewActivity extends AppCompatActivity {
 
         activity_write_new_item_info = findViewById(R.id.activity_write_new_item_info);
         activity_write_new_tentruyen = findViewById(R.id.activity_write_new_tentruyen);
-
-        activity_write_new_img_book = findViewById(R.id.activity_write_new_img_book);
-        activity_write_new_img_book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
-            }
-        });
 
         activity_write_new_btn_continute = findViewById(R.id.activity_write_new_btn_continute);
         activity_write_new_btn_continute.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +144,13 @@ public class WriteNewActivity extends AppCompatActivity {
             }
         });
 
+//        activity_write_new_btn_add_new_chappter = findViewById(R.id.activity_write_new_btn_add_new_chappter);
+//        activity_write_new_btn_add_new_chappter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                clickNewChapter(view);
+//            }
+//        });
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference authorRef = database.getReference("authorDetail/" + user_id);
@@ -162,9 +177,7 @@ public class WriteNewActivity extends AppCompatActivity {
                 if (data != null) {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                        activity_write_new_img_book.setImageBitmap(bitmap);
-
-
+                        imgStory.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -174,7 +187,43 @@ public class WriteNewActivity extends AppCompatActivity {
             }
         } else if (requestCode == RC_ADD_CHAPTER) {
             handleNewChapter(data);
+        } else if (requestCode == RC_CHOOSE_ORIGINAL_LANGUAGE) {
+            handleOriginalLanguage(data);
+        } else if (requestCode == RC_CHOOSE_TRANSLATED_LANGUAGE) {
+            handleTranslatedLanguage(data);
+        } else if (requestCode == RC_CHOOSE_CATEGORY) {
+            handleCategory(data);
+        } else if (requestCode == RC_CHOOSE_STATUS) {
+            handleStatus(data);
         }
+    }
+
+    private void handleOriginalLanguage(Intent data) {
+        if (data == null) {
+            return;
+        }
+        tvOriginalLanguage.setText(data.getStringExtra("selectedItem"));
+    }
+
+    private void handleTranslatedLanguage(Intent data) {
+        if (data == null) {
+            return;
+        }
+        tvTranslatedLanguage.setText(data.getStringExtra("selectedItem"));
+    }
+
+    private void handleCategory(Intent data) {
+        if (data == null) {
+            return;
+        }
+        tvCategory.setText(data.getStringExtra("selectedItem"));
+    }
+
+    private void handleStatus(Intent data) {
+        if (data == null) {
+            return;
+        }
+        tvStatus.setText(data.getStringExtra("selectedItem"));
     }
 
     private void handleNewChapter(Intent data) {
@@ -194,7 +243,69 @@ public class WriteNewActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public void clickNewChapter(View view) {
+    @OnClick(R.id.imgBack)
+    void back() {
+        super.onBackPressed();
+    }
+
+    @OnClick({R.id.tvPickImage, R.id.imgStory})
+    void pickImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
+    }
+
+    @OnClick(R.id.layoutPickOriginalLanguage)
+    void pickOriginalLanguage() {
+        Intent intent = new Intent(this, PickActivity.class);
+        intent.putExtra("type", "lang");
+        startActivityForResult(intent, RC_CHOOSE_ORIGINAL_LANGUAGE);
+    }
+
+    @OnClick(R.id.layoutPickTranslatedLanguage)
+    void pickTranslatedLanguage() {
+        Intent intent = new Intent(this, PickActivity.class);
+        intent.putExtra("type", "lang");
+        startActivityForResult(intent, RC_CHOOSE_TRANSLATED_LANGUAGE);
+    }
+
+    @OnClick(R.id.layoutPickCategory)
+    void pickCategory() {
+        Intent intent = new Intent(this, PickActivity.class);
+        intent.putExtra("type", "category");
+        startActivityForResult(intent, RC_CHOOSE_CATEGORY);
+    }
+
+    @OnClick(R.id.layoutStatus)
+    void pickStatus() {
+        Intent intent = new Intent(this, PickActivity.class);
+        intent.putExtra("type", "status");
+        startActivityForResult(intent, RC_CHOOSE_STATUS);
+    }
+
+    @OnClick(R.id.layoutExpandInfo)
+    public void expandInfo() {
+        isInfoExpanded = !isInfoExpanded;
+        if (isInfoExpanded) {
+            layoutInfo.setVisibility(View.VISIBLE);
+        } else {
+            layoutInfo.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.layoutExpandChapters)
+    public void expandChapter() {
+        isChaptersExpanded = !isChaptersExpanded;
+        if (isChaptersExpanded) {
+            layoutChapters.setVisibility(View.VISIBLE);
+        } else {
+            layoutChapters.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.tvAddChapter)
+    public void addChapter() {
         Intent intent = new Intent(this, AddChapterActivity.class);
         startActivityForResult(intent, RC_ADD_CHAPTER);
     }

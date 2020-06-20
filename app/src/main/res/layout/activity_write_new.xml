@@ -1,166 +1,360 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="10"
+        android:background="#fff"
+        android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/ic_back"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/app_name"
+            android:padding="12dp"
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="3"
             android:gravity="center_vertical"
-            android:text="Thêm thông tin truyện"
-            android:textColor="#000000" />
+            android:text="@string/add_story_info"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.039"
-        tools:layout_editor_absoluteX="0dp">
-
-        <ImageView
-            android:id="@+id/activity_write_new_img_book"
-            android:layout_width="107dp"
-            android:layout_height="177dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.06"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="30dp"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.285">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:weightSum="10">
+                android:paddingHorizontal="15dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/imgStory"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder" />
+
+                <TextView
+                    android:id="@+id/tvPickImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="15dp"
+                    android:text="@string/pick_image"
+                    android:textColor="#2962FF" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/layoutExpandInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#fff"
+                android:elevation="10dp"
+                android:layout_marginHorizontal="15dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/story_info"
+                    android:textStyle="bold"
+                    android:textColor="#000"/>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:contentDescription="@string/app_name"
+                    android:rotation="90"
+                    android:src="@drawable/ic_next" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/title"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/activity_write_new_tentruyen"
-                    android:layout_width="426dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Tên truyện"
-                    android:paddingTop="10dp" />
-
-                <ScrollView
-                    android:id="@+id/ScrollView01"
                     android:layout_width="match_parent"
-                    android:layout_height="150dip"
-                    android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:autofillHints="false"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="2"
+                    android:paddingTop="10dp"
+                    android:textSize="14sp"
+                    tools:ignore="LabelFor" />
 
-                    <EditText
-                        android:id="@+id/activity_write_new_item_info"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/introduction"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/activity_write_new_item_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="false"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="2"
+                    android:paddingTop="10dp"
+                    android:textSize="14sp"
+                    tools:ignore="LabelFor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/original_language"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:id="@+id/layoutPickOriginalLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_round_stroke"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:id="@+id/tvOriginalLanguage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Lời giới thiệu" />
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/choose_language"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
 
-                </ScrollView>
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_next" />
 
-                <!--                <EditText-->
-                <!--                    android:id="@+id/lang_item"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="62dp"-->
-                <!--                    android:layout_weight="2"-->
-                <!--                    android:hint="Ngôn ngữ gốc" />-->
+                </FrameLayout>
 
-                <!--                <EditText-->
-                <!--                    android:id="@+id/lang_trans"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="59dp"-->
-                <!--                    android:layout_weight="2"-->
-                <!--                    android:hint="Ngôn ngữ dịch" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/translated_language"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/spn_item_category"
+                <FrameLayout
+                    android:id="@+id/layoutPickTranslatedLanguage"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:layout_weight="2"
-                    android:autofillHints="Thể loại truyện" />
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_round_stroke"
+                    android:paddingHorizontal="10dp">
 
-                <Spinner
-                    android:id="@+id/spn_item_status"
+                    <TextView
+                        android:id="@+id/tvTranslatedLanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/choose_language"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_next" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/category"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:id="@+id/layoutPickCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:layout_weight="2"
-                    android:autofillHints="Tình trạng truyện" />
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_round_stroke"
+                    android:paddingHorizontal="10dp">
 
+                    <TextView
+                        android:id="@+id/tvCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/choose_category"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_next" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/status"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:id="@+id/layoutStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_round_stroke"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/choose_status"
+                        android:textColor="#000"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/ic_next" />
+
+                </FrameLayout>
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
+            <FrameLayout
+                android:id="@+id/layoutExpandChapters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="#fff"
+                android:elevation="10dp"
+                android:layout_marginHorizontal="15dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="12dp">
 
-        <Button
-            android:id="@+id/activity_write_new_btn_continute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:text="Tiếp tục" />
-    </LinearLayout>
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="100dp"-->
-    <!--        android:layout_marginTop="48dp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/linearLayout2">-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/story_chapter_list"
+                    android:textStyle="bold"
+                    android:textColor="#000"/>
 
-    <!--        <ImageView-->
-    <!--            android:id="@+id/img_item"-->
-    <!--            android:layout_width="142dp"-->
-    <!--            android:layout_height="209dp"-->
-    <!--            android:layout_marginTop="68dp"-->
-    <!--            android:scaleType="centerCrop"-->
-    <!--            app:layout_constraintEnd_toEndOf="parent"-->
-    <!--            app:layout_constraintHorizontal_bias="0.203"-->
-    <!--            app:layout_constraintStart_toStartOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
-    <!--            app:srcCompat="@drawable/ic_launcher_background" />-->
-    <!--    </LinearLayout>-->
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:contentDescription="@string/app_name"
+                    android:rotation="90"
+                    android:src="@drawable/ic_next" />
 
+            </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/layoutChapters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChapters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    tools:listitem="@layout/item_chapter"/>
+
+                <TextView
+                    android:id="@+id/tvAddChapter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_chapter"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginBottom="30dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/activity_write_new_btn_continute"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="center|bottom"
+        android:background="@color/colorAccent"
+        android:text="@string/continue_"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="16sp" />
+</LinearLayout>
