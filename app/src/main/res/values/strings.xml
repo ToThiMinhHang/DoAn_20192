@@ -20,4 +20,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cancel">Cancel</string>
     <string name="hint_search">Tìm đầu truyện</string>
+    <string name="pick_image">Chọn ảnh</string>
+    <string name="title">*Tiêu đề</string>
+    <string name="introduction">*Giới thiệu</string>
+    <string name="add_story_info">Thêm thông tin</string>
+    <string name="original_language">*Ngôn ngữ gốc</string>
+    <string name="translated_language">Ngôn ngữ dịch</string>
+    <string name="continue_">Tiếp tục</string>
+    <string name="category">Thể loại</string>
+    <string name="choose_category">Chọn thể loại</string>
+    <string name="status">*Tình trạng</string>
+    <string name="choose_status">Chọn tình trạng</string>
+    <string name="choose_language">Chọn ngôn ngữ</string>
 </resources>

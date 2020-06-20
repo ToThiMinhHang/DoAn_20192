@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.utils.GlideApp;
-import com.hang.doan.readbooks.utils.GlideAppModule;
 import com.hang.doan.readbooks.utils.Metrics;
 
 import org.w3c.dom.Text;
