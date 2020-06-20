@@ -32,4 +32,7 @@
     <string name="status">*Tình trạng</string>
     <string name="choose_status">Chọn tình trạng</string>
     <string name="choose_language">Chọn ngôn ngữ</string>
+    <string name="story_info">Thông tin</string>
+    <string name="story_chapter_list">Danh sách chương</string>
+    <string name="add_chapter">Thêm chương</string>
 </resources>

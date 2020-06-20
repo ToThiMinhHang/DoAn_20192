@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,16 +62,24 @@ public class WriteNewActivity extends AppCompatActivity {
     TextView tvCategory;
     @BindView(R.id.tvStatus)
     TextView tvStatus;
+    @BindView(R.id.layoutInfo)
+    View layoutInfo;
+    @BindView(R.id.layoutChapters)
+    View layoutChapters;
+    @BindView(R.id.rvChapters)
+    RecyclerView rvChapters;
 
     EditText activity_write_new_tentruyen;
     Button activity_write_new_btn_continute;
     EditText activity_write_new_item_info;
 
-    TextView activity_write_new_btn_add_new_chappter;
 
     String user_id;
     String book_id;
     Story_Post story_Post;
+
+    private boolean isInfoExpanded = true;
+    private boolean isChaptersExpanded = false;
 
     private DatabaseReference mDatabase;
     Author author = new Author();
@@ -84,6 +94,8 @@ public class WriteNewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         adapter = new ChapterAdapter(this, chapters);
+        rvChapters.setAdapter(adapter);
+        rvChapters.setLayoutManager(new LinearLayoutManager(this));
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -132,13 +144,13 @@ public class WriteNewActivity extends AppCompatActivity {
             }
         });
 
-        activity_write_new_btn_add_new_chappter = findViewById(R.id.activity_write_new_btn_add_new_chappter);
-        activity_write_new_btn_add_new_chappter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickNewChapter(view);
-            }
-        });
+//        activity_write_new_btn_add_new_chappter = findViewById(R.id.activity_write_new_btn_add_new_chappter);
+//        activity_write_new_btn_add_new_chappter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                clickNewChapter(view);
+//            }
+//        });
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference authorRef = database.getReference("authorDetail/" + user_id);
@@ -231,11 +243,6 @@ public class WriteNewActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public void clickNewChapter(View view) {
-        Intent intent = new Intent(this, AddChapterActivity.class);
-        startActivityForResult(intent, RC_ADD_CHAPTER);
-    }
-
     @OnClick(R.id.imgBack)
     void back() {
         super.onBackPressed();
@@ -277,5 +284,29 @@ public class WriteNewActivity extends AppCompatActivity {
         startActivityForResult(intent, RC_CHOOSE_STATUS);
     }
 
+    @OnClick(R.id.layoutExpandInfo)
+    public void expandInfo() {
+        isInfoExpanded = !isInfoExpanded;
+        if (isInfoExpanded) {
+            layoutInfo.setVisibility(View.VISIBLE);
+        } else {
+            layoutInfo.setVisibility(View.GONE);
+        }
+    }
 
+    @OnClick(R.id.layoutExpandChapters)
+    public void expandChapter() {
+        isChaptersExpanded = !isChaptersExpanded;
+        if (isChaptersExpanded) {
+            layoutChapters.setVisibility(View.VISIBLE);
+        } else {
+            layoutChapters.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.tvAddChapter)
+    public void addChapter() {
+        Intent intent = new Intent(this, AddChapterActivity.class);
+        startActivityForResult(intent, RC_ADD_CHAPTER);
+    }
 }
