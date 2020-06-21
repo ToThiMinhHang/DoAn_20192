@@ -4,12 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralInformation {
-    String authorID;
-    String imgLink;
-    String link;
-    String name;
-    String status;
-    String introduction;
+
+    private String storyID;
+    private List<String> mucsach;
+    private String authorID;
+    private String imgLink;
+    private String link;
+    private String name;
+    private String status;
+    private String introduction;
+    private String originalLanguage;
+    private String translatedLanguage;
+
+    public GeneralInformation() {
+        mucsach = new ArrayList<>();
+    }
 
     public String getIntroduction() {
         return introduction;
@@ -76,12 +85,19 @@ public class GeneralInformation {
         this.mucsach = mucsach;
     }
 
-    String storyID;
-    List<String> mucsach;
-
-    public GeneralInformation() {
-        mucsach = new ArrayList<>();
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
 
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
 
+    public String getTranslatedLanguage() {
+        return translatedLanguage;
+    }
+
+    public void setTranslatedLanguage(String translatedLanguage) {
+        this.translatedLanguage = translatedLanguage;
+    }
 }

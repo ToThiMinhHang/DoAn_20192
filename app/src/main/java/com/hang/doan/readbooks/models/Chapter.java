@@ -6,19 +6,9 @@ import java.util.List;
 
 public class Chapter {
 
-//    Date editTime;
-    String price;
-    String chapterName;
-    String data;
-    int chapterID;
-
-    public int getChapterID() {
-        return chapterID;
-    }
-
-    public void setChapterID(int chapterID) {
-        this.chapterID = chapterID;
-    }
+    //    Date editTime;
+    private String chapterName;
+    private String data;
 
 
     public String getChapterName() {
@@ -36,21 +26,4 @@ public class Chapter {
     public void setData(String data) {
         this.data = data;
     }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-//    public Date getTime() {
-//        return editTime;
-//    }
-//
-//    public void setTime(Date time) {
-//        this.editTime = time;
-//    }
-
 }

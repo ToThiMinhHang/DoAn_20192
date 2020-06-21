@@ -121,7 +121,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/activity_write_new_tentruyen"
+                    android:id="@+id/edtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="false"
@@ -141,7 +141,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/activity_write_new_item_info"
+                    android:id="@+id/edtAbstract"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="false"
@@ -348,12 +348,12 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/activity_write_new_btn_continute"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_gravity="center|bottom"
         android:background="@color/colorAccent"
-        android:text="@string/continue_"
+        android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="16sp" />

@@ -1,8 +1,8 @@
 package com.hang.doan.readbooks.models;
 
 public class AuthorListStoryPost {
-    String id;
-    String name;
+    private String id;
+    private String name;
 
     public String getId() {
         return id;
