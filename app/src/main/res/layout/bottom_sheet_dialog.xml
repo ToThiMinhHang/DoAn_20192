@@ -10,16 +10,17 @@
         android:text="Chọn cỡ chữ"
         android:textColor="@color/text_light_blue"
         android:textSize="18sp"
-        android:paddingLeft="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="0dp"
         android:paddingTop="20dp"/>
 
 
     <TextView
-        android:paddingLeft="15dp"
-        android:id="@+id/txt_size"
+        android:id="@+id/tvSize"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/seekbar"
         android:paddingTop="20dp"
         android:text="0/20" />
 
@@ -28,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="20"
-
         android:paddingBottom="30dp"/>
 
 </LinearLayout>

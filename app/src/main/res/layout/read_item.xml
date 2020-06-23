@@ -35,7 +35,7 @@
                      />
 
                 <Button
-                    android:id="@+id/btn_font"
+                    android:id="@+id/btnFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
@@ -46,7 +46,7 @@
                     />
 
                 <Button
-                    android:id="@+id/btn_light"
+                    android:id="@+id/btnLight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
@@ -78,10 +78,8 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="75dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="20sp" />
