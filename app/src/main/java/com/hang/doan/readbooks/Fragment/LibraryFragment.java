@@ -107,18 +107,19 @@ public class LibraryFragment extends Fragment {
 
     private void addStory(String authorName, String storyId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("storyDetail").child(storyId).child("generalInformation");
+        DatabaseReference ref = database.getReference("storyDetail").child(storyId).child("information");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String authorID = (String) dataSnapshot.child("authorID").getValue();
                 String name = (String) dataSnapshot.child("name").getValue();
-                String imgLink = (String) dataSnapshot.child("imgLink").getValue();
+                String imgLink = (String) dataSnapshot.child("imgLink").getValue(String.class);
                 Book book = new Book();
                 book.setId_tac_gia(authorID);
                 book.setId_tac_pham(storyId);
                 book.setName(name);
                 book.setImageURL(imgLink);
+                //Log.d("HANG_DEBUG", "onDataChange: " +imgLink);
                 book.setAuthorName(authorName);
                 books.add(book);
                 adapter.updateUI();

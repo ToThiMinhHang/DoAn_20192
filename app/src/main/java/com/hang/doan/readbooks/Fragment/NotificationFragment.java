@@ -112,7 +112,7 @@ public class NotificationFragment extends Fragment {
     }
 
     private void getAvatarUrl(String userId, Callback<String> callback) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("authorDetail").child(userId);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -120,7 +120,7 @@ public class NotificationFragment extends Fragment {
                     callback.callback(null);
                     return;
                 }
-                String imageURL = (String) dataSnapshot.child("imageURL").getValue();
+                String imageURL = (String) dataSnapshot.child("imageUser").getValue(String.class);
                 callback.callback(imageURL);
             }
 
