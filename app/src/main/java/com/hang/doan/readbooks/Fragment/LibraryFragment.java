@@ -1,6 +1,7 @@
 package com.hang.doan.readbooks.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hang.doan.readbooks.Callback;
 import com.hang.doan.readbooks.R;
+import com.hang.doan.readbooks.adapters.BookItemClickListener;
 import com.hang.doan.readbooks.adapters.LibraryAdapter;
 import com.hang.doan.readbooks.models.Book;
+import com.hang.doan.readbooks.ui.BookDetailActivity;
+import com.hang.doan.readbooks.ui.WriteNewActivity;
 import com.hang.doan.readbooks.utils.Keyboard;
 
 import java.security.Key;
@@ -42,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LibraryFragment extends Fragment {
+public class LibraryFragment extends Fragment implements BookItemClickListener {
 
     @BindView(R.id.rvStories)
     RecyclerView rvStories;
@@ -53,10 +57,13 @@ public class LibraryFragment extends Fragment {
 
     private List<Book> books = new ArrayList<>();
 
+    private Context ct;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_library, container, false);
         ButterKnife.bind(this, view);
+        ct = getContext();
         return view;
     }
 
@@ -68,6 +75,7 @@ public class LibraryFragment extends Fragment {
         adapter = new LibraryAdapter(context, books);
         rvStories.setAdapter(adapter);
         rvStories.setLayoutManager(new GridLayoutManager(context, 2));
+        adapter.setOnItemClickListener(LibraryFragment.this);
 
         edtSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -140,5 +148,15 @@ public class LibraryFragment extends Fragment {
     @OnClick(R.id.tvCancel)
     void cancelKeyboard() {
         Keyboard.hideKeyboard(requireContext(), edtSearch);
+    }
+
+
+    @Override
+    public void onBookClick(int position, int type) {
+        Intent intent = new Intent(ct, WriteNewActivity.class);
+        intent.putExtra("user_id", books.get(position).getId_tac_gia());
+        intent.putExtra("book_id", books.get(position).getId_tac_pham());
+
+        startActivity(intent);
     }
 }

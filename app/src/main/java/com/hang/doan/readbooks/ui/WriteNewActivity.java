@@ -50,6 +50,7 @@ import com.hang.doan.readbooks.models.Chapter;
 import com.hang.doan.readbooks.models.GeneralInformation;
 import com.hang.doan.readbooks.models.Story;
 import com.hang.doan.readbooks.models.Story_Post;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -138,8 +139,11 @@ public class WriteNewActivity extends AppCompatActivity {
         book_id = getIntent().getExtras().getString("book_id");
 
         if (book_id != null) {
+            activity_write_new_btn_continute = findViewById(R.id.btnSave);
             //Lấy thông tin truyện về từ đây
             activity_write_new_btn_continute.setText("Cập nhật");
+
+            getStoryInformation(book_id, user_id);
         }
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference authorRef = database.getReference("authorDetail/" + user_id);
@@ -157,6 +161,41 @@ public class WriteNewActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    void getStoryInformation(String book_id, String user_id) {
+        DatabaseReference bookRef =  FirebaseDatabase.getInstance().getReference("storyDetail/" + book_id);
+
+        bookRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                edtTitle.setText(dataSnapshot.child("information").child("name").getValue(String.class));
+
+                for (DataSnapshot snapshot : dataSnapshot.child("chapters").getChildren()) {
+                    Chapter chapter = snapshot.getValue(Chapter.class);
+                    chapters.add(chapter);
+                    adapter.notifyDataSetChanged();
+                }
+
+//                for (DataSnapshot snapshot : dataSnapshot.child("generalInformation").child("mucsach").getChildren()) {
+//                    String mucsach = snapshot.getValue(String.class);
+//                    book_detail_mucsach.setText(book_detail_mucsach.getText().toString()  + mucsach+ "\n");
+//                }
+
+                Picasso.with(getApplicationContext())
+                        .load(dataSnapshot.child("information").child("imgLink").getValue(String.class))
+                        .placeholder(R.mipmap.ic_launcher)
+                        .fit()
+                        .centerCrop()
+                        .into(imgStory);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+//                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
