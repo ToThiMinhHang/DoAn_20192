@@ -12,8 +12,7 @@
         android:orientation="horizontal"
         android:background="#fff"
         android:elevation="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
 
         <ImageView
             android:id="@+id/imgBack"
@@ -27,12 +26,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center_vertical"
-            android:text="@string/add_story_info"
-            android:textColor="#000000"
+            android:text="Thêm thông tin truyện"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
 
     </LinearLayout>
@@ -71,7 +69,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginStart="15dp"
                     android:text="@string/pick_image"
-                    android:textColor="#2962FF" />
+                    android:textColor="@color/text_light_blue" />
 
             </LinearLayout>
 
@@ -121,7 +119,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/activity_write_new_tentruyen"
+                    android:id="@+id/edtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="false"
@@ -141,7 +139,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/activity_write_new_item_info"
+                    android:id="@+id/edtAbstract"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="false"
@@ -336,7 +334,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/add_chapter"
                     android:layout_marginTop="20dp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/text_light_blue"
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginBottom="30dp"/>
             </LinearLayout>
@@ -348,12 +346,12 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/activity_write_new_btn_continute"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_gravity="center|bottom"
-        android:background="@color/colorAccent"
-        android:text="@string/continue_"
+        android:background="@color/btn_color"
+        android:text="@string/save"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="16sp" />

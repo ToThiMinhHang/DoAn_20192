@@ -70,7 +70,7 @@ public class BookDetailActivity extends AppCompatActivity {
     TextView user_name;
     EditText user_edit;
     ImageButton btn_comment;
-
+    TextView book_detail_mucsach;
 
     CommentArrayAdapter commnetAdapter;
     ListView listView;
@@ -93,6 +93,7 @@ public class BookDetailActivity extends AppCompatActivity {
         txt_author = findViewById(R.id.book_detail_tacgia);
         txt_name = findViewById(R.id.book_detail_tentruyen);
         book_detail_tinhtrang = findViewById(R.id.book_detail_tinhtrang);
+        book_detail_mucsach = findViewById(R.id.book_detail_mucsach);
 
         bookRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,15 +103,19 @@ public class BookDetailActivity extends AppCompatActivity {
                 imageResourceURL = dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class);
                 authorID = dataSnapshot.child("generalInformation").child("authorID").getValue(String.class);
                 String status =  dataSnapshot.child("generalInformation").child("status").getValue(String.class);
-                if(status != null) {
-                    book_detail_tinhtrang.setText(status);
-                }
+                book_detail_tinhtrang.setText(status);
+
                 for (DataSnapshot snapshot : dataSnapshot.child("chapters").getChildren()) {
                     Chapter chapter = snapshot.getValue(Chapter.class);
                     chapters.add(chapter);
                     index = index + 1;
                     arrayList.add(chapter.getChapterName());
                     adapter.notifyDataSetChanged();
+                }
+
+                for (DataSnapshot snapshot : dataSnapshot.child("generalInformation").child("mucsach").getChildren()) {
+                    String mucsach = snapshot.getValue(String.class);
+                    book_detail_mucsach.setText(book_detail_mucsach.getText().toString()  + mucsach+ "\n");
                 }
 
                 DatabaseReference authorRef = database.getReference("authorDetail/" + authorID);

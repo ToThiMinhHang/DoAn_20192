@@ -6,10 +6,15 @@ import java.util.List;
 public class Author {
 
 
-    String authorID;
-    String link;
-    String authorName;
-    List<AuthorListStoryPost> lstStory;
+    private String authorID;
+    private String link;
+    private String authorName;
+    private List<AuthorListStoryPost> lstStory;
+    private String imageUser;
+
+    public  Author() {
+        lstStory = new ArrayList<>();
+    }
 
     public String getAuthorName() {
         return authorName;
@@ -43,8 +48,11 @@ public class Author {
         this.link = link;
     }
 
+    public String getImageUser() {
+        return imageUser;
+    }
 
-    public  Author() {
-        lstStory = new ArrayList<>();
+    public void setImageUser(String imageUser) {
+        this.imageUser = imageUser;
     }
 }

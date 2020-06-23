@@ -77,7 +77,9 @@ public class Book {
     }
 
     public boolean search(String keyword) {
-        return name.contains(keyword) || authorName.contains(keyword);
+        if(keyword.length() > 0)
+            return name.contains(keyword) || authorName.contains(keyword);
+        return true;
     }
 
 }

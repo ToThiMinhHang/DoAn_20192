@@ -7,5 +7,7 @@
 
     <color name="momo_color">#E0078C</color>
     <color name="btn_selected">#7d004c</color>
+    <color name="btn_color">#566f9a</color>
+
 
 </resources>

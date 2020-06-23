@@ -37,4 +37,6 @@
     <string name="add_chapter">Thêm chương</string>
     <string name="notifications">Thông báo</string>
     <string name="no_notifications">Oops, có vẻ như bạn chưa có thông báo nào!</string>
+    <string name="select_font">Chọn phông chữ</string>
+    <string name="font_size">%d</string>
 </resources>

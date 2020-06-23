@@ -1,8 +1,10 @@
 package com.hang.doan.readbooks.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -20,22 +22,43 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.hang.doan.readbooks.Callback;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.adapters.ChapterAdapter;
+import com.hang.doan.readbooks.data.AuthorRepository;
+import com.hang.doan.readbooks.data.StoryRepository;
+import com.hang.doan.readbooks.dialog.LoadingDialog;
 import com.hang.doan.readbooks.models.Author;
 import com.hang.doan.readbooks.models.AuthorListStoryPost;
 import com.hang.doan.readbooks.models.Chapter;
 import com.hang.doan.readbooks.models.GeneralInformation;
+import com.hang.doan.readbooks.models.Story;
 import com.hang.doan.readbooks.models.Story_Post;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,11 +91,16 @@ public class WriteNewActivity extends AppCompatActivity {
     View layoutChapters;
     @BindView(R.id.rvChapters)
     RecyclerView rvChapters;
+    @BindView(R.id.edtTitle)
+    EditText edtTitle;
+    @BindView(R.id.edtAbstract)
+    EditText edtAbstract;
 
     EditText activity_write_new_tentruyen;
     Button activity_write_new_btn_continute;
     EditText activity_write_new_item_info;
 
+    private LoadingDialog loadingDialog;
 
     String user_id;
     String book_id;
@@ -84,8 +112,13 @@ public class WriteNewActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     Author author = new Author();
 
+    private Bitmap bitmap;
     private ChapterAdapter adapter;
     private List<Chapter> chapters = new ArrayList<>();
+    private String originalLanguage;
+    private String translatedLanguage;
+    private String category;
+    private String status;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,9 +126,11 @@ public class WriteNewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_write_new);
         ButterKnife.bind(this);
 
+        //setup views
         adapter = new ChapterAdapter(this, chapters);
         rvChapters.setAdapter(adapter);
         rvChapters.setLayoutManager(new LinearLayoutManager(this));
+        loadingDialog = new LoadingDialog(this);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -106,52 +141,6 @@ public class WriteNewActivity extends AppCompatActivity {
             //Lấy thông tin truyện về từ đây
             activity_write_new_btn_continute.setText("Cập nhật");
         }
-
-        activity_write_new_item_info = findViewById(R.id.activity_write_new_item_info);
-        activity_write_new_tentruyen = findViewById(R.id.activity_write_new_tentruyen);
-
-        activity_write_new_btn_continute = findViewById(R.id.activity_write_new_btn_continute);
-        activity_write_new_btn_continute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                story_Post = new Story_Post();
-                String key = mDatabase.child("storyDetail").push().getKey();
-                Log.d(TAG, "write new key: " + key);
-
-                GeneralInformation generalInformation = new GeneralInformation();
-
-                generalInformation.setStoryID(key);
-
-                generalInformation.setIntroduction(activity_write_new_item_info.getText().toString());
-                generalInformation.setAuthorID(user_id);
-                generalInformation.setName(activity_write_new_tentruyen.getText().toString());
-                generalInformation.setStatus("Tạo mới");
-                generalInformation.setIntroduction(activity_write_new_item_info.getText().toString());
-                story_Post.setGeneralInformation(generalInformation);
-                story_Post.setChapters(chapters);
-
-                mDatabase.child("storyDetail").child(key).setValue(story_Post);
-
-
-                AuthorListStoryPost post = new AuthorListStoryPost();
-                post.setId(key);
-                post.setName(activity_write_new_tentruyen.getText().toString());
-
-                author.getLstStory().add(post);
-                mDatabase.child("authorDetail").child(user_id).setValue(author);
-
-            }
-        });
-
-//        activity_write_new_btn_add_new_chappter = findViewById(R.id.activity_write_new_btn_add_new_chappter);
-//        activity_write_new_btn_add_new_chappter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                clickNewChapter(view);
-//            }
-//        });
-
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference authorRef = database.getReference("authorDetail/" + user_id);
         authorRef.addValueEventListener(new ValueEventListener() {
@@ -176,7 +165,7 @@ public class WriteNewActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
                         imgStory.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -202,28 +191,32 @@ public class WriteNewActivity extends AppCompatActivity {
         if (data == null) {
             return;
         }
-        tvOriginalLanguage.setText(data.getStringExtra("selectedItem"));
+        originalLanguage = data.getStringExtra("selectedItem");
+        tvOriginalLanguage.setText(originalLanguage);
     }
 
     private void handleTranslatedLanguage(Intent data) {
         if (data == null) {
             return;
         }
-        tvTranslatedLanguage.setText(data.getStringExtra("selectedItem"));
+        translatedLanguage = data.getStringExtra("selectedItem");
+        tvTranslatedLanguage.setText(translatedLanguage);
     }
 
     private void handleCategory(Intent data) {
         if (data == null) {
             return;
         }
-        tvCategory.setText(data.getStringExtra("selectedItem"));
+        category = data.getStringExtra("selectedItem");
+        tvCategory.setText(category);
     }
 
     private void handleStatus(Intent data) {
         if (data == null) {
             return;
         }
-        tvStatus.setText(data.getStringExtra("selectedItem"));
+        status = data.getStringExtra("selectedItem");
+        tvStatus.setText(status);
     }
 
     private void handleNewChapter(Intent data) {
@@ -238,7 +231,6 @@ public class WriteNewActivity extends AppCompatActivity {
         Chapter chapter = new Chapter();
         chapter.setChapterName(chapterName);
         chapter.setData(content);
-        chapter.setPrice("0");
         chapters.add(chapter);
         adapter.notifyDataSetChanged();
     }
@@ -308,5 +300,134 @@ public class WriteNewActivity extends AppCompatActivity {
     public void addChapter() {
         Intent intent = new Intent(this, AddChapterActivity.class);
         startActivityForResult(intent, RC_ADD_CHAPTER);
+    }
+
+    @OnClick(R.id.btnSave)
+    public void save() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        }
+        if (!validate()) {
+            return;
+        }
+        StoryRepository storyRepository = new StoryRepository();
+        AuthorRepository authorRepository = new AuthorRepository();
+        String storyID = obtainStoryID(storyRepository);
+
+        loadingDialog.show();
+        uploadImage(storyID, url -> {
+            GeneralInformation information = buildInformation(url);
+            Story story = new Story(information, chapters);
+            storyRepository.insertOrUpdate(storyID, story);
+            authorRepository.addStory(buildAuthor(), buildAuthorListStoryPost(storyID, information.getName()), isSuccessful -> {
+                if (!isSuccessful) onError("add story failed");
+                else onSuccess();
+            });
+        });
+    }
+
+    private String obtainStoryID(StoryRepository repository) {
+        Intent intent = getIntent();
+        if (intent == null) {
+            return repository.newKey();
+        }
+        if (!intent.hasExtra("story_id")) {
+            return repository.newKey();
+        }
+        return intent.getStringExtra("story_id");
+
+    }
+
+    private void uploadImage(String storyID, Callback<String> callback) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference ref = storage.getReference().child("stories/" + storyID + ".jpg");
+        UploadTask uploadTask = ref.putBytes(data);
+        uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                onError("Upload filed");
+            }
+            return ref.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri uri = task.getResult();
+                if (uri == null) onError("Upload failed");
+                else callback.callback(uri.toString());
+            }
+        });
+    }
+
+    private GeneralInformation buildInformation(String imageUrl) {
+        String uid = FirebaseAuth.getInstance().getUid();
+        if (uid == null) {
+            return new GeneralInformation();
+        }
+        GeneralInformation information = new GeneralInformation();
+        information.setAuthorID(uid);
+        information.setImgLink(imageUrl);
+        information.setName(edtTitle.getText().toString().trim());
+        information.setIntroduction(edtAbstract.getText().toString().trim());
+        information.setOriginalLanguage(originalLanguage);
+        information.setTranslatedLanguage(translatedLanguage);
+        information.setStatus(status);
+        information.setMucsach(Collections.singletonList(category));
+        return information;
+    }
+
+    private Author buildAuthor() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return new Author();
+        }
+        Author author = new Author();
+        author.setAuthorID(user.getUid());
+        author.setAuthorName(user.getDisplayName());
+        author.setImageUser(user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null);
+        return author;
+    }
+
+    private AuthorListStoryPost buildAuthorListStoryPost(String storyID, String name) {
+        AuthorListStoryPost post = new AuthorListStoryPost();
+        post.setId(storyID);
+        post.setName(name);
+        return post;
+    }
+
+    private void onError(String message) {
+        Log.d(TAG, "onError: " + message);
+        loadingDialog.cancel();
+        Toast.makeText(WriteNewActivity.this, "Oops! Có lỗi xảy ra rồi, hãy thử lại sau nhé...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void onSuccess() {
+        if (isExisted()) {
+            Toast.makeText(this, "Đã cập nhật thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Chúc mừng bạn đã có thêm đầu truyện mới!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+    }
+
+    private boolean isExisted() {
+        return getIntent() != null && getIntent().hasExtra("story_id");
+    }
+
+    private void alert(String message) {
+        new AlertDialog.Builder(this).setTitle("Oops...").setMessage(message).show();
+    }
+
+    private boolean validate() {
+        String title = edtTitle.getText().toString().trim();
+        String introduction = edtAbstract.getText().toString().trim();
+
+        if (TextUtils.isEmpty(title)) {
+            alert("Tiêu đề là tên tác phẩm và không được bỏ trống!");
+            return false;
+        }
+        return true;
     }
 }

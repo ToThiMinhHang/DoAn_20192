@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId 'com.hang.doan.readbooks'
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -63,6 +63,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
 
 }

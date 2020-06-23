@@ -1,6 +1,7 @@
 package com.hang.doan.readbooks.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.models.Notification;
 import com.hang.doan.readbooks.utils.GlideApp;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,7 +54,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     class NotificationViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.imgAvatar)
+        @BindView(R.id.noti_imgAvatar)
         ImageView imgAvatar;
 
         @BindView(R.id.tvMessage)
@@ -68,12 +70,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         void bind(int i) {
             Notification notification = notifications.get(i);
-            GlideApp.with(context).load(notification.getFromUserImageURL()).into(imgAvatar);
+            //GlideApp.with(context).load(notification.getFromUserImageURL()).into(imgAvatar);
             tvMessage.setText(notification.getMessage());
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(notification.getTimestamp());
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.US);
-            tvTime.setText(sdf.format(calendar.getTime()));
+            //tvTime.setText(sdf.format(calendar.getTime()));
+            Log.d("HANG_DEBUG", "bind: " +notification.getFromUserImageURL());
+            Picasso.with(context)
+                    .load(notification.getFromUserImageURL())
+                    .placeholder(R.mipmap.ic_launcher)
+                    .fit()
+                    .centerCrop()
+                    .into(imgAvatar);
         }
     }
 }
