@@ -35,6 +35,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.StoryVie
     private String keyword = "";
     private List<Book> filtered = new ArrayList<>();
 
+    BookItemClickListener bookItemClickListener;
+
     public LibraryAdapter(Context context, List<Book> books) {
         this.context = context;
         this.books = books;
@@ -74,7 +76,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.StoryVie
         super.notifyDataSetChanged();
     }
 
-    class StoryViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemClickListener(BookItemClickListener listener) {
+        bookItemClickListener = listener;
+    }
+
+    class StoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.tvTitle)
         TextView tvTitle;
@@ -86,6 +92,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.StoryVie
         StoryViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         void bind(int i) {
@@ -115,6 +122,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.StoryVie
                 params.setMarginStart(Metrics.dp(context, 7));
             }
             itemView.setLayoutParams(params);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            bookItemClickListener.onBookClick(position, 0);
         }
     }
 }

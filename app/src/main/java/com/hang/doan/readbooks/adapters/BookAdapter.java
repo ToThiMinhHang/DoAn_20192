@@ -83,7 +83,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
             ImgMovie = itemView.findViewById(R.id.item_movie_img);
 
             itemView.setOnClickListener(this);
-
         }
 
 
