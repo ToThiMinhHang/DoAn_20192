@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:gravity="center"
-                   android:paddingRight="40dp"
+                   android:paddingRight="60dp"
                     android:drawableRight="@drawable/ic_text_format_black_24dp"
                      />
 
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:text="Font"
-                    android:paddingRight="10dp"
+                    android:paddingRight="40dp"
                     android:gravity="center"
                     android:textColor="@color/btn_color"
                     />
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:gravity="center"
-                    android:paddingRight="40dp"
+                    android:paddingRight="50dp"
                     android:layout_gravity="center"
                     android:drawableRight="@drawable/ic_brightness_6_black_24dp" />
 
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
-                    android:paddingLeft="40dp"
+                    android:paddingLeft="00dp"
                     android:gravity="center"
                     android:drawableRight="@drawable/ic_chevron_left_black_24dp" />
 
@@ -69,10 +69,30 @@
                     android:id="@+id/read_book_btn_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingRight="10dp"
+                    android:paddingRight="0dp"
                     android:background="#ffffff"
                     android:gravity="center"
                     android:drawableRight="@drawable/ic_chevron_right_black_24dp" />
+                <Button
+                    android:id="@+id/report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:gravity="center"
+                    android:paddingRight="20dp"
+                    android:drawableRight="@drawable/ic_error_black_24dp"
+                    />
+
+<!--                <ImageButton-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/report"-->
+<!--                    android:paddingLeft="20dp"-->
+<!--                    android:paddingRight="20dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="#ffffff"-->
+<!--                    android:drawableRight="@drawable/ic_error_black_24dp" />-->
+
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
