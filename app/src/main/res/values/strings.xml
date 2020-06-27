@@ -39,4 +39,9 @@
     <string name="no_notifications">Oops, có vẻ như bạn chưa có thông báo nào!</string>
     <string name="select_font">Chọn phông chữ</string>
     <string name="font_size">%d</string>
+    <string name="report">Báo cáo vi phạm</string>
+    <string name="hint_report">Hãy đưa ra dẫn chứng truyện vi phạm bản quyền hoặc nội dung không phù hợp</string>
+    <string name="send">Gửi</string>
+    <string name="warining">Cảnh báo</string>
+    <string name="waring_content">Bạn đã đọc truyện 30 phút rồi. Hãy cố gắng giữ gìn sức khoẻ nhé!</string>
 </resources>

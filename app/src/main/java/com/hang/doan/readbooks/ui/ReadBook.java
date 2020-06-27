@@ -1,9 +1,12 @@
 package com.hang.doan.readbooks.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +32,7 @@ import com.hang.doan.readbooks.data.Prefs;
 import com.hang.doan.readbooks.dialog.BrightnessBottomSheetDialog;
 import com.hang.doan.readbooks.dialog.FontBottomSheetDialog;
 import com.hang.doan.readbooks.dialog.FontSizeBottomSheetDialog;
+import com.hang.doan.readbooks.dialog.ReportDialog;
 import com.hang.doan.readbooks.models.Font;
 
 import java.util.ArrayList;
@@ -61,6 +66,8 @@ public class ReadBook extends AppCompatActivity {
     String storyName;
     int chapterPrice;
 
+    private Handler warningHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,10 +93,12 @@ public class ReadBook extends AppCompatActivity {
         applyFont(new Prefs(this).getFont());
         applyBrightness(new Prefs(this).getBrightness());
         applyFontSize(new Prefs(this).getFontSize());
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         getChapterBuy();
         reloadData();
 
+        warningHandler.postDelayed(this::warning, 30*60*1000L);
     }
 
     void getChapterBuy() {
@@ -179,8 +188,6 @@ public class ReadBook extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
-//                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
     }
@@ -228,5 +235,26 @@ public class ReadBook extends AppCompatActivity {
 
     private void saveFontSize(int size) {
         new Prefs(this).saveFontSize(size);
+    }
+
+    @OnClick(R.id.btnReport)
+    void report() {
+        ReportDialog dialog = new ReportDialog(this);
+        dialog.setCallback(report -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:minhhangbn1997@gmail.com"));
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Báo cáo vi phạm");
+            intent.putExtra(Intent.EXTRA_TEXT, report);
+            startActivity(Intent.createChooser(intent, "Báo cáo vi phạm"));
+        });
+        dialog.show();
+    }
+
+    private void warning() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.warining);
+        builder.setMessage(R.string.waring_content);
+        builder.setNegativeButton("OK", (dialog, which) -> dialog.cancel());
+        builder.create().show();
     }
 }
