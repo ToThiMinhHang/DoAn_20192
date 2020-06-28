@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -16,6 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +37,9 @@ import com.hang.doan.readbooks.adapters.BookItemClickListener;
 import com.hang.doan.readbooks.adapters.SliderPagerAdapter;
 import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.models.BookID;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +57,9 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
     FirebaseDatabase database;
 
     Button btn_author_follow;
+    String id_tac_gia;
 
+    String NOTIMSG_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addNoti";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +74,7 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
         listBook_RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         Intent intent = getIntent();
-        String id_tac_gia = intent.getExtras().getString("id_tac_gia");
+        id_tac_gia = intent.getExtras().getString("id_tac_gia");
 
         database = FirebaseDatabase.getInstance();
         DatabaseReference authorRef = database.getReference("authorDetail/" + id_tac_gia);
@@ -107,16 +120,53 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
             }
         });
 
+        //ghi vào firebase  user1 be followed by user 2
         btn_author_follow = findViewById(R.id.btn_author_follow);
         btn_author_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                followers = database.getReference("followers");
-                followers.child(id_tac_gia).child(AccountFragment.userID).setValue("true");
+//                followers = database.getReference("followers");
+//                followers.child(id_tac_gia).child(AccountFragment.userID).setValue("true");
+
+                postNoti();
             }
         });
 
 
+    }
+
+    // Post Request For JSONObject for Notifications
+    public void postNoti() {
+        String message = "HANG " + "đã theo dõi bạn";
+        JSONObject object = new JSONObject();
+        try {
+            //input your API parameters
+            object.put("fromUserID", FirebaseAuth.getInstance().getUid());
+            object.put("message", message);
+            object.put("resiveUserID", id_tac_gia);
+            object.put("timestamp", 1593363373);
+            object.put("type", "follow");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "postNoti: " + object.toString());
+        // Enter the correct url for your api service site
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NOTIMSG_URL, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "onResponse: "+ response.toString());
+
+//                        resultTextView.setText("String Response : "+ response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjectRequest);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
