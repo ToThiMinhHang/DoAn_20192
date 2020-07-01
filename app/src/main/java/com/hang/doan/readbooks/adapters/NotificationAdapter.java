@@ -1,6 +1,7 @@
 package com.hang.doan.readbooks.adapters;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,10 +73,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             Notification notification = notifications.get(i);
             //GlideApp.with(context).load(notification.getFromUserImageURL()).into(imgAvatar);
             tvMessage.setText(notification.getMessage());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(notification.getTimestamp());
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.US);
-            //tvTime.setText(sdf.format(calendar.getTime()));
+
+            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+            cal.setTimeInMillis(notification.getTimestamp() * 1000L);
+            String date = DateFormat.format("HH:mm dd/MM/yyyy", cal).toString();
+
+            //SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+            tvTime.setText(date);
             Log.d("HANG_DEBUG", "bind: " +notification.getFromUserImageURL());
             Picasso.with(context)
                     .load(notification.getFromUserImageURL())

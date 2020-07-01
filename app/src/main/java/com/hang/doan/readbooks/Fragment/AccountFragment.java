@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -30,10 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.models.Author;
-import com.hang.doan.readbooks.models.AuthorListStoryPost;
-import com.hang.doan.readbooks.ui.BookDetailActivity;
 import com.hang.doan.readbooks.ui.LoginActivity;
-import com.hang.doan.readbooks.ui.MyStoryActivity;
 import com.squareup.picasso.Picasso;
 
 public class AccountFragment extends Fragment {
@@ -113,16 +107,16 @@ public class AccountFragment extends Fragment {
 
 
 
-        TextView acc_myStory = getView().findViewById(R.id.acc_myStory);
-        acc_myStory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ct, MyStoryActivity.class);
-                // send movie information to deatilActivity
-                intent.putExtra("user_id",  mAuth.getUid());
-                startActivity(intent);
-            }
-        });
+//        TextView acc_myStory = getView().findViewById(R.id.acc_myStory);
+//        acc_myStory.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ct, LibraryFragment.class);
+//                // send movie information to deatilActivity
+//                intent.putExtra("user_id",  mAuth.getUid());
+//                startActivity(intent);
+//            }
+//        });
 
 
 

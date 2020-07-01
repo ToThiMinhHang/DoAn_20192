@@ -169,12 +169,12 @@ public class WriteNewActivity extends AppCompatActivity {
         bookRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                edtTitle.setText(dataSnapshot.child("information").child("name").getValue(String.class));
-                edtAbstract.setText(dataSnapshot.child("information").child("introduction").getValue(String.class));
-                tvOriginalLanguage.setText(dataSnapshot.child("information").child("originalLanguage").getValue(String.class));
-                tvTranslatedLanguage.setText(dataSnapshot.child("information").child("translatedLanguage").getValue(String.class));
-              //  tvCategory.setText(dataSnapshot.child("information").child("mucsach").getValue(String.class));
-                tvStatus.setText(dataSnapshot.child("information").child("status").getValue(String.class));
+                edtTitle.setText(dataSnapshot.child("generalInformation").child("name").getValue(String.class));
+                edtAbstract.setText(dataSnapshot.child("generalInformation").child("introduction").getValue(String.class));
+                tvOriginalLanguage.setText(dataSnapshot.child("generalInformation").child("originalLanguage").getValue(String.class));
+                tvTranslatedLanguage.setText(dataSnapshot.child("generalInformation").child("translatedLanguage").getValue(String.class));
+                //  tvCategory.setText(dataSnapshot.child("generalInformation").child("mucsach").getValue(String.class));
+                tvStatus.setText(dataSnapshot.child("generalInformation").child("status").getValue(String.class));
 
 //                for (DataSnapshot snapshot : dataSnapshot.child("mucsach").getChildren()) {
 //                    Chapter chapter = snapshot.getValue(Chapter.class);
@@ -188,13 +188,13 @@ public class WriteNewActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
 
-                for (DataSnapshot snapshot : dataSnapshot.child("information").child("mucsach").getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.child("generalInformation").child("mucsach").getChildren()) {
                     String mucsach = snapshot.getValue(String.class);
                     tvCategory.setText(mucsach);
                 }
 
                 Picasso.with(getApplicationContext())
-                        .load(dataSnapshot.child("information").child("imgLink").getValue(String.class))
+                        .load(dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class))
                         .placeholder(R.mipmap.ic_launcher)
                         .fit()
                         .centerCrop()
@@ -367,10 +367,10 @@ public class WriteNewActivity extends AppCompatActivity {
 
         loadingDialog.show();
         uploadImage(storyID, url -> {
-            GeneralInformation information = buildInformation(url);
-            Story story = new Story(information, chapters);
+            GeneralInformation generalInformation = buildInformation(url);
+            Story story = new Story(generalInformation, chapters);
             storyRepository.insertOrUpdate(storyID, story);
-            authorRepository.addStory(buildAuthor(), buildAuthorListStoryPost(storyID, information.getName()), isSuccessful -> {
+            authorRepository.addStory(buildAuthor(), buildAuthorListStoryPost(storyID, generalInformation.getName()), isSuccessful -> {
                 if (!isSuccessful) onError("add story failed");
                 else onSuccess();
             });

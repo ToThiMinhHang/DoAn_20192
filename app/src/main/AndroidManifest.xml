@@ -28,7 +28,6 @@
         <activity android:name=".ui.AddChapterActivity" />
         <activity android:name=".ui.ReadBook" />
         <activity android:name=".ui.AuthorDetailActivity" />
-        <activity android:name=".ui.MyStoryActivity" />
         <activity android:name=".ui.WriteNewActivity" />
         <activity android:name=".ui.PaymentActivity" />
         <activity android:name=".ui.HomeActivity" />

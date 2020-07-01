@@ -137,6 +137,8 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
 
     // Post Request For JSONObject for Notifications
     public void postNoti() {
+        Long tsLong = System.currentTimeMillis()/1000;
+
         String message = "HANG " + "đã theo dõi bạn";
         JSONObject object = new JSONObject();
         try {
@@ -144,7 +146,7 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
             object.put("fromUserID", FirebaseAuth.getInstance().getUid());
             object.put("message", message);
             object.put("resiveUserID", id_tac_gia);
-            object.put("timestamp", 1593363373);
+            object.put("timestamp", tsLong);
             object.put("type", "follow");
         } catch (JSONException e) {
             e.printStackTrace();

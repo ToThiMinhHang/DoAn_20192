@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.hang.doan.readbooks.R;
-import com.hang.doan.readbooks.ui.MyStoryActivity;
+import com.hang.doan.readbooks.ui.WriteNewActivity;
 
 public class WriteFragment extends Fragment {
 
@@ -32,15 +30,14 @@ public class WriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.activity_my_story, container, false);
+        final View view = inflater.inflate(R.layout.fragment_write, container, false);
 
         ct = getContext();
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        Intent intent = new Intent(ct, MyStoryActivity.class);
+        Intent intent = new Intent(ct, WriteNewActivity.class);
         // send movie information to deatilActivity
         intent.putExtra("user_id", mAuth.getUid());
         startActivity(intent);
