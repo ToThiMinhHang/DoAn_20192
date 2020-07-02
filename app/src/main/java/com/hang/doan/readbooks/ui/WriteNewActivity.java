@@ -274,6 +274,7 @@ public class WriteNewActivity extends AppCompatActivity {
         Bundle bundle = data.getBundleExtra("data");
         String chapterName = bundle.getString("chapter_name");
         String content = bundle.getString("content");
+        String price = bundle.getString("price");
         if (TextUtils.isEmpty(chapterName) || TextUtils.isEmpty(content)) {
             Toast.makeText(this, "Chưa nhập tiêu đề hoặc nội dung", Toast.LENGTH_SHORT).show();
             return;
@@ -281,6 +282,7 @@ public class WriteNewActivity extends AppCompatActivity {
         Chapter chapter = new Chapter();
         chapter.setChapterName(chapterName);
         chapter.setData(content);
+        chapter.setPrice(price);
         chapters.add(chapter);
         adapter.notifyDataSetChanged();
     }

@@ -74,12 +74,12 @@ public class ConfigFeeDialog extends Dialog {
     void cancelDialog() {
         super.cancel();
     }
-//
-//    @OnClick(R.id.tvSend)
-//    void send() {
-//        super.cancel();
-//        if (callback == null) return;
-//        String config = edtFee.getText().toString().trim();
-//        callback.callback(config);
-//    }
+
+    @OnClick(R.id.tvSend)
+    void send() {
+        super.cancel();
+        if (callback == null) return;
+        String data = edtFee.getText().toString();
+        callback.callback(data);
+    }
 }

@@ -39,6 +39,7 @@ public class AddChapterActivity extends AppCompatActivity {
     @BindView(R.id.edtContent)
     EditText edtContent;
 
+    String price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +58,9 @@ public class AddChapterActivity extends AppCompatActivity {
     @OnClick(R.id.btnConfig_fee)
     void config_free() {
         ConfigFeeDialog dialog = new ConfigFeeDialog(this);
-//        dialog.setCallback(report -> {
-//            Intent intent = new Intent(Intent.ACTION_SENDTO);
-//            intent.setData(Uri.parse("mailto:minhhangbn1997@gmail.com"));
-//            intent.putExtra(Intent.EXTRA_SUBJECT, "Báo cáo vi phạm");
-//            intent.putExtra(Intent.EXTRA_TEXT, report);
-//            startActivity(Intent.createChooser(intent, "Báo cáo vi phạm"));
-//        });
+        dialog.setCallback(data -> {
+            price = data;
+        });
         dialog.show();
     }
 
@@ -82,6 +79,7 @@ public class AddChapterActivity extends AppCompatActivity {
         Bundle data = new Bundle();
         data.putString("chapter_name", chapterName);
         data.putString("content", content);
+        data.putString("price", price);
         intent.putExtra("data", data);
         setResult(WriteNewActivity.RC_ADD_CHAPTER, intent);
         finish();

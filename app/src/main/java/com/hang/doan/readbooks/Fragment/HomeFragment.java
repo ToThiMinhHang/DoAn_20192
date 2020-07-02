@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference Slide = database.getReference("HomeScreen/slide");
+        DatabaseReference Slide = database.getReference("HomeScreen/Slide");
         DatabaseReference New = database.getReference("HomeScreen/New");
         DatabaseReference Favorite = database.getReference("HomeScreen/Favorite");
 
@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String slide_id_tac_pham = ds.child("id_tac_pham").getValue(String.class);
+                    String slide_id_tac_pham = ds.getValue(String.class);
                     slideID.add(new BookID(slide_id_tac_pham));
                     bookDetail.child(slide_id_tac_pham).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String id_tac_pham = ds.child("id_tac_pham").getValue(String.class);
+                    String id_tac_pham = ds.getValue(String.class);
                     newID.add(new BookID( id_tac_pham));
                     bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String id_tac_pham = ds.child("id_tac_pham").getValue(String.class);
+                    String id_tac_pham = ds.getValue(String.class);
                     favoriteID.add(new BookID(id_tac_pham));
                     bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
                         @Override

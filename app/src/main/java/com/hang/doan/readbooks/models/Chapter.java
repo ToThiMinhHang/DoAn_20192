@@ -9,6 +9,16 @@ public class Chapter {
     //    Date editTime;
     private String chapterName;
     private String data;
+    private String price;
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
 
 
     public String getChapterName() {

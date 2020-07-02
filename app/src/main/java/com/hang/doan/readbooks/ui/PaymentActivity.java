@@ -201,12 +201,12 @@ public class PaymentActivity extends Activity {
                     public void onResponse(JSONObject response) {
 //                        Toast.makeText(Login_screen.this,"String Response : "+ response.toString(),Toast.LENGTH_LONG).show();
                         Log.d(TAG, "sendToMerchanServer onResponse: " + response.toString());
-                        //postData();
-//                        Intent intent = new Intent(PaymentActivity.this, ReadBook.class);
-//                        intent.putExtra("INDEX", String.valueOf(storyChapter));
-//                        intent.putExtra("id_tac_pham", storyID);
-//                        startActivityForResult(intent, 0);
-//                        onBackPressed();
+                        postData();
+                        Intent intent = new Intent(PaymentActivity.this, ReadBook.class);
+                        intent.putExtra("INDEX", String.valueOf(storyChapter));
+                        intent.putExtra("id_tac_pham", storyID);
+                        startActivityForResult(intent, 0);
+                        onBackPressed();
                     }
                 }, new Response.ErrorListener() {
             @Override
