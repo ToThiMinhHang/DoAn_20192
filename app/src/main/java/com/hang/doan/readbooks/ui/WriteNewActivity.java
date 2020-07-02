@@ -285,10 +285,10 @@ public class WriteNewActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.imgBack)
-    void back() {
-        super.onBackPressed();
-    }
+//    @OnClick(R.id.imgBack)
+//    void back() {
+//        super.onBackPressed();
+//    }
 
     @OnClick({R.id.tvPickImage, R.id.imgStory})
     void pickImage() {
@@ -479,5 +479,14 @@ public class WriteNewActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        this.startActivity(intent);
+        super.onBackPressed();
+
     }
 }

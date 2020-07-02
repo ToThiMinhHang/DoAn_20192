@@ -20,6 +20,7 @@ public class ReportDialog extends Dialog {
     @BindView(R.id.edtReport)
     EditText edtReport;
 
+
     private Callback<String> callback;
 
     public ReportDialog(@NonNull Context context) {

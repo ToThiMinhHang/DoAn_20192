@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hang.doan.readbooks.R;
+import com.hang.doan.readbooks.dialog.ConfigFeeDialog;
+import com.hang.doan.readbooks.dialog.ReportDialog;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +28,7 @@ import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AddChapterActivity extends AppCompatActivity {
 
@@ -49,6 +52,19 @@ public class AddChapterActivity extends AppCompatActivity {
 
     public void selectPicture(View view) {
 
+    }
+
+    @OnClick(R.id.btnConfig_fee)
+    void config_free() {
+        ConfigFeeDialog dialog = new ConfigFeeDialog(this);
+//        dialog.setCallback(report -> {
+//            Intent intent = new Intent(Intent.ACTION_SENDTO);
+//            intent.setData(Uri.parse("mailto:minhhangbn1997@gmail.com"));
+//            intent.putExtra(Intent.EXTRA_SUBJECT, "Báo cáo vi phạm");
+//            intent.putExtra(Intent.EXTRA_TEXT, report);
+//            startActivity(Intent.createChooser(intent, "Báo cáo vi phạm"));
+//        });
+        dialog.show();
     }
 
     public void fillContent(View view) {

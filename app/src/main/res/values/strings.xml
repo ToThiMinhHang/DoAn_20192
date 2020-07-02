@@ -8,7 +8,7 @@
     <string name="link_momo">"Liên kết MoMo"</string>
     <string name="payment_momo">"Thanh toán qua MoMo"</string>
     <string name="not_receive_info">"Không nhận được thông tin"</string>
-    <string name="not_receive_info_err">"Không gởi được yêu cầu vui lòng kiểm tra lại"</string>
+    <string name="not_receive_info_err">"Không gửi được yêu cầu vui lòng kiểm tra lại"</string>
     <string name="chapter_title">Tiêu đề chương</string>
     <string name="type_content">Nhập nội dung…</string>
     <string name="select_one">Select one</string>
@@ -18,7 +18,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">ĐÓNG</string>
     <string name="hint_search">Tìm đầu truyện</string>
     <string name="pick_image">Chọn ảnh</string>
     <string name="title">*Tiêu đề</string>
@@ -36,12 +36,14 @@
     <string name="story_chapter_list">Danh sách chương</string>
     <string name="add_chapter">Thêm chương</string>
     <string name="notifications">Thông báo</string>
-    <string name="no_notifications">Oops, có vẻ như bạn chưa có thông báo nào!</string>
+    <string name="no_notifications">Bạn chưa có thông báo nào!</string>
     <string name="select_font">Chọn phông chữ</string>
     <string name="font_size">%d</string>
     <string name="report">Báo cáo vi phạm</string>
+    <string name="config_fee">Thiết lập phí</string>
     <string name="hint_report">Hãy đưa ra dẫn chứng truyện vi phạm bản quyền hoặc nội dung không phù hợp</string>
-    <string name="send">Gửi</string>
+    <string name="send">GỬI</string>\
+    <string name="config">THIẾT LẬP</string>
     <string name="warining">Cảnh báo</string>
     <string name="waring_content">Bạn đã đọc truyện 30 phút rồi. Hãy cố gắng giữ gìn sức khoẻ nhé!</string>
 </resources>

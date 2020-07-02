@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/report"
+        android:text="@string/config_fee"
         android:textColor="#000"
         android:textStyle="bold"
         android:textSize="20sp"
@@ -19,22 +19,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/hint_report"/>
+        android:layout_marginTop="20dp"
+        android:text="*Phí đọc truyện"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/edtReport"
+        android:id="@+id/edtFee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minLines="10"
-        android:lines="10"
-        android:autofillHints=""
-        android:gravity="top"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:textSize="13sp"
-        android:background="@drawable/bg_round_stroke"
-        tools:ignore="LabelFor,TextFields" />
+        android:autofillHints="false"
+        android:inputType="number"
+        android:maxLines="2"
+        android:paddingTop="10dp"
+        android:textSize="14sp"
+        tools:ignore="LabelFor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Hoa hồng"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edtCommision"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="false"
+        android:inputType="number"
+        android:editable="false"
+        android:maxLines="2"
+        android:paddingTop="10dp"
+        android:textSize="14sp"
+        tools:ignore="LabelFor" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,20 +65,22 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="end"
         android:paddingRight="15dp">
+
         <TextView
             android:id="@+id/tvCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="@string/cancel"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:text="@string/cancel"/>
 
         <TextView
             android:id="@+id/tvSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="@string/send"
+            android:text="@string/config"
             android:textStyle="bold"
             android:textSize="15sp"
             android:textColor="@color/text_light_blue"/>

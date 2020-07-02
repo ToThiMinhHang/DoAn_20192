@@ -20,12 +20,13 @@ import com.hang.doan.readbooks.R;
 
 public class HomeActivity extends AppCompatActivity {
 
+    BottomNavigationView bottomNav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         //bottomNav.setBackgroundColor(Color.parseColor("#f1b814"));
 
@@ -69,8 +70,13 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment)
                             .addToBackStack(null)
                             .commit();
-
                     return true;
                 }
             };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        bottomNav.setSelectedItemId(R.id.nav_home);
+    }
 }

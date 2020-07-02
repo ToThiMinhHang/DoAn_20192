@@ -8,38 +8,53 @@
     android:orientation="vertical"
     tools:context=".ui.AddChapterActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:paddingTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        android:elevation="10dp">
 
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:contentDescription="@string/app_name"
             android:onClick="back"
-            android:padding="10dp"
+            android:layout_gravity="center"
+            android:padding="12dp"
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:textColor="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Chương 1"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
-            android:textStyle="bold">
+            android:textStyle="bold"
+            android:visibility="visible"
+            >
 
         </TextView>
 
         <ImageView
-            android:layout_width="73dp"
-            android:layout_height="45dp"
-            android:layout_gravity="end"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:paddingLeft="85dp"
             android:contentDescription="@string/app_name"
             android:onClick="fillContent"
-            android:src="@drawable/ic_file_upload_black_24dp" />
-    </FrameLayout>
+            android:src="@drawable/ic_file_upload_black_24dp"
+            />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnConfig_fee"
+            android:text="Thiết lập"
+            android:background="#ffff"
+            android:textColor="#000000"
+            android:paddingLeft="10dp"
+            />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -63,7 +78,7 @@
                     android:layout_height="150dp"
                     android:layout_marginStart="15dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_background" />
+                    android:src="@drawable/ic_placeholder"/>
 
             </LinearLayout>
 
@@ -117,6 +132,7 @@
         android:layout_height="55dp"
         android:background="#566f9a"
         android:gravity="center"
+        android:layout_gravity="center"
         android:onClick="save"
         android:text="@string/save"
         android:textColor="#fff"

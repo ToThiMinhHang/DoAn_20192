@@ -7,103 +7,126 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:paddingTop="10dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="60dp"
+        android:paddingTop="10dp">
+
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:layout_gravity="center"
             android:contentDescription="@string/app_name"
             android:onClick="back"
             android:padding="10dp"
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:textColor="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Xác nhận thanh toán"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             android:textStyle="bold">
 
         </TextView>
-    </FrameLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="340dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="92dp"
+        android:text="(*)Để tiếp tục đọc truyện, bạn vui lòng thanh toán phí đọc truyện qua ví điện tử MoMo nhé!"
+        android:textColor="#574D4D"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/payment_storychapterprice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.422"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnPayMoMo"
-        style="@style/Btn_Style_Confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_width="352dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="240dp"
+        android:background="@color/btn_color"
+        android:gravity="center"
         android:text="@string/payment_through_momo"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="87dp"
         android:layout_height="26dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="232dp"
         android:text="Tên truyện"
+        android:textColor="#000000"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/payment_storyname"
         android:layout_width="241dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="100dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="232dp"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
-
         android:layout_width="87dp"
         android:layout_height="26dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="288dp"
         android:text="Tên chương"
+        android:textColor="#000000"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/payment_storychaptername"
         android:layout_width="241dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="188dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="288dp"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="87dp"
-
         android:layout_height="26dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="284dp"
-        android:text="Giá tiền"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="176dp"
+        android:text="Số tiền"
+        android:textColor="#000000"
         android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/payment_storychapterprice"
         android:layout_width="241dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="264dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="176dp"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
