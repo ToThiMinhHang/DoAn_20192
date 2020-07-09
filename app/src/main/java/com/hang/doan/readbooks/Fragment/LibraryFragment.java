@@ -115,7 +115,7 @@ public class LibraryFragment extends Fragment implements BookItemClickListener {
 
     private void addStory(String authorName, String storyId) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("storyDetail").child(storyId).child("information");
+        DatabaseReference ref = database.getReference("storyDetail").child(storyId).child("generalInformation");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

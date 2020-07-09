@@ -39,7 +39,7 @@ public class AddChapterActivity extends AppCompatActivity {
     @BindView(R.id.edtContent)
     EditText edtContent;
 
-    String price;
+    String price = "0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

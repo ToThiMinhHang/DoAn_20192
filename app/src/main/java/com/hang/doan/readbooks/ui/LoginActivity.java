@@ -57,9 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                         String msg = token;
 
                         Log.d(TAG, msg);
-                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
-
 
                 });
 

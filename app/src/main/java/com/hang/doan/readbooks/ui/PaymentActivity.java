@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.hang.doan.readbooks.R;
 
 import org.json.JSONException;
@@ -140,7 +141,7 @@ public class PaymentActivity extends Activity {
                     if(data.getStringExtra("data") != null && !data.getStringExtra("data").equals("")) {
                         // TODO:
                         int status = data.getIntExtra("status",0 );
-                        Log.d(TAG, "data:  " + data.getStringExtra("data"));
+                        //Log.d(TAG, "data:  " + data.getStringExtra("data"));
                         recv_message = data.getStringExtra("message") ;
                         recv_phonenumber = data.getStringExtra("phonenumber") ;
                         recv_data =  data.getStringExtra("data") ;
@@ -179,7 +180,12 @@ public class PaymentActivity extends Activity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, BookDetailActivity.class);
+        intent.putExtra("storyID", storyID);
+        startActivity(intent);
+    }
 
     // Post Request For JSONObject
     public void sendToMerchanServer() {
@@ -187,10 +193,12 @@ public class PaymentActivity extends Activity {
         JSONObject object = new JSONObject();
         try {
             //input your API parameters
-            object.put("orderId", merchantName + "_" + storyID + "_" + storyChapter);
+            String orderID = merchantName + "_" + storyID + "_" + storyChapter;
+            object.put("orderId", orderID);
             //object.put("orderId", merchantName + "_1");
             object.put("customerNumber", recv_phonenumber);
             object.put("data", recv_data);
+            object.put("amount", storyChapterPrice);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -201,10 +209,11 @@ public class PaymentActivity extends Activity {
                     public void onResponse(JSONObject response) {
 //                        Toast.makeText(Login_screen.this,"String Response : "+ response.toString(),Toast.LENGTH_LONG).show();
                         Log.d(TAG, "sendToMerchanServer onResponse: " + response.toString());
+                        Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                         postData();
                         Intent intent = new Intent(PaymentActivity.this, ReadBook.class);
                         intent.putExtra("INDEX", String.valueOf(storyChapter));
-                        intent.putExtra("id_tac_pham", storyID);
+                        intent.putExtra("storyID", storyID);
                         startActivityForResult(intent, 0);
                         onBackPressed();
                     }
@@ -212,6 +221,7 @@ public class PaymentActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(PaymentActivity.this, "Thanh toán lỗi" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -227,7 +237,7 @@ public class PaymentActivity extends Activity {
             //input your API parameters
             object.put("storyID", storyID);
             object.put("storyChapter", storyChapter);
-            object.put("userID", userID);
+            object.put("userID", FirebaseAuth.getInstance().getUid());
         } catch (JSONException e) {
             e.printStackTrace();
         }

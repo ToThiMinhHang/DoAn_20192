@@ -46,6 +46,7 @@ import com.hang.doan.readbooks.data.StoryRepository;
 import com.hang.doan.readbooks.dialog.LoadingDialog;
 import com.hang.doan.readbooks.models.Author;
 import com.hang.doan.readbooks.models.AuthorListStoryPost;
+import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.models.Chapter;
 import com.hang.doan.readbooks.models.GeneralInformation;
 import com.hang.doan.readbooks.models.Story;
@@ -366,7 +367,7 @@ public class WriteNewActivity extends AppCompatActivity {
         StoryRepository storyRepository = new StoryRepository();
         AuthorRepository authorRepository = new AuthorRepository();
         String storyID = obtainStoryID(storyRepository);
-
+        book_id = storyID;
         loadingDialog.show();
         uploadImage(storyID, url -> {
             GeneralInformation generalInformation = buildInformation(url);
@@ -459,7 +460,9 @@ public class WriteNewActivity extends AppCompatActivity {
             Toast.makeText(this, "Đã cập nhật thành công", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Chúc mừng bạn đã có thêm đầu truyện mới!", Toast.LENGTH_SHORT).show();
-            finish();
+            Intent intent = new Intent(this, BookDetailActivity.class);
+            intent.putExtra("storyID", book_id);
+            startActivity(intent);
         }
 
     }

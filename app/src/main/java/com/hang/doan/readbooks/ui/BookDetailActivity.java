@@ -1,11 +1,13 @@
 package com.hang.doan.readbooks.ui;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -78,6 +80,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     List<Integer> chapterIDbuyed = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,7 @@ public class BookDetailActivity extends AppCompatActivity {
         // ini views
 
         Intent intent = getIntent();
-        id_tac_pham = intent.getExtras().getString("id_tac_pham");
+        id_tac_pham = intent.getExtras().getString("storyID");
 
 
         DatabaseReference bookRef = database.getReference("storyDetail/" + id_tac_pham);
@@ -176,7 +179,7 @@ public class BookDetailActivity extends AppCompatActivity {
                     Intent intent = new Intent(BookDetailActivity.this, ReadBook.class);
                     int pos = parent.getPositionForView(view);
                     intent.putExtra("INDEX", String.valueOf(pos));
-                    intent.putExtra("id_tac_pham", id_tac_pham);
+                    intent.putExtra("storyID", id_tac_pham);
                     startActivity(intent);
 //                }
 //                else {
@@ -280,30 +283,14 @@ public class BookDetailActivity extends AppCompatActivity {
 //            }
 //        });
 
-        getChapterBuy();
-
     }
 
-    void getChapterBuy() {
-        DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference("authorDetail/" + AccountFragment.userID + "/lstBuy/" + id_tac_pham);
-        if (authorRef != null) {
+    @Override
+    public void onBackPressed() {
 
-            authorRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        int chapterID = ds.child("chapters").getValue(Integer.class);
-                        chapterIDbuyed.add(chapterID);
-                        Log.d(TAG, "chapterid " + chapterID);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
+        Intent intent = new Intent(this, HomeActivity.class);
+        this.startActivity(intent);
+        super.onBackPressed();
 
     }
 

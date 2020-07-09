@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -80,7 +81,7 @@ public class ReadBook extends AppCompatActivity {
 
         id = (String) bundle.get("INDEX");
         Log.d(TAG, "onCreate: INDEX" + id);
-        id_tac_pham = (String) bundle.get("id_tac_pham");
+        id_tac_pham = (String) bundle.get("storyID");
 
         read_book_chapter_name = findViewById(R.id.read_book_chapter_name);
         read_book_chapter_name.setTypeface(null, Typeface.BOLD);
@@ -96,17 +97,17 @@ public class ReadBook extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         getChapterBuy();
-        reloadData();
+        //reloadData();
 
         warningHandler.postDelayed(this::warning, 30*60*1000L);
     }
 
     void getChapterBuy() {
-        String path = "authorDetail/" + AccountFragment.userID + "/lstBuy/" + id_tac_pham;
-        DatabaseReference authorRef = FirebaseDatabase.getInstance().getReference(path);
+        String path = "authorDetail/" + FirebaseAuth.getInstance().getUid() + "/lstBuy/" + id_tac_pham;
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(path);
         Log.d(TAG, "path: " + path);
 
-        authorRef.addValueEventListener(new ValueEventListener() {
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {

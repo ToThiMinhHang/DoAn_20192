@@ -77,9 +77,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:gravity="top"
         android:id="@+id/payment_storyname"
-        android:layout_width="241dp"
-        android:layout_height="26dp"
+        android:layout_width="246dp"
+        android:layout_height="48dp"
         android:layout_marginStart="140dp"
         android:layout_marginTop="232dp"
         android:textSize="15sp"
@@ -100,9 +101,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:gravity="top"
         android:id="@+id/payment_storychaptername"
-        android:layout_width="241dp"
-        android:layout_height="26dp"
+        android:layout_width="237dp"
+        android:layout_height="49dp"
         android:layout_marginStart="140dp"
         android:layout_marginTop="288dp"
         android:textSize="15sp"
@@ -122,9 +124,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:gravity="top"
         android:id="@+id/payment_storychapterprice"
         android:layout_width="241dp"
-        android:layout_height="26dp"
+        android:layout_height="48dp"
         android:layout_marginStart="140dp"
         android:layout_marginTop="176dp"
         android:textSize="15sp"
