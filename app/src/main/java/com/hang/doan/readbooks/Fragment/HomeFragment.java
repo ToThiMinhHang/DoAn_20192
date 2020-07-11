@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +38,7 @@ import com.hang.doan.readbooks.adapters.BookItemClickListener;
 import com.hang.doan.readbooks.adapters.SliderPagerAdapter;
 import com.hang.doan.readbooks.models.Book;
 import com.hang.doan.readbooks.models.BookID;
+import com.hang.doan.readbooks.models.Comment;
 import com.hang.doan.readbooks.ui.BookDetailActivity;
 import com.hang.doan.readbooks.ui.HomeActivity;
 
@@ -50,19 +54,23 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
 
     private BookAdapter bookFavoriteAdapter;
     private BookAdapter bookNewAdapter;
+    private BookAdapter bookBuyAdapter;
     private TabLayout indicator;
     private RecyclerView BooksFavoriteRV;
     private RecyclerView BooksNewRV;
+    private RecyclerView BooksbuyRV;
 
     private Context ct;
     private static final String TAG = "HANG_DEBUG";
     List<Book> lstFavoriteBook;
     List<Book> lstNewBook;
+    List<Book> lstBuyBook;
 
 
     List<BookID> slideID;
     List<BookID> newID;
     List<BookID> favoriteID;
+    List<BookID> bookBuyID;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,16 +86,19 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         slideID = new ArrayList<>();
         newID = new ArrayList<>();
         favoriteID = new ArrayList<>();
+        bookBuyID = new ArrayList<>();
 
         indicator = view.findViewById(R.id.indicator);
         BooksFavoriteRV = view.findViewById(R.id.Rv_movies);
         BooksNewRV = view.findViewById(R.id.Rv_movies2);
+        BooksbuyRV = view.findViewById(R.id.Rv_movies3);
 
         ct = getContext();
 
         lstFavoriteBook = new ArrayList<>();
         lstNewBook = new ArrayList<>();
         lstSlide = new ArrayList<>();
+        lstBuyBook = new ArrayList<>();
 
 
         slidePager = view.findViewById(R.id.slider_pager);
@@ -109,14 +120,53 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         bookFavoriteAdapter.setOnItemClickListener(HomeFragment.this);
         bookFavoriteAdapter.notifyDataSetChanged();
 
+        ///bought
+        bookBuyAdapter = new BookAdapter(ct, lstBuyBook);
+        BooksbuyRV.setAdapter(bookBuyAdapter);
+        BooksbuyRV.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.HORIZONTAL, false));
+        bookBuyAdapter.setOnItemClickListener(HomeFragment.this);
+        bookBuyAdapter.notifyDataSetChanged();
+
+        BooksbuyRV.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        BooksNewRV.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        BooksFavoriteRV.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference Slide = database.getReference("HomeScreen/Slide");
         DatabaseReference New = database.getReference("HomeScreen/New");
         DatabaseReference Favorite = database.getReference("HomeScreen/Favorite");
+        String src = "authorDetail/" + FirebaseAuth.getInstance().getUid() + "/lstBuy";
+        Log.d(TAG, "src onCreateView: " + src);
+        DatabaseReference Buy = database.getReference(src);
 
         final DatabaseReference bookDetail = database.getReference("storyDetail");
-
 
         Slide.addValueEventListener(new ValueEventListener() {
             @Override
@@ -160,7 +210,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String id_tac_pham = ds.getValue(String.class);
-                    newID.add(new BookID( id_tac_pham));
+                    newID.add(new BookID(id_tac_pham));
                     bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -225,6 +275,89 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         });
 
 
+//        Buy.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    String id_tac_pham = ds.getValue(String.class);
+//                    Log.d(TAG, "Buy onDataChange: " + id_tac_pham);
+//                    bookBuyID.add(new BookID(id_tac_pham));
+//                    bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            Book newBook = new Book();
+//                            newBook.setName(dataSnapshot.child("generalInformation").child("name").getValue(String.class));
+//                            newBook.setImageURL(dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class));
+//                            newBook.setId_tac_gia(dataSnapshot.child("generalInformation").child("authorID").getValue(String.class));
+//                            lstBuyBook.add(newBook);
+////                            Log.d(TAG, "favorite: " + newBook.getName());
+//                            bookBuyAdapter.notifyDataSetChanged();
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String id_tac_pham = dataSnapshot.getKey();
+                bookBuyID.add(new BookID(id_tac_pham));
+                bookDetail.child(String.valueOf(id_tac_pham)).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Book newBook = new Book();
+                        newBook.setName(dataSnapshot.child("generalInformation").child("name").getValue(String.class));
+                        newBook.setImageURL(dataSnapshot.child("generalInformation").child("imgLink").getValue(String.class));
+                        newBook.setId_tac_gia(dataSnapshot.child("generalInformation").child("authorID").getValue(String.class));
+                        lstBuyBook.add(newBook);
+//                            Log.d(TAG, "favorite: " + newBook.getName());
+                        bookBuyAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        Buy.addChildEventListener(childEventListener);
+
+
         return view;
     }
 
@@ -242,9 +375,15 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             intent.putExtra("user_", String.valueOf(favoriteID.get(position).getId_tac_pham()));
             //intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ favoriteID.get(position).getId_tac_pham());
-        } else {
+        }
+        else if (type == 1){
             intent.putExtra("storyID", String.valueOf(newID.get(position).getId_tac_pham()));
             intent.putExtra("imgURL", lstNewBook.get(position).getImageURL());
+//            Log.d(TAG, "id_tac_pham: "+ newID.get(position).getId_tac_pham());
+        }
+        else if (type == 2){
+            intent.putExtra("storyID", String.valueOf(bookBuyID.get(position).getId_tac_pham()));
+            intent.putExtra("imgURL", lstBuyBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ newID.get(position).getId_tac_pham());
         }
 

@@ -51,6 +51,7 @@ public class ReadBook extends AppCompatActivity {
 
     String id;
     String id_tac_pham;
+    String authorID;
 
     String data;
     String chapterName;
@@ -142,7 +143,6 @@ public class ReadBook extends AppCompatActivity {
 
     }
 
-
     private void reloadData() {
         if (Integer.parseInt(id) <= 0) {
             read_book_btn_back.setVisibility(View.INVISIBLE);
@@ -158,10 +158,10 @@ public class ReadBook extends AppCompatActivity {
                 chapterName = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("chapterName").getValue(String.class);
                 chapterPrice = Integer.parseInt(dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("price").getValue(String.class));
                 storyName = dataSnapshot.child(id_tac_pham).child("generalInformation").child("name").getValue(String.class);
+                authorID = dataSnapshot.child(id_tac_pham).child("generalInformation").child("authorID").getValue(String.class);
                 if (data != null && chapterName != null) {
-                    read_book_chapter_name.setText(chapterName);
-                    if (chapterIDbuyed.contains(Integer.parseInt(id)) || chapterPrice < 1000) {
 
+                    if (chapterIDbuyed.contains(Integer.parseInt(id)) || chapterPrice < 1000) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             read_book_data.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
                         } else {
@@ -171,6 +171,7 @@ public class ReadBook extends AppCompatActivity {
                         Bundle data = new Bundle();
                         Intent intent = new Intent(ReadBook.this, PaymentActivity.class);
                         data.putString("storyID", id_tac_pham);
+                        data.putString("authorID", authorID);
                         data.putString("storyName", storyName);
                         data.putString("userID", AccountFragment.userID);
                         data.putInt("storyChapter", Integer.parseInt(id));

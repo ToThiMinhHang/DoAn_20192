@@ -12,6 +12,16 @@ public class Author {
     private List<AuthorListStoryPost> lstStory;
     private String imageUser;
 
+    public String getAuthorMail() {
+        return authorMail;
+    }
+
+    public void setAuthorMail(String authorMail) {
+        this.authorMail = authorMail;
+    }
+
+    private String authorMail;
+
     public  Author() {
         lstStory = new ArrayList<>();
     }

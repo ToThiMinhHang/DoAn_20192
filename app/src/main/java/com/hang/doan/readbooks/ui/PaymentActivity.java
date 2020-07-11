@@ -37,11 +37,13 @@ public class PaymentActivity extends Activity {
     private String description = "Thanh toan truyen\n";
 
     String ADDMSG_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addMessage";
+    String ADDNOTI_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addNoti\n";
     String MERCHAN_URL = "https://secret-taiga-14580.herokuapp.com/payment";
     //String MERCHAN_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/payment/payment";
     //String MERCHAN_URL = "http://localhost:5000/doan20192-33247/us-central1/payment/payment";
 
     String storyID;
+    String authorID;
     String storyName;
     String userID;
     String storyChapterName;
@@ -74,6 +76,7 @@ public class PaymentActivity extends Activity {
         Bundle data = getIntent().getExtras();
 
         storyID = data.getString("storyID");
+        authorID = data.getString("authorID");
         storyName = data.getString("storyName");
         userID = data.getString("userID");
         storyChapter = data.getInt("storyChapter");
@@ -211,6 +214,7 @@ public class PaymentActivity extends Activity {
                         Log.d(TAG, "sendToMerchanServer onResponse: " + response.toString());
                         Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                         postData();
+                        sendNoti();
                         Intent intent = new Intent(PaymentActivity.this, ReadBook.class);
                         intent.putExtra("INDEX", String.valueOf(storyChapter));
                         intent.putExtra("storyID", storyID);
@@ -273,4 +277,54 @@ public class PaymentActivity extends Activity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjectRequest);
     }
+
+    public void sendNoti() {
+
+        JSONObject object = new JSONObject();
+        try {
+            //input your API parameters
+            object.put("resiveUserID", authorID);
+            object.put("fromUserID", FirebaseAuth.getInstance().getUid());
+            object.put("message", FirebaseAuth.getInstance().getCurrentUser().getEmail() + " đã mua chuyện của bạn");
+            object.put("type", 0);
+            Long tsLong = System.currentTimeMillis()/1000;
+
+            object.put("timestamp", tsLong);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Enter the correct url for your api service site
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, ADDNOTI_URL, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        Toast.makeText(Login_screen.this,"String Response : "+ response.toString(),Toast.LENGTH_LONG).show();
+                        try {
+                            Log.d(TAG, String.valueOf(response));
+                            String Error = response.getString("httpStatus");
+                            if (Error.equals("")||Error.equals(null)){
+
+                            }else if(Error.equals("OK")){
+                                JSONObject body = response.getJSONObject("body");
+
+                            }else {
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        resultTextView.setText("String Response : "+ response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjectRequest);
+    }
+
 }

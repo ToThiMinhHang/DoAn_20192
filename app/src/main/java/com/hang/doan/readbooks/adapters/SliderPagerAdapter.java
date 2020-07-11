@@ -45,7 +45,7 @@ public class SliderPagerAdapter extends PagerAdapter {
         name.setText(mList.get(position).getName());
         Picasso.with(mContext)
                 .load(mList.get(position).getImageURL())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.ic_placeholder)
                 .fit()
                 .centerCrop()
                 .into(slideImg);

@@ -52,7 +52,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
 
         Picasso.with(context)
                 .load(movieCurrent.getImageURL())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.ic_placeholder)
                 .fit()
                 .centerCrop()
                 .into(myViewHolder.ImgMovie);
@@ -97,8 +97,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
                     Log.d(TAG, String.valueOf(ret));
                     if (ret == R.id.Rv_movies)
                         bookItemClickListener.onBookClick(position, 0);
-                    else
+                    else if(ret == R.id.Rv_movies2)
                         bookItemClickListener.onBookClick(position, 1);
+                    else if(ret == R.id.Rv_movies3)
+                        bookItemClickListener.onBookClick(position, 2);
                 }
             }
         }

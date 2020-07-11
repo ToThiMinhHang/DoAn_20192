@@ -124,8 +124,8 @@
                 android:textAlignment="textStart"
                 android:textColor="#000"
                 android:textSize="15sp"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:lineSpacingMultiplier="2"/>
         </LinearLayout>
 
