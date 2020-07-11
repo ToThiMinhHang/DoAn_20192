@@ -1,5 +1,10 @@
 [
   {
+    "name": "Time New Roman",
+    "regular": "TIMES.TTF",
+    "bold": "TIMES.TTF"
+  },
+  {
     "name": "BeautifulPeoplePersonalUse",
     "regular": "BeautifulPeoplePersonalUse-dE0g.ttf",
     "bold": "BeautifulPeoplePersonalUse-dE0g.ttf"

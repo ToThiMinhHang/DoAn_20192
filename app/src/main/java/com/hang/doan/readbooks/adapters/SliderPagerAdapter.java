@@ -60,7 +60,7 @@ public class SliderPagerAdapter extends PagerAdapter {
 
                 Intent intent = new Intent(slideLayout.getContext(),BookDetailActivity.class);
                 // send movie information to deatilActivity
-                intent.putExtra("id_tac_pham",mList.get(index).getId_tac_pham());
+                intent.putExtra("storyID",mList.get(index).getId_tac_pham());
                 intent.putExtra("imgURL",mList.get(index).getImageURL());
                 slideLayout.getContext().startActivity(intent);
             }
