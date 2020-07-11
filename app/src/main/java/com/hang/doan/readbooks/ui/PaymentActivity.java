@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hang.doan.readbooks.R;
 
 import org.json.JSONException;
@@ -37,7 +38,8 @@ public class PaymentActivity extends Activity {
     private String description = "Thanh toan truyen\n";
 
     String ADDMSG_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addMessage";
-    String ADDNOTI_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addNoti\n";
+    String ADDNOTI_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addNoti";
+    String TRANS_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/addMoMoTrans";
     String MERCHAN_URL = "https://secret-taiga-14580.herokuapp.com/payment";
     //String MERCHAN_URL = "https://us-central1-doan20192-33247.cloudfunctions.net/payment/payment";
     //String MERCHAN_URL = "http://localhost:5000/doan20192-33247/us-central1/payment/payment";
@@ -214,6 +216,7 @@ public class PaymentActivity extends Activity {
                         Log.d(TAG, "sendToMerchanServer onResponse: " + response.toString());
                         Toast.makeText(PaymentActivity.this, "Thanh toán thành công", Toast.LENGTH_SHORT).show();
                         postData();
+                        sendMoMoTrans();
                         sendNoti();
                         Intent intent = new Intent(PaymentActivity.this, ReadBook.class);
                         intent.putExtra("INDEX", String.valueOf(storyChapter));
@@ -296,6 +299,57 @@ public class PaymentActivity extends Activity {
         }
         // Enter the correct url for your api service site
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, ADDNOTI_URL, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+//                        Toast.makeText(Login_screen.this,"String Response : "+ response.toString(),Toast.LENGTH_LONG).show();
+                        try {
+                            Log.d(TAG, String.valueOf(response));
+                            String Error = response.getString("httpStatus");
+                            if (Error.equals("")||Error.equals(null)){
+
+                            }else if(Error.equals("OK")){
+                                JSONObject body = response.getJSONObject("body");
+
+                            }else {
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        resultTextView.setText("String Response : "+ response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public void sendMoMoTrans() {
+
+        JSONObject object = new JSONObject();
+        try {
+            //input your API parameters
+            object.put("authID", authorID);
+            object.put("buyerID", FirebaseAuth.getInstance().getUid());
+            object.put("amount", storyChapterPrice);
+            object.put("charge", 0);
+            object.put("storyID", storyID);
+            object.put("chapterID", storyChapter);
+            Long tsLong = System.currentTimeMillis()/1000;
+
+            object.put("timestamp", tsLong);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Enter the correct url for your api service site
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, TRANS_URL, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

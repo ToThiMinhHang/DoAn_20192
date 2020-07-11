@@ -125,8 +125,8 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
         btn_author_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                followers = database.getReference("followers");
-//                followers.child(id_tac_gia).child(AccountFragment.userID).setValue("true");
+                followers = database.getReference("followers");
+                followers.child(id_tac_gia).child(AccountFragment.userID).setValue("true");
 
                 postNoti();
             }
