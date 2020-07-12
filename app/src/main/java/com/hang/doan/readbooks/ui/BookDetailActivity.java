@@ -198,7 +198,7 @@ public class BookDetailActivity extends AppCompatActivity {
 //                    Bundle data = new Bundle();
 //
 //                    Intent intent = new Intent(BookDetailActivity.this, PaymentActivity.class);
-//                    data.putString("storyID", id_tac_pham);
+//                    data.putString("storyID", storyID);
 //                    data.putString("storyName", storyName);
 //                    data.putString("userID", AccountFragment.userID);
 //                    data.putInt("storyChapter", position);
@@ -331,7 +331,7 @@ public class BookDetailActivity extends AppCompatActivity {
 //
 //                Intent intent = new Intent(BookDetailActivity.this, PaymentActivity.class);
 //                data.putInt(KEY_ENVIRONMENT, 1);
-//                data.putString("storyID", id_tac_pham);
+//                data.putString("storyID", storyID);
 //                data.putString("authorID", authorID);
 //                data.putInt("storyChapter", 0);
 //                intent.putExtras(data);

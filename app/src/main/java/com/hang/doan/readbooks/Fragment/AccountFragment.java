@@ -1,8 +1,11 @@
 package com.hang.doan.readbooks.Fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.firebase.ui.auth.AuthUI;
@@ -28,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hang.doan.readbooks.R;
 import com.hang.doan.readbooks.models.Author;
 import com.hang.doan.readbooks.ui.LoginActivity;
+import com.hang.doan.readbooks.ui.ReadBook;
 import com.squareup.picasso.Picasso;
 
 public class AccountFragment extends Fragment {
@@ -51,18 +56,46 @@ public class AccountFragment extends Fragment {
 
     Author author = new Author();
 
+    private Handler warningHandler = new Handler();
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.account_fragment, container, false);
 
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ct = getContext();
+
+        TextView call_support = getView().findViewById(R.id.call_support);
+        call_support.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                warningHandler.post(this::warning);
+
+            }
+
+            private void warning() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("");
+                builder.setMessage("Liên hệ hỗ trợ: 0372048848");
+                builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL , Uri.parse("tel:" + "0372048848"));
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("Hủy", (dialog, which) -> dialog.cancel());
+                builder.create().show();
+            }
+        });
+
 
 
         userName = (TextView) getView().findViewById(R.id.activity_account_detail_acc_userName);
@@ -107,16 +140,7 @@ public class AccountFragment extends Fragment {
 
 
 
-//        TextView acc_myStory = getView().findViewById(R.id.acc_myStory);
-//        acc_myStory.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ct, LibraryFragment.class);
-//                // send movie information to deatilActivity
-//                intent.putExtra("user_id",  mAuth.getUid());
-//                startActivity(intent);
-//            }
-//        });
+
 
 
 
@@ -154,6 +178,9 @@ public class AccountFragment extends Fragment {
         });
 
     }
+
+
+
 
 
 }

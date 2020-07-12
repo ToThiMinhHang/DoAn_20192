@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -126,11 +127,15 @@ public class AddChapterActivity extends AppCompatActivity {
                     continue;
                 }
                 if (readContent) {
-                    sbContent.append(line.trim());
+                    if(line.length() == 0)
+                        sbContent.append(System.getProperty("line.separator"));
+                    else
+                        sbContent.append(line);
                 } else {
                     sbTitle.append(line);
                 }
             }
+
             String title = sbTitle.toString();
             String content = sbContent.toString();
             edtChapterName.setText(title);

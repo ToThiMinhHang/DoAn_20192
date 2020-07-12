@@ -1,23 +1,19 @@
 package com.hang.doan.readbooks.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,6 +32,12 @@ import com.hang.doan.readbooks.dialog.FontSizeBottomSheetDialog;
 import com.hang.doan.readbooks.dialog.ReportDialog;
 import com.hang.doan.readbooks.models.Font;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +52,9 @@ public class ReadBook extends AppCompatActivity {
     DatabaseReference myRef = database.getReference("storyDetail");
 
     String id;
-    String id_tac_pham;
+    String storyID;
     String authorID;
+    String crawlLink;
 
     String data;
     String chapterName;
@@ -82,7 +85,7 @@ public class ReadBook extends AppCompatActivity {
 
         id = (String) bundle.get("INDEX");
         Log.d(TAG, "onCreate: INDEX" + id);
-        id_tac_pham = (String) bundle.get("storyID");
+        storyID = (String) bundle.get("storyID");
 
         read_book_chapter_name = findViewById(R.id.read_book_chapter_name);
         read_book_chapter_name.setTypeface(null, Typeface.BOLD);
@@ -100,11 +103,11 @@ public class ReadBook extends AppCompatActivity {
         getChapterBuy();
         //reloadData();
 
-        warningHandler.postDelayed(this::warning, 30*60*1000L);
+        warningHandler.postDelayed(this::warning, 30*1*1000L);
     }
 
     void getChapterBuy() {
-        String path = "authorDetail/" + FirebaseAuth.getInstance().getUid() + "/lstBuy/" + id_tac_pham;
+        String path = "authorDetail/" + FirebaseAuth.getInstance().getUid() + "/lstBuy/" + storyID;
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference(path);
         Log.d(TAG, "path: " + path);
 
@@ -154,23 +157,43 @@ public class ReadBook extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                data = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("data").getValue(String.class);
-                chapterName = dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("chapterName").getValue(String.class);
-                chapterPrice = Integer.parseInt(dataSnapshot.child(id_tac_pham).child("chapters").child(id).child("price").getValue(String.class));
-                storyName = dataSnapshot.child(id_tac_pham).child("generalInformation").child("name").getValue(String.class);
-                authorID = dataSnapshot.child(id_tac_pham).child("generalInformation").child("authorID").getValue(String.class);
+                data = dataSnapshot.child(storyID).child("chapters").child(id).child("data").getValue(String.class);
+                chapterName = dataSnapshot.child(storyID).child("chapters").child(id).child("chapterName").getValue(String.class);
+                chapterPrice = Integer.parseInt(dataSnapshot.child(storyID).child("chapters").child(id).child("price").getValue(String.class));
+                storyName = dataSnapshot.child(storyID).child("generalInformation").child("name").getValue(String.class);
+                authorID = dataSnapshot.child(storyID).child("generalInformation").child("authorID").getValue(String.class);
+                crawlLink = dataSnapshot.child(storyID).child("generalInformation").child("link").getValue(String.class);
                 if (data != null && chapterName != null) {
 
                     if (chapterIDbuyed.contains(Integer.parseInt(id)) || chapterPrice < 1000) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            read_book_data.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
-                        } else {
-                            read_book_data.setText(Html.fromHtml(data));
+                        if(crawlLink != null) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                read_book_data.setText(Html.fromHtml(data, Html.FROM_HTML_MODE_COMPACT));
+                            } else {
+                                read_book_data.setText(Html.fromHtml(data));
+                            }
                         }
+                        else {
+                            read_book_data.setText(data);
+                        }
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("chapterName", chapterName);
+                            jsonObject.put("storyName", storyName);
+                            jsonObject.put("chapterID", id);
+                            jsonObject.put("storyID", storyID);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        saveReadLog(jsonObject);
+
+
                     } else {
                         Bundle data = new Bundle();
                         Intent intent = new Intent(ReadBook.this, PaymentActivity.class);
-                        data.putString("storyID", id_tac_pham);
+                        data.putString("storyID", storyID);
                         data.putString("authorID", authorID);
                         data.putString("storyName", storyName);
                         data.putString("userID", AccountFragment.userID);
@@ -192,6 +215,15 @@ public class ReadBook extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, BookDetailActivity.class);
+        intent.putExtra("storyID", storyID);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btnFont)
@@ -259,4 +291,29 @@ public class ReadBook extends AppCompatActivity {
         builder.setNegativeButton("OK", (dialog, which) -> dialog.cancel());
         builder.create().show();
     }
+
+    void saveReadLog(JSONObject object) {
+        //write log
+        try {
+            File dir = getFilesDir();
+            File file = new File(dir, "read_log.txt");
+            file.delete();
+
+            FileOutputStream fileout = openFileOutput("read_log.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+            outputWriter.write(object.toString());
+            outputWriter.close();
+            fileout.close();
+
+//            //display file saved message
+//            Toast.makeText(getBaseContext(), "File saved successfully!",
+//                    Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //Log.d(TAG, "saveReadLog Error: " + e.toString());
+        }
+    }
+
+
 }

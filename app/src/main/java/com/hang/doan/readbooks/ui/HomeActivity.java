@@ -1,11 +1,16 @@
 package com.hang.doan.readbooks.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -18,9 +23,32 @@ import com.hang.doan.readbooks.Fragment.NotificationFragment;
 import com.hang.doan.readbooks.Fragment.WriteFragment;
 import com.hang.doan.readbooks.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
 public class HomeActivity extends AppCompatActivity {
 
+    int backFlag = 0;
+
+    private Handler warningHandler = new Handler();
+
+    String storyName;
+    String chapterName;
+    String chapterID;
+    String storyID;
+
+
     BottomNavigationView bottomNav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +67,39 @@ public class HomeActivity extends AppCompatActivity {
         bottomNav.setSelectedItemId(R.id.nav_home);
 
 
+        JSONObject jsonObject = readLogData();
+        if (jsonObject != null && bottomNav.getSelectedItemId() == R.id.nav_home) {
+            try {
+                storyName = jsonObject.get("storyName").toString();
+                chapterName = jsonObject.get("chapterName").toString();
+                chapterID = jsonObject.get("chapterID").toString();
+                storyID = jsonObject.get("storyID").toString();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            warningHandler.postDelayed(this::warning, 5000L);
+        }
+
+    }
+
+    private void warning() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setMessage("Bạn đã đọc truyện: " + storyName + "\n" + "Chương: " + chapterName + "\n" + "Bạn có muốn tiếp tục không?");
+        builder.setPositiveButton("Tiếp tục", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(), ReadBook.class);
+                intent.putExtra("INDEX", chapterID);
+                intent.putExtra("storyID", storyID);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Không", (dialog, which) -> dialog.cancel());
+        builder.create().show();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -76,7 +137,65 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        bottomNav.setSelectedItemId(R.id.nav_home);
+        backFlag++;
+
+        if (backFlag == 1) {
+            super.onBackPressed();
+            bottomNav.setSelectedItemId(R.id.nav_home);
+            // go to previous activity
+        } else if (backFlag == 2) {
+            // ask user to exit
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        } else if (backFlag == 3) {
+            // stop app
+            this.finish();
+            System.exit(0);
+        }
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                backFlag = 0;
+            }
+        }, 4000);
     }
+
+    JSONObject readLogData() {
+        StringBuffer datax = new StringBuffer("");
+        try {
+            FileInputStream fIn = openFileInput("read_log.txt");
+            InputStreamReader isr = new InputStreamReader(fIn);
+            BufferedReader buffreader = new BufferedReader(isr);
+
+            String readString = buffreader.readLine();
+            while (readString != null) {
+                datax.append(readString);
+                readString = buffreader.readLine();
+            }
+
+            isr.close();
+            fIn.close();
+
+            File f = new File("read_log.txt");
+            f.delete();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        if (datax.toString().length() > 0) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(datax.toString());
+                return jsonObject;
+            } catch (JSONException e) {
+                //Log.d(TAG, "readLogData() Error" + e.toString());
+            }
+        }
+
+        return null;
+    }
+
+
 }

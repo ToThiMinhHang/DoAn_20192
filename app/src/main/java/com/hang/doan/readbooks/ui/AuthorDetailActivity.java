@@ -174,11 +174,11 @@ public class AuthorDetailActivity extends AppCompatActivity implements BookItemC
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBookClick(int position, int type) {
-        Log.d(TAG, "id_tac_pham" + bookID.get(position).getId_tac_pham());
+        Log.d(TAG, "storyID" + bookID.get(position).getId_tac_pham());
 
         Intent intent = new Intent(this, BookDetailActivity.class);
         // send movie information to deatilActivity
-        intent.putExtra("id_tac_pham", bookID.get(position).getId_tac_pham());
+        intent.putExtra("storyID", bookID.get(position).getId_tac_pham());
         intent.putExtra("imgURL", lstBook.get(position).getImageURL());
 
 
