@@ -101,6 +101,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ImageViewHolde
                         bookItemClickListener.onBookClick(position, 1);
                     else if(ret == R.id.Rv_movies3)
                         bookItemClickListener.onBookClick(position, 2);
+                    else if(ret == R.id.Rv_movies4)
+                        bookItemClickListener.onBookClick(position, 3);
                 }
             }
         }

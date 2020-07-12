@@ -2,7 +2,6 @@ package com.hang.doan.readbooks.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.hang.doan.readbooks.Fragment.AccountFragment;
 import com.hang.doan.readbooks.Fragment.HomeFragment;
 import com.hang.doan.readbooks.Fragment.LibraryFragment;
@@ -30,14 +28,15 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 public class HomeActivity extends AppCompatActivity {
+    final String TAG = "HANG_DEBUG";
 
     int backFlag = 0;
+
+    static boolean isFirstLoad = true;
 
     private Handler warningHandler = new Handler();
 
@@ -46,9 +45,10 @@ public class HomeActivity extends AppCompatActivity {
     String chapterID;
     String storyID;
 
+    JSONObject jsonObject;
+    public static JSONArray read_log;
 
     BottomNavigationView bottomNav;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,23 +64,33 @@ public class HomeActivity extends AppCompatActivity {
                     new AccountFragment()).commit();
         }
 
-        bottomNav.setSelectedItemId(R.id.nav_home);
 
+        read_log = readLogData();
 
-        JSONObject jsonObject = readLogData();
-        if (jsonObject != null && bottomNav.getSelectedItemId() == R.id.nav_home) {
+        if(read_log != null && isFirstLoad == true) {
+            isFirstLoad = false;
             try {
-                storyName = jsonObject.get("storyName").toString();
-                chapterName = jsonObject.get("chapterName").toString();
-                chapterID = jsonObject.get("chapterID").toString();
-                storyID = jsonObject.get("storyID").toString();
-
+                jsonObject = read_log.getJSONObject(read_log.length() - 1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            if (jsonObject != null && bottomNav.getSelectedItemId() == R.id.nav_home) {
+                try {
+                    storyName = jsonObject.get("storyName").toString();
+                    chapterName = jsonObject.get("chapterName").toString();
+                    chapterID = jsonObject.get("chapterID").toString();
+                    storyID = jsonObject.get("storyID").toString();
 
-            warningHandler.postDelayed(this::warning, 5000L);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                warningHandler.postDelayed(this::warning, 4000L);
+            }
         }
+
+        bottomNav.setSelectedItemId(R.id.nav_home);
+
 
     }
 
@@ -161,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
         }, 4000);
     }
 
-    JSONObject readLogData() {
+    JSONArray readLogData() {
         StringBuffer datax = new StringBuffer("");
         try {
             FileInputStream fIn = openFileInput("read_log.txt");
@@ -187,8 +197,8 @@ public class HomeActivity extends AppCompatActivity {
         if (datax.toString().length() > 0) {
 
             try {
-                JSONObject jsonObject = new JSONObject(datax.toString());
-                return jsonObject;
+                JSONArray jsonArray = new JSONArray(datax.toString());
+                return jsonArray;
             } catch (JSONException e) {
                 //Log.d(TAG, "readLogData() Error" + e.toString());
             }

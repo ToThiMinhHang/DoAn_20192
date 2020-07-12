@@ -42,6 +42,9 @@ import com.hang.doan.readbooks.models.Comment;
 import com.hang.doan.readbooks.ui.BookDetailActivity;
 import com.hang.doan.readbooks.ui.HomeActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,22 +58,26 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
     private BookAdapter bookFavoriteAdapter;
     private BookAdapter bookNewAdapter;
     private BookAdapter bookBuyAdapter;
+    private BookAdapter bookReadAdapter;
     private TabLayout indicator;
     private RecyclerView BooksFavoriteRV;
     private RecyclerView BooksNewRV;
     private RecyclerView BooksbuyRV;
+    private RecyclerView BooksReadRV;
 
     private Context ct;
     private static final String TAG = "HANG_DEBUG";
     List<Book> lstFavoriteBook;
     List<Book> lstNewBook;
     List<Book> lstBuyBook;
+    List<Book> lstReadBook;
 
 
     List<BookID> slideID;
     List<BookID> newID;
     List<BookID> favoriteID;
     List<BookID> bookBuyID;
+    List<BookID> bookReadID;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,11 +94,13 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         newID = new ArrayList<>();
         favoriteID = new ArrayList<>();
         bookBuyID = new ArrayList<>();
+        bookReadID = new ArrayList<>();
 
         indicator = view.findViewById(R.id.indicator);
         BooksFavoriteRV = view.findViewById(R.id.Rv_movies);
         BooksNewRV = view.findViewById(R.id.Rv_movies2);
         BooksbuyRV = view.findViewById(R.id.Rv_movies3);
+        BooksReadRV = view.findViewById(R.id.Rv_movies4);
 
         ct = getContext();
 
@@ -99,6 +108,7 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         lstNewBook = new ArrayList<>();
         lstSlide = new ArrayList<>();
         lstBuyBook = new ArrayList<>();
+        lstReadBook = new ArrayList<>();
 
 
         slidePager = view.findViewById(R.id.slider_pager);
@@ -127,15 +137,13 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
         bookBuyAdapter.setOnItemClickListener(HomeFragment.this);
         bookBuyAdapter.notifyDataSetChanged();
 
-        BooksbuyRV.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+        ///read
+        bookReadAdapter = new BookAdapter(ct, lstReadBook);
+        BooksReadRV.setAdapter(bookReadAdapter);
+        BooksReadRV.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.HORIZONTAL, false));
+        bookReadAdapter.setOnItemClickListener(HomeFragment.this);
+        bookReadAdapter.notifyDataSetChanged();
+
 
         BooksNewRV.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
@@ -156,6 +164,28 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
                 return false;
             }
         });
+
+        BooksReadRV.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        BooksbuyRV.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -274,6 +304,32 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             }
         });
 
+        //read_log
+        if(HomeActivity.read_log != null) {
+            try {
+
+                for (int i = 0; i < HomeActivity.read_log.length(); i++) {
+                    JSONObject object = null;
+
+                    object = HomeActivity.read_log.getJSONObject(i);
+
+                    String storyID = object.getString("storyID");
+                    String imgLink = object.getString("imgLink");
+                    String storyName = object.getString("storyName");
+
+                    Book newBook = new Book();
+                    newBook.setName(storyName);
+                    newBook.setId_tac_pham(storyID);
+                    newBook.setImageURL(imgLink);
+                    lstReadBook.add(newBook);
+
+                    bookReadAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
 
 //        Buy.addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -375,15 +431,18 @@ public class HomeFragment extends Fragment implements BookItemClickListener {
             intent.putExtra("user_", String.valueOf(favoriteID.get(position).getId_tac_pham()));
             //intent.putExtra("imgURL", lstFavoriteBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ favoriteID.get(position).getId_tac_pham());
-        }
-        else if (type == 1){
+        } else if (type == 1) {
             intent.putExtra("storyID", String.valueOf(newID.get(position).getId_tac_pham()));
             intent.putExtra("imgURL", lstNewBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ newID.get(position).getId_tac_pham());
-        }
-        else if (type == 2){
+        } else if (type == 2) {
             intent.putExtra("storyID", String.valueOf(bookBuyID.get(position).getId_tac_pham()));
             intent.putExtra("imgURL", lstBuyBook.get(position).getImageURL());
+//            Log.d(TAG, "id_tac_pham: "+ newID.get(position).getId_tac_pham());
+        }
+        else if (type == 3) {
+            intent.putExtra("storyID", String.valueOf(bookReadID.get(position).getId_tac_pham()));
+            intent.putExtra("imgURL", lstReadBook.get(position).getImageURL());
 //            Log.d(TAG, "id_tac_pham: "+ newID.get(position).getId_tac_pham());
         }
 

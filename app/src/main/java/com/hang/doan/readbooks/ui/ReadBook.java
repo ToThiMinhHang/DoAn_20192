@@ -32,11 +32,16 @@ import com.hang.doan.readbooks.dialog.FontSizeBottomSheetDialog;
 import com.hang.doan.readbooks.dialog.ReportDialog;
 import com.hang.doan.readbooks.models.Font;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +60,7 @@ public class ReadBook extends AppCompatActivity {
     String storyID;
     String authorID;
     String crawlLink;
+    String imgLink;
 
     String data;
     String chapterName;
@@ -64,7 +70,7 @@ public class ReadBook extends AppCompatActivity {
     TextView read_book_btn_back;
     TextView read_book_btn_next;
 
-
+    JSONArray read_log;
 
     List<Integer> chapterIDbuyed = new ArrayList<>();
 
@@ -102,6 +108,11 @@ public class ReadBook extends AppCompatActivity {
 
         getChapterBuy();
         //reloadData();
+
+        read_log = readLogData();
+        if(read_log == null) {
+            read_log = new JSONArray();
+        }
 
         warningHandler.postDelayed(this::warning, 30*1*1000L);
     }
@@ -163,6 +174,7 @@ public class ReadBook extends AppCompatActivity {
                 storyName = dataSnapshot.child(storyID).child("generalInformation").child("name").getValue(String.class);
                 authorID = dataSnapshot.child(storyID).child("generalInformation").child("authorID").getValue(String.class);
                 crawlLink = dataSnapshot.child(storyID).child("generalInformation").child("link").getValue(String.class);
+                imgLink = dataSnapshot.child(storyID).child("generalInformation").child("imgLink").getValue(String.class);
                 if (data != null && chapterName != null) {
 
                     if (chapterIDbuyed.contains(Integer.parseInt(id)) || chapterPrice < 1000) {
@@ -183,6 +195,7 @@ public class ReadBook extends AppCompatActivity {
                             jsonObject.put("storyName", storyName);
                             jsonObject.put("chapterID", id);
                             jsonObject.put("storyID", storyID);
+                            jsonObject.put("imgLink", imgLink);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -294,14 +307,18 @@ public class ReadBook extends AppCompatActivity {
 
     void saveReadLog(JSONObject object) {
         //write log
+        read_log.put(object);
+
         try {
             File dir = getFilesDir();
             File file = new File(dir, "read_log.txt");
+
+
             file.delete();
 
             FileOutputStream fileout = openFileOutput("read_log.txt", MODE_PRIVATE);
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
-            outputWriter.write(object.toString());
+            outputWriter.write(read_log.toString());
             outputWriter.close();
             fileout.close();
 
@@ -315,5 +332,41 @@ public class ReadBook extends AppCompatActivity {
         }
     }
 
+
+    JSONArray readLogData() {
+        StringBuffer datax = new StringBuffer("");
+        try {
+            FileInputStream fIn = openFileInput("read_log.txt");
+            InputStreamReader isr = new InputStreamReader(fIn);
+            BufferedReader buffreader = new BufferedReader(isr);
+
+            String readString = buffreader.readLine();
+            while (readString != null) {
+                datax.append(readString);
+                readString = buffreader.readLine();
+            }
+
+            isr.close();
+            fIn.close();
+
+            File f = new File("read_log.txt");
+            f.delete();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        if (datax.toString().length() > 0) {
+
+            try {
+                JSONArray jsonArray = new JSONArray(datax.toString());
+                return jsonArray;
+            } catch (JSONException e) {
+                Log.d(TAG, "readLogData() Error" + e.toString());
+            }
+        }
+
+        return null;
+    }
 
 }

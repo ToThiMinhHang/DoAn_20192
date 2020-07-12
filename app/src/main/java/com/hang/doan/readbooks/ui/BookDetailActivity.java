@@ -128,7 +128,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 BookImg = findViewById(R.id.img_book_detail);
                 Picasso.with(context)
                         .load(imageResourceURL)
-                        .placeholder(R.mipmap.ic_launcher)
+                        .placeholder(R.drawable.ic_placeholder)
                         .fit()
                         .centerCrop()
                         .into(BookImg);
